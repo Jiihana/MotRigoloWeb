@@ -3,7 +3,7 @@ import React from 'react';
 class GameSettings {
     nombreCartesParRangees: number;
 
-    constructor(nombreCartesParRangees: number = 5) {
+    constructor(nombreCartesParRangees: number = 6) {
         this.nombreCartesParRangees = nombreCartesParRangees;
     }
 }

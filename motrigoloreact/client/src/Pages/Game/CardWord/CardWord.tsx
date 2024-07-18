@@ -4,11 +4,13 @@ import GameSettings from '../../../Settings/GameSettings';
 
 interface CardWordInterface {
     word: string;
+    id: string;
 }
 
 const CardWord = (props: CardWordInterface) => {
     return (
         <Card
+            id={props.id}
             sx={{
                 backgroundImage: 'url(/images/cardWord.png)',
                 backgroundSize: 'contain',

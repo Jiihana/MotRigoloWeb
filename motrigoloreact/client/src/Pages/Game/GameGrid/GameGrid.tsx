@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Box, Paper, Grid } from '@mui/material';
-import CardGrid from '../CardGrid/CardGrid';
 import CardWord from '../CardWord/CardWord';
+import CardGrid from '../CardGrid/CardGrid';
+import { CardType } from '../CardGrid/CardGrid';
 
 interface DynamicGridProps {
     numberOfCardPerRow: number;
 }
 
 function cardGenerator(index: number, numberOfCardPerRow: number) {
-    if (!isCardIndex0(index) && isCardGrid(index, numberOfCardPerRow)) {
-        return <CardGrid gridText={index.toString()}></CardGrid>;
+    const [isGrid, cardType] = isCardGrid(index, numberOfCardPerRow);
+
+    if (!isCardIndex0(index) && isGrid) {
+        return <CardGrid type={cardType} id={cardType.toString()} />;
     }
 
-    if (!isCardIndex0(index) && !isCardGrid(index, numberOfCardPerRow)) {
-        return <CardWord word={index.toString()}></CardWord>;
+    if (!isCardIndex0(index) && !isGrid) {
+        return <CardWord word={index.toString()} id={cardType.toString()}></CardWord>;
     }
 }
 
@@ -22,20 +25,33 @@ function isCardIndex0(index: number): boolean {
     return index === 0 ? true : false;
 }
 
-function isCardGrid(index: number, numberOfCardPerRow: number): boolean {
-    if (index <= numberOfCardPerRow) {
-        return true;
+function isCardGrid(index: number, numberOfCardPerRow: number): [isCardGrip: boolean, cardType: CardType] {
+    if (index < numberOfCardPerRow) {
+        return [true, CardType.Number];
     }
 
     if (index % numberOfCardPerRow == 0) {
-        console.log({ index });
-        return true;
+        return [true, CardType.Letter];
     }
 
-    return false;
+    return [false, CardType.Nothing];
+}
+
+function setLetterCard() {
+    const letterCards = document.querySelectorAll(`[id="${CardType.Letter}"]`);
+
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    letterCards.forEach((cardElement, index) => {
+        cardElement.setCardText(letters[index]);
+    });
 }
 
 const GameGrid = (props: DynamicGridProps) => {
+    useEffect(() => {
+        setLetterCard();
+    }, []);
+
     const cardPerRow = props.numberOfCardPerRow;
 
     const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => (

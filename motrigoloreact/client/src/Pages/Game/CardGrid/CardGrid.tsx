@@ -1,14 +1,29 @@
 import { Card, Typography } from '@mui/material';
-import React from 'react';
+import React, { useImperativeHandle, forwardRef, useState } from 'react';
 import GameSettings from '../../../Settings/GameSettings';
 
-interface CardGridInterface {
-    gridText: string;
+export enum CardType {
+    Letter,
+    Number,
+    Nothing
 }
 
-const CardGrid = (props: CardGridInterface) => {
+interface CardGridInterface {
+    type: CardType;
+    id: string;
+}
+
+const CardGrid = forwardRef<any, CardGridInterface>((props, ref) => {
+    const [cardText, setCardText] = useState('');
+
+    // Utiliser useImperativeHandle pour exposer setCardText
+    useImperativeHandle(ref, () => ({
+        setCardText: (text: string) => setCardText(text)
+    }));
+
     return (
         <Card
+            id={props.id}
             sx={{
                 backgroundImage: 'url(/images/carteGrid.png)',
                 backgroundSize: 'contain',
@@ -22,10 +37,10 @@ const CardGrid = (props: CardGridInterface) => {
                 position: 'relative'
             }}
         >
-            <Typography variant="h6" sx={{ position: 'absolute', bottom: 8, left: 8 }}>
-                {props.gridText}
+            <Typography variant="h3" sx={{ position: 'absolute', bottom: 8, left: 8 }}>
+                {cardText}
             </Typography>
         </Card>
     );
-};
+});
 export default CardGrid;
