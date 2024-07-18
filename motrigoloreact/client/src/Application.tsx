@@ -3,6 +3,7 @@ import SocketContext from './contexts/SocketContext';
 import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
 import { themeOptions } from './Theme/Theme';
 import Accueil from './Pages/Accueil/Accueil';
+import GameLobby from './Pages/Game/GameLobby/GameLobby';
 // import { SwitchRequest, SwitchResponse, SwitchMessage } from '../../common/socket_messages/switch';
 
 export interface IApplicationProps {}
@@ -27,7 +28,8 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <Accueil></Accueil>
+            {/* <Accueil></Accueil> */}
+            <GameLobby></GameLobby>
         </ThemeProvider>
         // <div>
         //     <Button onClick={pouet}>nAAt</Button>
