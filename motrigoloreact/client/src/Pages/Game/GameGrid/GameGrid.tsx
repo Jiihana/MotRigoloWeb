@@ -2,65 +2,70 @@ import React, { useEffect } from 'react';
 
 import { Box, Paper, Grid } from '@mui/material';
 import CardWord from '../CardWord/CardWord';
-import CardGrid from '../CardGrid/CardGrid';
-import { CardType } from '../CardGrid/CardGrid';
+import CardGrid, { CardGridInterface } from '../CardGrid/CardGrid';
 
 interface DynamicGridProps {
     numberOfCardPerRow: number;
 }
 
-function cardGenerator(index: number, numberOfCardPerRow: number) {
-    const [isGrid, cardType] = isCardGrid(index, numberOfCardPerRow);
+class CardGenerator {
+    private arraySize: number;
+    private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    if (!isCardIndex0(index) && isGrid) {
-        return <CardGrid type={cardType} id={cardType.toString()} />;
+    constructor(arrayIndex: number) {
+        this.arraySize = arrayIndex;
     }
 
-    if (!isCardIndex0(index) && !isGrid) {
-        return <CardWord word={index.toString()} id={cardType.toString()}></CardWord>;
-    }
-}
+    public cardGenerator(index: number) {
+        if (this.isCardIndex0(index)) {
+            return;
+        }
 
-function isCardIndex0(index: number): boolean {
-    return index === 0 ? true : false;
-}
+        const isGrid = this.isCardGrid(index);
+        const cardText = this.getCardText(index, isGrid);
+        if (isGrid) {
+            return <CardGrid cardText={cardText} />;
+        }
 
-function isCardGrid(index: number, numberOfCardPerRow: number): [isCardGrip: boolean, cardType: CardType] {
-    if (index < numberOfCardPerRow) {
-        return [true, CardType.Number];
-    }
-
-    if (index % numberOfCardPerRow == 0) {
-        return [true, CardType.Letter];
+        return <CardWord word={cardText}></CardWord>;
     }
 
-    return [false, CardType.Nothing];
-}
+    private getCardText(index: number, isGridCard: boolean): string {
+        if (isGridCard) {
+            if (index < this.arraySize) {
+                return index.toString();
+            }
 
-function setLetterCard() {
-    const letterCards = document.querySelectorAll(`[id="${CardType.Letter}"]`);
+            const divisionValue = index / this.arraySize;
 
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            return this.alphabet[divisionValue - 1];
+        }
 
-    letterCards.forEach((cardElement, index) => {
-        cardElement.setCardText(letters[index]);
-    });
+        return 'C PAS BON';
+    }
+
+    private isCardIndex0(index: number): boolean {
+        return index === 0 ? true : false;
+    }
+
+    private isCardGrid(index: number): boolean {
+        return index < this.arraySize || index % this.arraySize == 0;
+    }
 }
 
 const GameGrid = (props: DynamicGridProps) => {
-    useEffect(() => {
-        setLetterCard();
-    }, []);
-
     const cardPerRow = props.numberOfCardPerRow;
+    const generator = new CardGenerator(props.numberOfCardPerRow);
 
-    const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => (
-        <Grid item xs={12 / cardPerRow} key={index} sx={{ position: 'relative' }}>
-            <Box sx={{ paddingBottom: '100%', position: 'relative' }}>
-                <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>{cardGenerator(index, cardPerRow)}</Box>
-            </Box>
-        </Grid>
-    ));
+    const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
+        return (
+            <Grid item xs={12 / cardPerRow} key={index} sx={{ position: 'relative' }}>
+                <Box sx={{ paddingBottom: '100%', position: 'relative' }}>
+                    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>{generator.cardGenerator(index)}</Box>
+                </Box>
+            </Grid>
+        );
+    });
 
     return (
         <Grid container spacing={2}>
