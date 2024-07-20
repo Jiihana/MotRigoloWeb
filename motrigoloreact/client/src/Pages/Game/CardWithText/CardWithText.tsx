@@ -1,9 +1,13 @@
-import { Avatar, Box, colors, Typography } from '@mui/material';
+import { Avatar, Box, colors, Typography, TypographyPropsVariantOverrides } from '@mui/material';
+
+type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'overline' | 'inherit';
 
 export interface CardGridInterface {
     cardText: string;
     backgroundImage: string;
     height: string;
+    width: string;
+    cardTextSize: TypographyVariant;
 }
 
 const CardWithText = (props: CardGridInterface) => {
@@ -12,8 +16,7 @@ const CardWithText = (props: CardGridInterface) => {
             sx={{
                 position: 'relative',
                 height: props.height,
-                width: props.height,
-                overflow: 'hidden' // Ensure the image is cropped to the circle
+                width: props.width
             }}
         >
             <Avatar
@@ -21,13 +24,13 @@ const CardWithText = (props: CardGridInterface) => {
                 src={props.backgroundImage}
                 variant="rounded"
                 sx={{
-                    height: props.height,
-                    width: props.height
+                    height: '100%',
+                    width: '100%'
                 }}
             ></Avatar>
             {props.cardText != '' ? (
                 <Typography
-                    variant="h3"
+                    variant={props.cardTextSize}
                     sx={{
                         position: 'absolute',
                         top: '50%',

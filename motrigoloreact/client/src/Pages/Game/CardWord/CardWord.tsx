@@ -4,11 +4,10 @@ import CardWithText from '../CardWithText/CardWithText';
 
 interface CardWordInterface {
     word: string;
-    width: string;
 }
 
 const CardWord = (props: CardWordInterface) => (
-    <CardWithText cardText={props.word} backgroundImage="/images/cardWord.png" height="50%"></CardWithText>
+    <CardWithText cardText={props.word} backgroundImage="/images/cardWord.png" height="100%" width="100%" cardTextSize="body1"></CardWithText>
 );
 
 export default CardWord;
