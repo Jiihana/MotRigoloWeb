@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
-import { Box, Paper, Grid } from '@mui/material';
+import { Box, Paper, Grid, Avatar, Typography } from '@mui/material';
 
 const gameSettings = new GameSettings();
 
