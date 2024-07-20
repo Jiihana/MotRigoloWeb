@@ -1,34 +1,29 @@
-import { Card, Typography } from '@mui/material';
+import { Box, Card, Stack, Typography } from '@mui/material';
 import React, { useImperativeHandle, forwardRef, useState } from 'react';
-import GameSettings from '../../../Settings/GameSettings';
+import CardWord from '../CardWord/CardWord';
+import CardWithText from '../CardWithText/CardWithText';
+
+enum cardWordDirection {
+    Right,
+    Bottom
+}
+
+const isLetter = (str: string): boolean => {
+    return /^[a-zA-Z]$/.test(str);
+};
 
 export interface CardGridInterface {
     cardText: string;
 }
 
 const CardGrid = (props: CardGridInterface) => {
+    // if (!isLetter(props.cardText)) {
     return (
-        <Card
-            id="pouet"
-            sx={{
-                backgroundImage: 'url(/images/carteGrid.png)',
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'relative',
-                marginRight: 1000,
-                marginBottom: '100px'
-            }}
-        >
-            <Typography variant="h3" sx={{ position: 'absolute', bottom: 8, left: 8 }}>
-                {props.cardText}
-            </Typography>
-        </Card>
+        <>
+            <CardWithText cardText={props.cardText} backgroundImage="/images/carteGrid.png" height="100%"></CardWithText>
+            {/* <CardWord word="pouet" width="100%" /> */}
+        </>
     );
+    // }
 };
 export default CardGrid;

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { Box, Paper, Grid } from '@mui/material';
+import { Box, Paper, Grid, colors } from '@mui/material';
 import CardWord from '../CardWord/CardWord';
+import CardIndex from '../CardIndex/CardIndex';
 import CardGrid, { CardGridInterface } from '../CardGrid/CardGrid';
 
 interface DynamicGridProps {
@@ -27,7 +28,7 @@ class CardGenerator {
             return <CardGrid cardText={cardText} />;
         }
 
-        return <CardWord word={cardText}></CardWord>;
+        return <CardIndex></CardIndex>;
     }
 
     private getCardText(index: number, isGridCard: boolean): string {
@@ -41,7 +42,7 @@ class CardGenerator {
             return this.alphabet[divisionValue - 1];
         }
 
-        return 'C PAS BON';
+        return '';
     }
 
     private isCardIndex0(index: number): boolean {
@@ -59,16 +60,14 @@ const GameGrid = (props: DynamicGridProps) => {
 
     const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
         return (
-            <Grid item xs={12 / cardPerRow} key={index} sx={{ position: 'relative' }}>
-                <Box sx={{ paddingBottom: '100%', position: 'relative' }}>
-                    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>{generator.cardGenerator(index)}</Box>
-                </Box>
+            <Grid item xs={12 / cardPerRow} key={index} sx={{ backgroundColor: colors.green[100] }}>
+                <Box sx={{ backgroundColor: colors.blue[100] }}>{generator.cardGenerator(index)}</Box>
             </Grid>
         );
     });
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ height: '40%', width: '40%' }}>
             {items}
         </Grid>
     );

@@ -14,14 +14,20 @@ const GameLobby = () => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
+                display: 'flex', // Utiliser Flexbox
+                justifyContent: 'center', // Centrer horizontalement
+                alignItems: 'center' // Centrer verticalement
             }}
         >
-            <div>
+            <Box
+                sx={{
+                    display: 'flex', // Utiliser Flexbox
+                    justifyContent: 'center', // Centrer horizontalement
+                    alignItems: 'center' // Centrer verticalement
+                }}
+            >
                 <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
-            </div>
+            </Box>
         </Box>
     );
 };

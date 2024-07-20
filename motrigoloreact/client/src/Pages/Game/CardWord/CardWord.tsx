@@ -1,31 +1,14 @@
-import { Card, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import React from 'react';
-import GameSettings from '../../../Settings/GameSettings';
+import CardWithText from '../CardWithText/CardWithText';
 
 interface CardWordInterface {
     word: string;
+    width: string;
 }
 
-const CardWord = (props: CardWordInterface) => {
-    return (
-        <Card
-            sx={{
-                backgroundImage: 'url(/images/cardWord.png)',
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'relative'
-            }}
-        >
-            <Typography variant="h6" sx={{ position: 'absolute', bottom: 8, left: 8 }}>
-                {props.word}
-            </Typography>
-        </Card>
-    );
-};
+const CardWord = (props: CardWordInterface) => (
+    <CardWithText cardText={props.word} backgroundImage="/images/cardWord.png" height="50%"></CardWithText>
+);
+
 export default CardWord;
