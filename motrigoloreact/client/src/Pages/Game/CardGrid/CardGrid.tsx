@@ -20,7 +20,7 @@ const CardGrid = (props: CardGridInterface) => {
                 backgroundImage="/images/carteGrid.png"
                 height="100%"
                 width="100%"
-                cardTextSize="h3"
+                cardTextSize="h1"
             ></CardWithText>
             <CardWord word="pouet" />
         </>

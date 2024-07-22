@@ -32,28 +32,28 @@ const CardWithIndex = (props: CardGridInterface) => {
                 }}
             ></Avatar>
             <Typography
-                variant={props.cardTextSize}
+                variant="h1"
                 sx={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    color: 'black'
-                }}
-            >
-                {props.cardIndexNumber}
-            </Typography>
-            <Typography
-                variant={props.cardTextSize}
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-0%, -0%)',
+                    transform: 'translate(-80%, -50%)',
                     color: 'black'
                 }}
             >
                 {props.cardIndexLetter}
+            </Typography>
+            <Typography
+                variant="h3"
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(55%, -40%)',
+                    color: 'black'
+                }}
+            >
+                {props.cardIndexNumber}
             </Typography>
         </Box>
     );
