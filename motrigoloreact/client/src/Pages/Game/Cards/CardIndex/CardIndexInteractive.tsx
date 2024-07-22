@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import CardWithIndex from '../CardWithText/CardWithIndex';
+import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
 
 interface CardIndexInterface {
     indexNumber: number;
     indexLetter: string;
 }
 
-const CardIndex = (props: CardIndexInterface) => {
+const CardIndexInteractive = (props: CardIndexInterface) => {
     const frontBackground = '/images/cardIndexFront.png';
     const backBackground = '/images/cardIndexBack.png';
 
@@ -33,7 +33,7 @@ const CardIndex = (props: CardIndexInterface) => {
     }
 
     return (
-        <CardWithIndex
+        <CardWithTextIndex
             backgroundImage={background}
             cardIndexNumber={textNumber}
             cardIndexLetter={textLetter}
@@ -41,7 +41,7 @@ const CardIndex = (props: CardIndexInterface) => {
             width="100%"
             cardTextSize="h5"
             onClickHandler={ToggleCard}
-        ></CardWithIndex>
+        ></CardWithTextIndex>
     );
 };
-export default CardIndex;
+export default CardIndexInteractive;

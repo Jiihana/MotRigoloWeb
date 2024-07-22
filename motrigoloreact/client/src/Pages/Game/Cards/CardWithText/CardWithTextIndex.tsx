@@ -12,7 +12,7 @@ export interface CardGridInterface {
     onClickHandler: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const CardWithIndex = (props: CardGridInterface) => {
+const CardWithTextIndex = (props: CardGridInterface) => {
     return (
         <Box
             sx={{
@@ -59,4 +59,4 @@ const CardWithIndex = (props: CardGridInterface) => {
     );
 };
 
-export default CardWithIndex;
+export default CardWithTextIndex;

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import { Box, Paper, Grid, colors } from '@mui/material';
-import CardWord from '../CardWord/CardWord';
-import CardIndex from '../CardIndex/CardIndex';
-import CardGrid, { CardGridInterface } from '../CardGrid/CardGrid';
+import CardWord from '../Cards/CardWord/CardWord';
+import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
+import CardGrid, { CardGridInterface } from '../Cards/CardGrid/CardGrid';
 import { error } from 'console';
 
 interface DynamicGridProps {
@@ -41,7 +41,7 @@ class CardGenerator {
         }
 
         const cardIndexText = this.getCardIndexText(index, numberOfCardPerRow);
-        return <CardIndex indexLetter={cardIndexText.letter} indexNumber={cardIndexText.number}></CardIndex>;
+        return <CardIndexInteractive indexLetter={cardIndexText.letter} indexNumber={cardIndexText.number}></CardIndexInteractive>;
     }
 
     private getCardText(index: number, isGridCard: boolean): string {

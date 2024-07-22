@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
-import { Box, Paper, Grid, Avatar, Typography, colors } from '@mui/material';
-import CardWithText from '../CardWithText/CardWithText';
+import { Box, Paper, Grid, Avatar, Typography, colors, Stack } from '@mui/material';
+import CardWithText from '../Cards/CardWithText/CardWithText';
+import CardIndexStatique from '../Cards/CardIndex/CardIndexStatique';
+import CardPioche from '../Cards/CardPioche/CardPioche';
+import CardInventory from '../Cards/CardInventory/CardInventory';
 
 const gameSettings = new GameSettings();
 
@@ -15,29 +18,21 @@ const GameLobby = () => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100%',
-                display: 'flex', // Utiliser Flexbox
-                justifyContent: 'center', // Centrer horizontalement
-                alignItems: 'center' // Centrer verticalement
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
             }}
         >
             <Box
                 sx={{
-                    display: 'flex', // Utiliser Flexbox
-                    justifyContent: 'center', // Centrer horizontalement
-                    alignItems: 'center' // Centrer verticalement,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
                 }}
             >
+                <CardInventory></CardInventory>
                 <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
-
-                <Box sx={{ height: '8%', width: '8%', marginRight: '-20%', marginLeft: '10%' }}>
-                    <CardWithText
-                        cardText="Pioche"
-                        backgroundImage="/images/cardIndexBack.png"
-                        height="100%"
-                        width="100%"
-                        cardTextSize="h3"
-                    ></CardWithText>
-                </Box>
+                <CardPioche></CardPioche>
             </Box>
         </Box>
     );
