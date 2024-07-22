@@ -17,13 +17,19 @@ class CardGenerator {
         this.arraySize = arrayIndex;
     }
 
-    public cardGenerator(index: number) {
+    public gridItemGenerator(index: number) {
+        const isGrid = this.isCardGrid(index);
+        const cardText = this.getCardText(index, isGrid);
+        const rotateItem = /^[a-zA-Z]$/.test(cardText) ? 'rotate(270deg)' : '';
+
+        return <Box sx={{ backgroundColor: colors.blue[100], transform: rotateItem }}>{this.cardGenerator(index, isGrid, cardText)}</Box>;
+    }
+
+    public cardGenerator(index: number, isGrid: boolean, cardText: string) {
         if (this.isCardIndex0(index)) {
             return;
         }
 
-        const isGrid = this.isCardGrid(index);
-        const cardText = this.getCardText(index, isGrid);
         if (isGrid) {
             return <CardGrid cardText={cardText} />;
         }
@@ -60,14 +66,14 @@ const GameGrid = (props: DynamicGridProps) => {
 
     const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
         return (
-            <Grid item xs={12 / cardPerRow} key={index} sx={{ backgroundColor: colors.green[100] }}>
-                <Box sx={{ backgroundColor: colors.blue[100] }}>{generator.cardGenerator(index)}</Box>
+            <Grid item xs={12 / cardPerRow} key={index} sx={{ alignContent: 'center', justifyContent: 'center' }}>
+                {generator.gridItemGenerator(index)}
             </Grid>
         );
     });
 
     return (
-        <Grid container spacing={2} sx={{ height: '40%', width: '40%' }}>
+        <Grid container spacing={1} sx={{ height: '40%', width: '40%', backgroundColor: colors.amber[100] }}>
             {items}
         </Grid>
     );
