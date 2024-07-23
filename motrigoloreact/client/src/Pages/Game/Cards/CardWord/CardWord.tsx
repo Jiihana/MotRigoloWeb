@@ -7,7 +7,7 @@ interface CardWordInterface {
 }
 
 const CardWord = (props: CardWordInterface) => (
-    <CardWithText cardText={props.word} backgroundImage="/images/cardWord.png" height="100%" width="100%" cardTextSize="body1"></CardWithText>
+    <CardWithText cardText={props.word} backgroundImage="/images/cardWord.png" height="10%" width="100%" cardTextSize="body1"></CardWithText>
 );
 
 export default CardWord;

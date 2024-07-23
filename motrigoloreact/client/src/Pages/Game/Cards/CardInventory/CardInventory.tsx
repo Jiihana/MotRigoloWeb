@@ -7,7 +7,7 @@ import CardIndexStatique from '../CardIndex/CardIndexStatique';
 const CardInventory = () => {
     return (
         <Stack spacing={4} sx={{ height: '8%', width: '8%', marginRight: '15%', marginLeft: '-25%' }}>
-            {/* <CardIndexStatique indexNumber={0} indexLetter="Z"></CardIndexStatique> */}
+            <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
         </Stack>
     );
 };

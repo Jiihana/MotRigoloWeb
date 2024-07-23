@@ -8,13 +8,13 @@ enum cardWordDirection {
     Bottom
 }
 
-export interface CardGridInterface {
+export interface CardHeaderInterface {
     cardText: string;
 }
 
-const CardGrid = (props: CardGridInterface) => {
+const CardHeader = (props: CardHeaderInterface) => {
     return (
-        <>
+        <Box sx={{ alignContent: 'center', justifyContent: 'center' }}>
             <CardWithText
                 cardText={props.cardText}
                 backgroundImage="/images/carteGrid.png"
@@ -23,7 +23,7 @@ const CardGrid = (props: CardGridInterface) => {
                 cardTextSize="h1"
             ></CardWithText>
             <CardWord word="pouet" />
-        </>
+        </Box>
     );
 };
-export default CardGrid;
+export default CardHeader;
