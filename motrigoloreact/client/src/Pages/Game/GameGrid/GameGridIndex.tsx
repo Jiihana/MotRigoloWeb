@@ -1,7 +1,6 @@
 import React from 'react';
 import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
-import colors from '@mui/material/colors';
-import { Box, Grid } from '@mui/material';
+import { Box, colors, Grid } from '@mui/material';
 
 interface DynamicGridProps {
     numberOfCardPerRow: number;
@@ -16,10 +15,6 @@ class CardIndexGenerator {
     }
 
     public gridItemGenerator(index: number, numberOfCardPerRow: number) {
-        if (this.isCardIndex0(index)) {
-            return null;
-        }
-
         const cardIndexText = this.getCardIndexText(index, numberOfCardPerRow);
 
         return <CardIndexInteractive indexLetter={cardIndexText.letter} indexNumber={cardIndexText.number} />;
@@ -30,35 +25,29 @@ class CardIndexGenerator {
         let textNumber = 0;
 
         for (let index = 0; index < this.alphabet.length; index++) {
-            if (indexCard > numberOfCardPerRow * (index + 1) && indexCard <= numberOfCardPerRow * (index + 2)) {
-                textLetter = this.alphabet[index];
-                textNumber = indexCard - numberOfCardPerRow * (index + 1) + 1;
-                return { letter: textLetter, number: textNumber };
-            }
+            textLetter = this.alphabet[index];
+            textNumber = indexCard - (numberOfCardPerRow - 1) * index + 1;
+            return { letter: textLetter, number: textNumber };
         }
 
-        throw new Error('Index out of bounds custom');
-    }
-
-    private isCardIndex0(index: number): boolean {
-        return index === 0;
+        throw new Error('index card generation erreur');
     }
 }
 
 const GameGridIndex = (props: DynamicGridProps) => {
-    const cardPerRow = props.numberOfCardPerRow;
+    const cardPerRow = props.numberOfCardPerRow - 1;
     const generator = new CardIndexGenerator(cardPerRow);
 
     const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
         return (
-            <Grid item xs={12 / cardPerRow - 1} key={index} sx={{ alignContent: 'center', justifyContent: 'center' }}>
+            <Grid item xs={12 / cardPerRow} key={index} sx={{ alignItems: 'center', justifyItems: 'center' }} display="flex">
                 {generator.gridItemGenerator(index, cardPerRow)}
             </Grid>
         );
     });
 
     return (
-        <Grid container spacing={1} sx={{ height: '100%', width: '100%' }}>
+        <Grid container spacing={4} sx={{ backgroundColor: colors.blue[500] }}>
             {items}
         </Grid>
     );

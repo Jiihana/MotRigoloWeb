@@ -12,28 +12,63 @@ const gameSettings = new GameSettings();
 const GameLobby = () => {
     return (
         <Box
+            display="flex"
             sx={{
                 backgroundImage: 'url(/images/gameLobbyBackgound.png)',
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
+                width: '100vw',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyItems: 'center',
                 alignItems: 'center'
             }}
         >
-            <Box
+            <Stack
+                direction="row"
+                display="flex"
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    justifyItems: 'center',
+                    alignItems: 'center',
+                    height: '100%',
+                    width: '100%'
                 }}
+                spacing={10}
             >
-                <CardInventory></CardInventory>
-                <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
-                <CardPioche></CardPioche>
-            </Box>
+                <Box
+                    sx={{
+                        height: '100%',
+                        width: '20%',
+                        backgroundColor: colors.green[500]
+                    }}
+                >
+                    <CardInventory></CardInventory>
+                </Box>
+
+                <Box
+                    sx={{
+                        height: '100%',
+                        width: '60%',
+                        backgroundColor: colors.blue[500]
+                    }}
+                >
+                    <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
+                </Box>
+
+                <Box
+                    display="flex"
+                    sx={{
+                        justifyItems: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        width: '20%',
+                        backgroundColor: colors.pink[500]
+                    }}
+                >
+                    <CardPioche></CardPioche>
+                </Box>
+            </Stack>
         </Box>
     );
 };

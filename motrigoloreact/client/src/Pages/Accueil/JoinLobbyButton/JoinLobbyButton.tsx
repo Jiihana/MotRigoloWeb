@@ -15,7 +15,7 @@ const JoinLobbyButton = () => {
 
     return (
         <>
-            <Box textAlign="center">
+            <Box textAlign="center" display="flex">
                 <Button
                     variant="contained"
                     color="primary"

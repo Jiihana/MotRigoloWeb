@@ -8,6 +8,7 @@ type Direction = 'row' | 'column';
 interface DynamicStackProps {
     numberOfCardPerRow: number;
     direction: Direction;
+    spacing: number;
 }
 
 class CardGenerator {
@@ -18,29 +19,27 @@ class CardGenerator {
         this.arraySize = arrayIndex;
     }
 
-    public stackItemGenerator(index: number, numberOfCardPerRow: number) {
-        const cardText = this.getCardText(index);
-        const rotateItem = /^[a-zA-Z]$/.test(cardText) ? 'rotate(270deg)' : '';
-        const translateItem = /^[a-zA-Z]$/.test(cardText) ? 'translate(0%,-30%)' : '';
+    public stackItemGenerator(index: number, props: number, direction: Direction) {
+        const cardText = this.getCardText(index, direction);
+        const rotateItem = direction == 'column' ? 'rotate(270deg)' : '';
 
         if (this.isCardIndex0(index)) {
             return;
         }
 
         return (
-            <Box sx={{ backgroundColor: colors.blue[100], transform: `${rotateItem}` }}>
+            <Box sx={{ backgroundColor: colors.orange[500], transform: `${rotateItem}`, height: 'auto', width: '100%' }}>
                 <CardHeader cardText={cardText}></CardHeader>
             </Box>
         );
     }
 
-    private getCardText(index: number): string {
-        if (index < this.arraySize) {
+    private getCardText(index: number, direction: Direction): string {
+        if (direction == 'row') {
             return index.toString();
         }
 
         const divisionValue = index / this.arraySize;
-
         return this.alphabet[divisionValue - 1];
     }
 
@@ -56,11 +55,11 @@ const GameGridHeader = (props: DynamicStackProps) => {
     // Générer les éléments de la grille
     const gridItems = [];
     for (let index = 0; index < cardPerRow; index++) {
-        gridItems.push(generator.stackItemGenerator(index, cardPerRow));
+        gridItems.push(generator.stackItemGenerator(index, cardPerRow, props.direction));
     }
 
     return (
-        <Stack direction={props.direction} spacing={4} sx={{ backgroundColor: colors.green[500] }}>
+        <Stack direction={props.direction} spacing={props.spacing} sx={{ backgroundColor: colors.pink[500], height: 'auto', width: '100%' }}>
             {gridItems}
         </Stack>
     );

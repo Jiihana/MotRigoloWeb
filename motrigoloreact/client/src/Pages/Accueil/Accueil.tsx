@@ -9,6 +9,7 @@ const Accueil = () => {
 
     return (
         <Box
+            display="flex"
             sx={{
                 backgroundImage: 'url(/images/home.png)',
                 backgroundSize: 'contain',
@@ -16,11 +17,12 @@ const Accueil = () => {
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyItems: 'center',
                 alignItems: 'center'
             }}
         >
             <Box
+                display="flex"
                 sx={{
                     backgroundColor: '#f0f0f0',
                     padding: '20px',

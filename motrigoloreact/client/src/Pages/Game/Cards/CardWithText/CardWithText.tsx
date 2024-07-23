@@ -6,7 +6,6 @@ export interface CardGridInterface {
     cardText: string;
     backgroundImage: string;
     height: string;
-    width: string;
     cardTextSize: TypographyVariant;
 }
 
@@ -16,7 +15,7 @@ const CardWithText = (props: CardGridInterface) => {
             sx={{
                 position: 'relative',
                 height: props.height,
-                width: props.width
+                width: 'auto'
             }}
         >
             <Avatar
@@ -24,7 +23,7 @@ const CardWithText = (props: CardGridInterface) => {
                 src={props.backgroundImage}
                 variant="rounded"
                 sx={{
-                    height: '70%',
+                    height: '100%',
                     width: '100%'
                 }}
             ></Avatar>

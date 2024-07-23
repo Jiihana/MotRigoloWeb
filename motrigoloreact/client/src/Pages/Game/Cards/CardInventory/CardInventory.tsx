@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
-import { Box, Stack } from '@mui/material';
-import CardWithText from '../CardWithText/CardWithText';
+import { Box, colors, Stack } from '@mui/material';
 import CardIndexStatique from '../CardIndex/CardIndexStatique';
 
 const CardInventory = () => {
     return (
-        <Stack spacing={4} sx={{ height: '8%', width: '8%', marginRight: '15%', marginLeft: '-25%' }}>
+        <Stack spacing={4} sx={{ height: 'auto', width: '50%', backgroundColor: colors.pink[500] }}>
+            <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
+            <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
             <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
         </Stack>
     );
