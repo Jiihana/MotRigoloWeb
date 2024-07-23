@@ -28,8 +28,8 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            {/* <Accueil></Accueil> */}
-            <GameLobby></GameLobby>
+            <Accueil />
+            {/* <GameLobby></GameLobby> */}
         </ThemeProvider>
         // <div>
         //     <Button onClick={pouet}>nAAt</Button>

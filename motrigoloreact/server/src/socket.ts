@@ -1,16 +1,17 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
-import { SwitchRequest, SwitchResponse, SwitchMessage } from '../../common/socket_messages/switch';
+import GameModel from './motrigolo/models/GameModel';
+import GameSocketListener from './motrigolo/socketListener/GameSocketListener';
 
 export class ServerSocket {
     public static instance: ServerSocket;
     public io: Server;
 
+    private games: GameModel[] = [];
+
     /** Master list of all connected users */
     public users: { [uid: string]: string };
-
-    private switch: SwitchMessage;
 
     constructor(server: HttpServer) {
         ServerSocket.instance = this;
@@ -25,15 +26,13 @@ export class ServerSocket {
             }
         });
 
-        this.switch = {
-            switch: false
-        };
         this.io.on('connect', this.StartListeners);
         console.info('Socket IO started');
     }
 
     StartListeners = (socket: Socket) => {
-        console.info('Message received from ' + socket.id);
+        var gameListener = new GameSocketListener(socket);
+        gameListener.StartListening();
 
         socket.on('handshake', (callback: (uid: string, users: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);
@@ -79,12 +78,6 @@ export class ServerSocket {
 
                 this.SendMessage('user_disconnected', users, socket.id);
             }
-        });
-
-        socket.on(SwitchRequest, () => {
-            const users = Object.values(this.users);
-            this.switch.switch = !this.switch.switch;
-            this.SendMessage(SwitchResponse, users, this.switch);
         });
     };
 

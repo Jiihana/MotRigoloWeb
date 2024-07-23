@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Button } from '@mui/material';
 import JoinLobbyButton from './JoinLobbyButton/JoinLobbyButton';
+import SocketContext from '../../contexts/SocketContext';
+import { CreateGameRequest } from '../../common/socket_messages/CreateGame';
 
 const Accueil = () => {
+    const { socket, uid, users } = useContext(SocketContext).SocketState;
+
     const handleCreateGame = () => {
-        console.log('creating game');
+        console.log('c');
+        socket?.emit(CreateGameRequest.Message);
     };
 
     return (
