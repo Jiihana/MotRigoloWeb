@@ -23,7 +23,7 @@ const CardWithText = (props: CardGridInterface) => {
                 src={props.backgroundImage}
                 variant="rounded"
                 sx={{
-                    height: '100%',
+                    height: 'auto',
                     width: '100%'
                 }}
             ></Avatar>

@@ -9,6 +9,7 @@ interface DynamicStackProps {
     numberOfCardPerRow: number;
     direction: Direction;
     spacing: number;
+    marginLeft: string;
 }
 
 class CardGenerator {
@@ -28,7 +29,7 @@ class CardGenerator {
         }
 
         return (
-            <Box sx={{ backgroundColor: colors.orange[500], transform: `${rotateItem}`, height: 'auto', width: '100%' }}>
+            <Box sx={{ transform: `${rotateItem}`, height: '100%', width: '100%' }}>
                 <CardHeader cardText={cardText}></CardHeader>
             </Box>
         );
@@ -59,7 +60,7 @@ const GameGridHeader = (props: DynamicStackProps) => {
     }
 
     return (
-        <Stack direction={props.direction} spacing={props.spacing} sx={{ backgroundColor: colors.pink[500], height: 'auto', width: '100%' }}>
+        <Stack direction={props.direction} spacing={props.spacing} sx={{ height: 'auto', width: '100%', marginLeft: props.marginLeft }}>
             {gridItems}
         </Stack>
     );

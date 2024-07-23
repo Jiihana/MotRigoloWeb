@@ -10,25 +10,17 @@ interface DynamicGridProps {
 
 const GameGrid = (props: DynamicGridProps) => {
     return (
-        <Stack
-            display="flex"
-            direction="column"
-            sx={{ justifyItems: 'center', alignItems: 'center', backgroundColor: colors.green[300], height: '100%', width: '100%' }}
-            spacing={4}
-        >
-            <Box sx={{ backgroundColor: colors.pink[300], height: 'auto', width: '60%' }}>
-                <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="row" spacing={4}></GameGridHeader>
+        <Stack direction="column" sx={{ justifyItems: 'center', alignItems: 'center', height: '100%', width: '100%' }} spacing={1}>
+            <Box sx={{ height: 'auto', width: '70%' }}>
+                <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="row" spacing={4} marginLeft="5%"></GameGridHeader>
             </Box>
 
-            <Stack spacing={10} direction="row" sx={{ backgroundColor: colors.orange[300], height: 'auto', width: '100%' }}>
-                <Box sx={{ backgroundColor: colors.grey[300], height: 'auto', width: '12%' }}>
-                    <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="column" spacing={-4}></GameGridHeader>
+            <Stack spacing={10} direction="row" sx={{ height: 'auto', width: '100%' }}>
+                <Box sx={{ height: 'auto', width: '12%' }}>
+                    <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="column" spacing={-4} marginLeft="0"></GameGridHeader>
                 </Box>
 
-                <Box
-                    sx={{ backgroundColor: colors.purple[300], height: '100%', width: '70%', justifyItems: 'center', alignItems: 'center' }}
-                    display="flex"
-                >
+                <Box sx={{ height: '100%', width: '70%', justifyItems: 'center', alignItems: 'center' }} display="flex">
                     <GameGridIndex numberOfCardPerRow={props.numberOfCardPerRow}></GameGridIndex>
                 </Box>
             </Stack>

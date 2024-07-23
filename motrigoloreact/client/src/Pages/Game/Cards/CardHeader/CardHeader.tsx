@@ -1,12 +1,7 @@
-import { Box, Card, colors, Stack, Typography } from '@mui/material';
-import React, { useImperativeHandle, forwardRef, useState } from 'react';
+import { Stack } from '@mui/material';
+import React from 'react';
 import CardWord from '../CardWord/CardWord';
 import CardWithText from '../CardWithText/CardWithText';
-
-enum cardWordDirection {
-    Right,
-    Bottom
-}
 
 export interface CardHeaderInterface {
     cardText: string;

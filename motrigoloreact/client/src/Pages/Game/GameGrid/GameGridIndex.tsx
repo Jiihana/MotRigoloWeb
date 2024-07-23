@@ -47,7 +47,7 @@ const GameGridIndex = (props: DynamicGridProps) => {
     });
 
     return (
-        <Grid container spacing={4} sx={{ backgroundColor: colors.blue[500] }}>
+        <Grid container spacing={4}>
             {items}
         </Grid>
     );

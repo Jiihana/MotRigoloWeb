@@ -39,8 +39,7 @@ const GameLobby = () => {
                 <Box
                     sx={{
                         height: '100%',
-                        width: '20%',
-                        backgroundColor: colors.green[500]
+                        width: '20%'
                     }}
                 >
                     <CardInventory></CardInventory>
@@ -49,8 +48,7 @@ const GameLobby = () => {
                 <Box
                     sx={{
                         height: '100%',
-                        width: '60%',
-                        backgroundColor: colors.blue[500]
+                        width: '60%'
                     }}
                 >
                     <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
@@ -62,8 +60,7 @@ const GameLobby = () => {
                         justifyItems: 'center',
                         alignItems: 'center',
                         height: '100%',
-                        width: '20%',
-                        backgroundColor: colors.pink[500]
+                        width: '20%'
                     }}
                 >
                     <CardPioche></CardPioche>
