@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
-import { Box, Paper, Grid, Avatar, Typography, colors, Stack } from '@mui/material';
-import CardWithText from '../Cards/CardWithText/CardWithText';
-import CardIndexStatique from '../Cards/CardIndex/CardIndexStatique';
+import { Box, colors, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import CardInventory from '../Cards/CardInventory/CardInventory';
 
@@ -34,21 +32,26 @@ const GameLobby = () => {
                     height: '100%',
                     width: '100%'
                 }}
-                spacing={10}
             >
                 <Box
+                    display="flex"
                     sx={{
                         height: '100%',
-                        width: '20%'
+                        width: '20%',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     <CardInventory></CardInventory>
                 </Box>
 
                 <Box
+                    display="flex"
                     sx={{
                         height: '100%',
-                        width: '60%'
+                        width: '60%',
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}
                 >
                     <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
@@ -57,7 +60,7 @@ const GameLobby = () => {
                 <Box
                     display="flex"
                     sx={{
-                        justifyItems: 'center',
+                        justifyContent: 'center',
                         alignItems: 'center',
                         height: '100%',
                         width: '20%'

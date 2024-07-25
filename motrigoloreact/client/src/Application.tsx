@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SocketContext from './contexts/SocketContext';
-import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, Box, Switch } from '@mui/material';
 import { themeOptions } from './Theme/Theme';
 import Accueil from './Pages/Accueil/Accueil';
 import GameLobby from './Pages/Game/GameLobby/GameLobby';
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 // import { SwitchRequest, SwitchResponse, SwitchMessage } from '../../common/socket_messages/switch';
 
 export interface IApplicationProps {}
@@ -28,8 +29,13 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <Accueil />
-            {/* <GameLobby></GameLobby> */}
+
+            <Router>
+                <Routes>
+                    <Route path="/" Component={Accueil} />
+                    <Route path="/game" Component={GameLobby} />
+                </Routes>
+            </Router>
         </ThemeProvider>
         // <div>
         //     <Button onClick={pouet}>nAAt</Button>
