@@ -28,11 +28,11 @@ const Accueil = () => {
             }}
         >
             <Stack
-                spacing={4}
+                spacing={3}
                 sx={{
                     marginTop: '10%',
                     width: '40%',
-                    height: '20%',
+                    height: '30%',
                     alignItems: 'center'
                 }}
                 display="flex"

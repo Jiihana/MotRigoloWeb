@@ -39,7 +39,7 @@ const JoinGameButton = (props: JoinGameProps) => {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
-                    height: '100%',
+                    height: 'auto',
                     width: '30%'
                 }}
             >
