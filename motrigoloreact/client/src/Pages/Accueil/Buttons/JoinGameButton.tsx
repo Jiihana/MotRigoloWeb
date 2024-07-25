@@ -29,7 +29,7 @@ const JoinGameButton = (props: JoinGameProps) => {
                 }}
             >
                 <Typography variant="h3" color="black" textTransform="none">
-                    Join game
+                    Join game -{'>'}
                 </Typography>
             </Button>
             <Box

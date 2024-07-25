@@ -28,19 +28,20 @@ const Accueil = () => {
             }}
         >
             <Stack
-                spacing={3}
+                spacing={10}
                 sx={{
-                    marginTop: '10%',
-                    width: '40%',
-                    height: '30%',
-                    alignItems: 'center'
+                    marginTop: '20%',
+                    width: '35%',
+                    height: '40%',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start'
                 }}
                 display="flex"
             >
-                <Box display="flex" sx={{ width: '60%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                <Box display="flex" sx={{ width: '60%', height: '20%', alignItems: 'center', justifyContent: 'center' }}>
                     <CreateGameButton />
                 </Box>
-                <Box display="flex" sx={{ width: '100%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                <Box display="flex" sx={{ width: '100%', height: '20%', alignItems: 'center', justifyContent: 'center' }}>
                     <JoinGameButton />
                 </Box>
             </Stack>
