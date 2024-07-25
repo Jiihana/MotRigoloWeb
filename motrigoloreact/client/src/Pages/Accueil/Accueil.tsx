@@ -5,7 +5,12 @@ import SocketContext from '../../contexts/SocketContext';
 import { CreateGameRequest } from '../../common/socket_messages/CreateGame';
 import CreateGameButton from './Buttons/CreateGameButton';
 
-const Accueil = () => {
+interface JoinCreateGameProps {
+    // onClickCreate: React.MouseEventHandler<HTMLButtonElement>;
+    // onClickJoin: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+const Accueil = (props: JoinCreateGameProps) => {
     const { socket, uid, users } = useContext(SocketContext).SocketState;
 
     const handleCreateGame = () => {

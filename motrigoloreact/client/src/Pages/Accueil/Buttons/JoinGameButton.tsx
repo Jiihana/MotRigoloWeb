@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Button, colors, Stack, TextField, Typography } from '@mui/material';
+import MenuButton from '../../Shared/MenuButton';
 
 interface JoinGameProps {
     // onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -17,30 +18,16 @@ const JoinGameButton = (props: JoinGameProps) => {
             }}
             spacing={4}
         >
-            <Button
-                // onClick={props.onClick}
-                sx={{
-                    width: '60%',
-                    height: '100%',
-                    backgroundImage: 'url(/images/menuButton1.png)',
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
-                }}
-            >
-                <Typography variant="h3" color="black" textTransform="none">
-                    Join game -{'>'}
-                </Typography>
-            </Button>
+            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" pageRedirection="/"></MenuButton>
             <Box
                 display="flex"
                 sx={{
-                    backgroundImage: 'url(/images/menuButton1.png)',
-                    backgroundSize: 'cover',
+                    backgroundImage: 'url(/images/cardWord.png)',
+                    backgroundSize: 'contain',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     height: 'auto',
-                    width: '30%'
+                    width: '25%'
                 }}
             >
                 <TextField
@@ -48,8 +35,8 @@ const JoinGameButton = (props: JoinGameProps) => {
                     placeholder="Game code"
                     variant="standard"
                     margin="normal"
-                    inputProps={{ maxLength: 4, style: { fontSize: 40, textAlign: 'center' } }}
-                    InputLabelProps={{ style: { fontSize: 40 } }}
+                    inputProps={{ maxLength: 4, style: { fontSize: 30, textAlign: 'center' } }}
+                    InputLabelProps={{ style: { fontSize: 30 } }}
                     sx={{ input: { color: 'black' }, width: '100%', height: '100%', paddingTop: '2%' }}
                     InputProps={{
                         disableUnderline: true // Désactive le trait par défaut si vous souhaitez personnaliser entièrement le trait

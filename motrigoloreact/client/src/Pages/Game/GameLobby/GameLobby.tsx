@@ -4,6 +4,7 @@ import GameSettings from '../../../Settings/GameSettings';
 import { Box, colors, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import CardInventory from '../Cards/CardInventory/CardInventory';
+import BackButtonHeader from '../GameLobbyHeader';
 
 const gameSettings = new GameSettings();
 
@@ -24,8 +25,7 @@ const GameLobby = () => {
             }}
         >
             <Stack
-                direction="row"
-                display="flex"
+                direction="column"
                 sx={{
                     justifyItems: 'center',
                     alignItems: 'center',
@@ -33,41 +33,63 @@ const GameLobby = () => {
                     width: '100%'
                 }}
             >
-                <Box
+                <BackButtonHeader />
+                <Stack
+                    direction="row"
                     display="flex"
                     sx={{
-                        height: '100%',
-                        width: '20%',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <CardInventory></CardInventory>
-                </Box>
-
-                <Box
-                    display="flex"
-                    sx={{
-                        height: '100%',
-                        width: '60%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
-                </Box>
-
-                <Box
-                    display="flex"
-                    sx={{
-                        justifyContent: 'center',
+                        justifyItems: 'center',
                         alignItems: 'center',
                         height: '100%',
-                        width: '20%'
+                        width: '100%'
                     }}
                 >
-                    <CardPioche></CardPioche>
-                </Box>
+                    <Stack
+                        direction="column"
+                        display="flex"
+                        sx={{
+                            height: '100%',
+                            width: '20%',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Box
+                            display="flex"
+                            sx={{
+                                height: '100%',
+                                width: '100%',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <CardInventory></CardInventory>
+                        </Box>
+                    </Stack>
+                    <Box
+                        display="flex"
+                        sx={{
+                            height: '100%',
+                            width: '60%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingLeft: '5%'
+                        }}
+                    >
+                        <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
+                    </Box>
+
+                    <Box
+                        display="flex"
+                        sx={{
+                            alignItems: 'center',
+                            height: '100%',
+                            width: '20%'
+                        }}
+                    >
+                        <CardPioche></CardPioche>
+                    </Box>
+                </Stack>
             </Stack>
         </Box>
     );
