@@ -20,7 +20,7 @@ class CardGenerator {
         this.arraySize = arrayIndex;
     }
 
-    public stackItemGenerator(index: number, props: number, direction: Direction) {
+    public stackItemGenerator(index: number, direction: Direction) {
         const cardText = this.getCardText(index, direction);
         const rotateItem = direction == 'column' ? 'rotate(270deg)' : '';
 
@@ -40,8 +40,7 @@ class CardGenerator {
             return index.toString();
         }
 
-        const divisionValue = index / this.arraySize;
-        return this.alphabet[divisionValue - 1];
+        return this.alphabet[index - 1];
     }
 
     private isCardIndex0(index: number): boolean {
@@ -56,7 +55,7 @@ const GameGridHeader = (props: DynamicStackProps) => {
     // Générer les éléments de la grille
     const gridItems = [];
     for (let index = 0; index < cardPerRow; index++) {
-        gridItems.push(generator.stackItemGenerator(index, cardPerRow, props.direction));
+        gridItems.push(generator.stackItemGenerator(index, props.direction));
     }
 
     return (

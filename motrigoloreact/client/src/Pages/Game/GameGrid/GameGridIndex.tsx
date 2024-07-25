@@ -1,36 +1,27 @@
 import React from 'react';
 import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
-import { Box, colors, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
 interface DynamicGridProps {
     numberOfCardPerRow: number;
 }
 
 class CardIndexGenerator {
-    private arraySize: number;
+    private numberOfCardPerRow: number;
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    constructor(arrayIndex: number) {
-        this.arraySize = arrayIndex;
+    constructor(numberOfCardPerRow: number) {
+        this.numberOfCardPerRow = numberOfCardPerRow;
     }
 
-    public gridItemGenerator(index: number, numberOfCardPerRow: number) {
-        const cardIndexText = this.getCardIndexText(index, numberOfCardPerRow);
+    public gridItemGenerator(index: number) {
+        const cardIndexText = this.getCardIndexText(index);
 
         return <CardIndexInteractive indexLetter={cardIndexText.letter} indexNumber={cardIndexText.number} />;
     }
 
-    private getCardIndexText(indexCard: number, numberOfCardPerRow: number): { letter: string; number: number } {
-        let textLetter = '';
-        let textNumber = 0;
-
-        for (let index = 0; index < this.alphabet.length; index++) {
-            textLetter = this.alphabet[index];
-            textNumber = indexCard - (numberOfCardPerRow - 1) * index + 1;
-            return { letter: textLetter, number: textNumber };
-        }
-
-        throw new Error('index card generation erreur');
+    private getCardIndexText(indexCard: number): { letter: string; number: number } {
+        return { letter: this.alphabet[Math.floor(indexCard / this.numberOfCardPerRow)], number: (indexCard % this.numberOfCardPerRow) + 1 };
     }
 }
 
@@ -41,7 +32,7 @@ const GameGridIndex = (props: DynamicGridProps) => {
     const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
         return (
             <Grid item xs={12 / cardPerRow} key={index} sx={{ alignItems: 'center', justifyItems: 'center' }} display="flex">
-                {generator.gridItemGenerator(index, cardPerRow)}
+                {generator.gridItemGenerator(index)}
             </Grid>
         );
     });
