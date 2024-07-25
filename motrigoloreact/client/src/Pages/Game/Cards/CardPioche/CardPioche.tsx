@@ -7,7 +7,7 @@ const CardPioche = () => {
 
     return (
         <Box sx={{ height: 'auto', width: '40%', backgroundColor: colors.green[500] }}>
-            <CardWithText cardText="Pioche" backgroundImage={background} height="100%" cardTextSize="h3"></CardWithText>
+            <CardWithText cardText="Pioche" backgroundImage={background} height="100%" width="auto" cardTextSize="h3"></CardWithText>
         </Box>
     );
 };

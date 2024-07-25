@@ -9,7 +9,6 @@ interface DynamicStackProps {
     numberOfCardPerRow: number;
     direction: Direction;
     spacing: number;
-    marginLeft: string;
 }
 
 class CardGenerator {
@@ -59,7 +58,7 @@ const GameGridHeader = (props: DynamicStackProps) => {
     }
 
     return (
-        <Stack direction={props.direction} spacing={props.spacing} sx={{ height: 'auto', width: '100%', marginLeft: props.marginLeft }}>
+        <Stack direction={props.direction} spacing={props.spacing} sx={{ height: 'auto', width: '88%' }}>
             {gridItems}
         </Stack>
     );

@@ -10,17 +10,20 @@ interface DynamicGridProps {
 
 const GameGrid = (props: DynamicGridProps) => {
     return (
-        <Stack direction="column" sx={{ justifyContent: 'center', alignItems: 'center', height: '100%', width: '85%' }} spacing={1} display="flex">
-            <Box sx={{ height: 'auto', width: '70%' }}>
-                <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="row" spacing={4} marginLeft="5%"></GameGridHeader>
-            </Box>
+        <Stack direction="column" sx={{ justifyContent: 'center', alignItems: 'center', height: '100%', width: '85%' }} display="flex">
+            <Stack direction="row" display="flex" sx={{ height: '100%', width: '100%', alignItems: 'center' }}>
+                <Box sx={{ height: 'auto', width: '20%' }}></Box>
+                <Box sx={{ height: 'auto', width: '80%' }}>
+                    <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="row" spacing={4}></GameGridHeader>
+                </Box>
+            </Stack>
 
             <Stack spacing={9} direction="row" sx={{ height: 'auto', width: '100%' }}>
                 <Box sx={{ height: 'auto', width: '12%' }}>
-                    <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="column" spacing={-4} marginLeft="0"></GameGridHeader>
+                    <GameGridHeader numberOfCardPerRow={props.numberOfCardPerRow} direction="column" spacing={-0.5}></GameGridHeader>
                 </Box>
 
-                <Box sx={{ height: '100%', width: '70%', justifyItems: 'center', alignItems: 'center' }} display="flex">
+                <Box sx={{ height: '100%', width: '71%', justifyItems: 'center', alignItems: 'center' }} display="flex">
                     <GameGridIndex numberOfCardPerRow={props.numberOfCardPerRow}></GameGridIndex>
                 </Box>
             </Stack>

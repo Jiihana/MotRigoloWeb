@@ -10,8 +10,14 @@ export interface CardHeaderInterface {
 const CardHeader = (props: CardHeaderInterface) => {
     return (
         <Stack sx={{ height: '100%', width: '100%' }} direction="column">
-            <CardWithText cardText={props.cardText} backgroundImage="/images/carteGrid.png" height="80%" cardTextSize="h1"></CardWithText>
-            <CardWord word="Pouet"></CardWord>
+            <CardWithText
+                cardText={props.cardText}
+                backgroundImage="/images/carteGrid.png"
+                height="80%"
+                width="auto"
+                cardTextSize="h1"
+            ></CardWithText>
+            <CardWord word="Pouet" height="20%" width="auto" shouldRotate={false}></CardWord>
         </Stack>
     );
 };

@@ -4,6 +4,7 @@ export interface CardGridInterface {
     cardText: string;
     backgroundImage: string;
     height: string;
+    width: string;
     cardTextSize: TypographyVariant;
 }
 
@@ -13,7 +14,7 @@ const CardWithText = (props: CardGridInterface) => {
             sx={{
                 position: 'relative',
                 height: props.height,
-                width: 'auto'
+                width: props.width
             }}
         >
             <Avatar
@@ -24,7 +25,7 @@ const CardWithText = (props: CardGridInterface) => {
                     height: 'auto',
                     width: '100%'
                 }}
-            ></Avatar>
+            />
             {props.cardText != '' ? (
                 <Typography
                     variant={props.cardTextSize}
@@ -32,7 +33,7 @@ const CardWithText = (props: CardGridInterface) => {
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        transform: `translate(-50%, -50%)`,
                         color: 'black'
                     }}
                 >

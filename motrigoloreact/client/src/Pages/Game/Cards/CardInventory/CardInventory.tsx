@@ -4,7 +4,7 @@ import CardIndexStatique from '../CardIndex/CardIndexStatique';
 
 const CardInventory = () => {
     return (
-        <Stack spacing={4} sx={{ height: 'auto', width: '30%', backgroundColor: colors.pink[500] }}>
+        <Stack spacing={4} sx={{ height: 'auto', width: '30%' }}>
             <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
             <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
             <CardIndexStatique indexNumber={5} indexLetter="D"></CardIndexStatique>
