@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Box, Button } from '@mui/material';
-import JoinLobbyButton from './JoinLobbyButton/JoinLobbyButton';
+import { Box, Button, colors, Stack } from '@mui/material';
+import JoinGameButton from './Buttons/JoinGameButton';
 import SocketContext from '../../contexts/SocketContext';
 import { CreateGameRequest } from '../../common/socket_messages/CreateGame';
+import CreateGameButton from './Buttons/CreateGameButton';
 
 const Accueil = () => {
     const { socket, uid, users } = useContext(SocketContext).SocketState;
@@ -21,38 +22,28 @@ const Accueil = () => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
-                display: 'flex',
-                justifyItems: 'center',
+                width: '100vw',
+                justifyContent: 'center',
                 alignItems: 'center'
             }}
         >
-            <Box
-                display="flex"
+            <Stack
+                spacing={4}
                 sx={{
-                    backgroundColor: '#f0f0f0',
-                    padding: '20px',
-                    textAlign: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center', // Ajouté pour centrer les enfants horizontalement
-                    gap: 8
+                    marginTop: '10%',
+                    width: '40%',
+                    height: '20%',
+                    alignItems: 'center'
                 }}
+                display="flex"
             >
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleCreateGame}
-                    sx={{
-                        width: '70%',
-                        maxWidth: '300px',
-                        height: 'auto',
-                        fontSize: '1.2rem'
-                    }}
-                >
-                    Create game
-                </Button>
-                <JoinLobbyButton />
-            </Box>
+                <Box display="flex" sx={{ width: '60%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                    <CreateGameButton />
+                </Box>
+                <Box display="flex" sx={{ width: '100%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                    <JoinGameButton />
+                </Box>
+            </Stack>
         </Box>
     );
 };
