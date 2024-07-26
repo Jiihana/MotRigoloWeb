@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import { Box, Button, colors, Stack, TextField, Typography } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
+import SocketContext from '../../../contexts/SocketContext';
+import { JoinGameRequest } from '../../../common/socket_messages/JoinGame';
+import { Navigate } from 'react-router-dom';
 
 interface JoinGameProps {
     // onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const JoinGameButton = (props: JoinGameProps) => {
+    const [inputValue, setInputValue] = useState('');
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleClick = () => {
+        console.log(inputValue);
+    };
+
+    const { socket } = useContext(SocketContext).SocketState;
+
+    const handleJoinGame = () => {
+        socket?.emit(JoinGameRequest.Message, new JoinGameRequest(inputValue));
+    };
+
     return (
         <Stack
             display="flex"
@@ -18,7 +37,7 @@ const JoinGameButton = (props: JoinGameProps) => {
             }}
             spacing={4}
         >
-            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" pageRedirection="/"></MenuButton>
+            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" onClick={handleJoinGame}></MenuButton>
             <Box
                 display="flex"
                 sx={{
@@ -31,12 +50,14 @@ const JoinGameButton = (props: JoinGameProps) => {
                 }}
             >
                 <TextField
+                    value={inputValue}
+                    onChange={handleChange}
                     required
                     placeholder="Game code"
                     variant="standard"
                     margin="normal"
-                    inputProps={{ maxLength: 4, style: { fontSize: 30, textAlign: 'center' } }}
-                    InputLabelProps={{ style: { fontSize: 30 } }}
+                    inputProps={{ style: { fontSize: 25, textAlign: 'center' } }}
+                    InputLabelProps={{ style: { fontSize: 25 } }}
                     sx={{ input: { color: 'black' }, width: '100%', height: '100%', paddingTop: '2%' }}
                     InputProps={{
                         disableUnderline: true // Désactive le trait par défaut si vous souhaitez personnaliser entièrement le trait

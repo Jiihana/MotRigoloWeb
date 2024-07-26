@@ -34,7 +34,7 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
                 <Routes>
                     <Route path="/" element={<Accueil />}></Route>
 
-                    <Route path="/game/" element={<GameLobby />}></Route>
+                    <Route path="/game/:gameid" element={<GameLobby />}></Route>
                 </Routes>
             </Router>
         </ThemeProvider>

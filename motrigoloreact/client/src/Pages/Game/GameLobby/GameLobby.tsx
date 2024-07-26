@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
 import { Box, colors, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import CardInventory from '../Cards/CardInventory/CardInventory';
-import BackButtonHeader from '../GameLobbyHeader';
+import SocketContext from '../../../contexts/SocketContext';
+import { CheckGameExistsRequest } from '../../../common/socket_messages/GameExistsCheck';
+import GameLobbyHeader from '../GameLobbyHeader';
 
 const gameSettings = new GameSettings();
 
@@ -33,7 +35,7 @@ const GameLobby = () => {
                     width: '100%'
                 }}
             >
-                <BackButtonHeader />
+                <GameLobbyHeader />
                 <Stack
                     direction="row"
                     display="flex"

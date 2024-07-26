@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import { ServerSocket } from './socket';
+import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
 
 const application = express();
 
@@ -46,6 +47,10 @@ application.get('/ping', (req, res, next) => {
 /** Socket Information */
 application.get('/status', (req, res, next) => {
     return res.status(200).json({ users: ServerSocket.instance.users });
+});
+
+application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
+    return res.status(200).json(ServerSocket.instance.gameExists(req.query['gameId'] as string));
 });
 
 /** Error handling */

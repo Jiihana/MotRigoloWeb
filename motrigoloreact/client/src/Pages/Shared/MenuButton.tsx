@@ -3,16 +3,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 interface MenuButtonProps {
-    // onClick: React.MouseEventHandler<HTMLButtonElement>;
+    onClick: React.MouseEventHandler | undefined;
     text: string;
     buttonWidth: string;
     textSize: TypographyVariant;
-    pageRedirection: string;
 }
+
 const MenuButton = (props: MenuButtonProps) => {
     return (
         <Button
-            // onClick={props.onClick}
+            onClick={props.onClick}
             sx={{
                 width: props.buttonWidth,
                 height: '100%',
@@ -22,8 +22,6 @@ const MenuButton = (props: MenuButtonProps) => {
                 backgroundRepeat: 'no-repeat',
                 backgroundColor: colors.purple[500]
             }}
-            component={Link}
-            to={props.pageRedirection}
         >
             <Typography variant={props.textSize} color="black" textTransform="none">
                 {props.text}

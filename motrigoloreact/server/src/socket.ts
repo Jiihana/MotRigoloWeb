@@ -3,12 +3,19 @@ import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 import GameModel from './motrigolo/models/GameModel';
 import GameSocketListener from './motrigolo/socketListener/GameSocketListener';
+import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../client/src/common/socket_messages/GameExistsCheck';
+import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
+import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
 
 export class ServerSocket {
     public static instance: ServerSocket;
     public io: Server;
 
-    private games: GameModel[] = [];
+    public games: GameModel[] = [];
+
+    gameExists = (gameId: string): CheckGameExistsResponse => {
+        return new CheckGameExistsResponse(this.games.some((game) => game.gameId == gameId));
+    };
 
     /** Master list of all connected users */
     public users: { [uid: string]: string };
@@ -32,7 +39,27 @@ export class ServerSocket {
 
     StartListeners = (socket: Socket) => {
         var gameListener = new GameSocketListener(socket);
-        gameListener.StartListening();
+
+        socket.on(CreateGameRequest.Message, () => {
+            const gameModel = new GameModel(v4());
+            gameModel.addPlayer(socket.id);
+            this.games.push(gameModel);
+
+            socket.join(gameModel.gameId);
+            socket.emit(CreateGameResponse.Message, new CreateGameResponse(gameModel.gameId));
+        });
+
+        socket.on(JoinGameRequest.Message, (args: JoinGameRequest) => {
+            const game = this.games.find((game) => game.gameId == args.gameId);
+            if (game === undefined) {
+                return; // ToDo : thrw ?
+            }
+
+            game.addPlayer(socket.id);
+
+            socket.join(args.gameId);
+            socket.emit(JoinGameResponse.Message, new JoinGameResponse(game.gameId));
+        });
 
         socket.on('handshake', (callback: (uid: string, users: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);

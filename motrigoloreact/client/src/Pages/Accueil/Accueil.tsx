@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box, Button, colors, Stack } from '@mui/material';
 import JoinGameButton from './Buttons/JoinGameButton';
 import SocketContext from '../../contexts/SocketContext';
-import { CreateGameRequest } from '../../common/socket_messages/CreateGame';
+import { CreateGameRequest, CreateGameResponse } from '../../common/socket_messages/CreateGame';
 import CreateGameButton from './Buttons/CreateGameButton';
+import { useNavigate } from 'react-router-dom';
+import { JoinGameResponse } from '../../common/socket_messages/JoinGame';
 
 interface JoinCreateGameProps {
     // onClickCreate: React.MouseEventHandler<HTMLButtonElement>;
@@ -11,12 +13,19 @@ interface JoinCreateGameProps {
 }
 
 const Accueil = (props: JoinCreateGameProps) => {
-    const { socket, uid, users } = useContext(SocketContext).SocketState;
+    const { socket } = useContext(SocketContext).SocketState;
+    const navigate = useNavigate();
 
-    const handleCreateGame = () => {
-        console.log('c');
-        socket?.emit(CreateGameRequest.Message);
-    };
+    useEffect(() => {
+        socket?.on(CreateGameResponse.Message, (args: CreateGameResponse) => {
+            navigate(`/game/${args.gameId}`);
+        });
+
+        socket?.on(JoinGameResponse.Message, (args: JoinGameResponse) => {
+            console.log('pouet');
+            navigate(`/game/${args.gameId}`);
+        });
+    }, []);
 
     return (
         <Box
