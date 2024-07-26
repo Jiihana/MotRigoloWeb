@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, colors, Stack } from '@mui/material';
-import CardHeader from '../Cards/CardHeader/CardHeader';
+import CardHeaderHorizontal from '../Cards/CardHeader/CardHeaderHorizontal';
 
 type Direction = 'row' | 'column';
 
@@ -29,7 +29,7 @@ class CardGenerator {
 
         return (
             <Box sx={{ transform: `${rotateItem}`, height: '100%', width: '100%' }}>
-                <CardHeader cardText={cardText}></CardHeader>
+                <CardHeaderHorizontal cardText={cardText}></CardHeaderHorizontal>
             </Box>
         );
     }

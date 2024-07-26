@@ -5,6 +5,7 @@ import { themeOptions } from './Theme/Theme';
 import Accueil from './Pages/Accueil/Accueil';
 import GameLobby from './Pages/Game/GameLobby/GameLobby';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TestField from './Pages/Essai/TestField';
 // import { SwitchRequest, SwitchResponse, SwitchMessage } from '../../common/socket_messages/switch';
 
 export interface IApplicationProps {}
@@ -32,7 +33,7 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
 
             <Router>
                 <Routes>
-                    <Route path="/" element={<Accueil />}></Route>
+                    <Route path="/" element={<GameLobby />}></Route>
 
                     <Route path="/game/:gameid" element={<GameLobby />}></Route>
                 </Routes>

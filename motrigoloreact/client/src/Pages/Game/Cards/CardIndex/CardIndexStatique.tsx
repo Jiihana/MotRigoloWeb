@@ -16,8 +16,6 @@ const CardIndexStatique = (props: CardIndexInterface) => {
             backgroundImage={background}
             cardIndexNumber={props.indexNumber.toString()}
             cardIndexLetter={props.indexLetter}
-            height="100%"
-            width="100%"
             cardTextSize="h5"
             onClickHandler={destroyCard}
         ></CardWithTextIndex>

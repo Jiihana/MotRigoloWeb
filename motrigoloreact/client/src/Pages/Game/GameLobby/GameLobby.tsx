@@ -22,7 +22,7 @@ const GameLobby = () => {
                 height: '100vh',
                 width: '100vw',
                 display: 'flex',
-                justifyItems: 'center',
+                justifyContent: 'center',
                 alignItems: 'center'
             }}
         >
@@ -38,7 +38,6 @@ const GameLobby = () => {
                 <GameLobbyHeader />
                 <Stack
                     direction="row"
-                    display="flex"
                     sx={{
                         justifyItems: 'center',
                         alignItems: 'center',
@@ -48,48 +47,37 @@ const GameLobby = () => {
                 >
                     <Stack
                         direction="column"
-                        display="flex"
                         sx={{
                             height: '100%',
                             width: '20%',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            backgroundColor: colors.amber[200]
                         }}
                     >
-                        <Box
-                            display="flex"
-                            sx={{
-                                height: '100%',
-                                width: '100%',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <CardInventory></CardInventory>
-                        </Box>
+                        {/* <CardInventory></CardInventory> */}
                     </Stack>
                     <Box
-                        display="flex"
                         sx={{
+                            display: 'flex',
                             height: '100%',
                             width: '60%',
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            paddingLeft: '5%'
+                            backgroundColor: colors.pink[200]
                         }}
                     >
                         <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
                     </Box>
 
                     <Box
-                        display="flex"
                         sx={{
                             alignItems: 'center',
                             height: '100%',
-                            width: '20%'
+                            width: '20%',
+                            backgroundColor: colors.blue[200]
                         }}
                     >
-                        <CardPioche></CardPioche>
+                        {/* <CardPioche></CardPioche> */}
                     </Box>
                 </Stack>
             </Stack>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, colors, Stack, Typography } from '@mui/material';
 import MenuButton from '../Shared/MenuButton';
 import { useParams, Navigate } from 'react-router-dom';
 import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../common/socket_messages/GameExistsCheck';
@@ -27,23 +27,24 @@ const GameLobbyHeader = () => {
         checkGameExists();
     }, [gameid]);
 
-    if (isLoading) {
-        return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                    color: 'white'
-                }}
-            >
-                <Typography variant="h6">Loading...</Typography>
-            </Box>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <Box
+    //             sx={{
+    //                 display: 'flex',
+    //                 justifyContent: 'center',
+    //                 alignItems: 'center',
+    //                 height: '100vh',
+    //                 color: 'white'
+    //             }}
+    //         >
+    //             <Typography variant="h6">Loading...</Typography>
+    //         </Box>
+    //     );
+    // }
 
-    return gameExists ? (
+    // return gameExists ? (
+    return (
         <Stack
             display="flex"
             direction="row"
@@ -55,7 +56,8 @@ const GameLobbyHeader = () => {
                 justifyContent: 'space-between',
                 paddingLeft: '2%',
                 paddingRight: '2%',
-                paddingTop: '0.5%'
+                paddingTop: '0.5%',
+                backgroundColor: colors.purple[100]
             }}
         >
             <MenuButton text="<- Home" buttonWidth="13%" textSize="h5" onClick={undefined} />
@@ -63,9 +65,10 @@ const GameLobbyHeader = () => {
                 {gameid}
             </Typography>
         </Stack>
-    ) : (
-        <Navigate to="/" />
     );
+    // ) : (
+    //     <Navigate to="/" />
+    // );
 };
 
 export default GameLobbyHeader;

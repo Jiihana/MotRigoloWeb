@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
+import { Box, colors } from '@mui/material';
 
 interface CardIndexInterface {
     indexNumber: number;
@@ -7,8 +8,8 @@ interface CardIndexInterface {
 }
 
 const CardIndexInteractive = (props: CardIndexInterface) => {
-    const frontBackground = '/images/cardIndexFront.png';
-    const backBackground = '/images/cardIndexBack.png';
+    const frontBackground = 'url(/images/cardIndexFront.png)';
+    const backBackground = 'url(/images/cardIndexBack.png)';
 
     const [textLetter, setTextLetter] = useState('');
     const [textNumber, setTextNumber] = useState('');
@@ -33,15 +34,21 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     }
 
     return (
-        <CardWithTextIndex
-            backgroundImage={background}
-            cardIndexNumber={textNumber}
-            cardIndexLetter={textLetter}
-            height="100%"
-            width="100%"
-            cardTextSize="h5"
-            onClickHandler={ToggleCard}
-        ></CardWithTextIndex>
+        <Box
+            sx={{
+                height: '115%',
+                width: '80%',
+                backgroundColor: colors.amber[500]
+            }}
+        >
+            <CardWithTextIndex
+                backgroundImage={background}
+                cardIndexNumber={textNumber}
+                cardIndexLetter={textLetter}
+                cardTextSize="h5"
+                onClickHandler={ToggleCard}
+            ></CardWithTextIndex>
+        </Box>
     );
 };
 export default CardIndexInteractive;

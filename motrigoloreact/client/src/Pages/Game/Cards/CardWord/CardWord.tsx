@@ -6,7 +6,6 @@ interface CardWordInterface {
     word: string;
     height: string;
     width: string;
-    shouldRotate: boolean;
 }
 
 const CardWord = (props: CardWordInterface) => (
@@ -15,7 +14,7 @@ const CardWord = (props: CardWordInterface) => (
         backgroundImage="/images/cardWord.png"
         height={props.height}
         width={props.width}
-        cardTextSize="body1"
+        textVariant="h2"
     ></CardWithText>
 );
 
