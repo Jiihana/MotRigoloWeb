@@ -15,7 +15,6 @@ const GameLobbyHeader = () => {
                 const response = await fetch(`http://localhost:1337/${CheckGameExistsRequest.Message}?gameId=${gameid}`);
 
                 const result = (await response.json()) as CheckGameExistsResponse;
-                console.log(result);
                 setGameExists(result.gameExists);
             } catch (error) {
                 console.error('Failed to check if game exists', error);

@@ -2,7 +2,6 @@ import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 import GameModel from './motrigolo/models/GameModel';
-import GameSocketListener from './motrigolo/socketListener/GameSocketListener';
 import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../client/src/common/socket_messages/GameExistsCheck';
 import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
 import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
@@ -38,10 +37,8 @@ export class ServerSocket {
     }
 
     StartListeners = (socket: Socket) => {
-        var gameListener = new GameSocketListener(socket);
-
         socket.on(CreateGameRequest.Message, () => {
-            const gameModel = new GameModel(v4());
+            const gameModel = new GameModel(v4().slice(0, 4));
             gameModel.addPlayer(socket.id);
             this.games.push(gameModel);
 

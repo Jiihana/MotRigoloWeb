@@ -22,7 +22,6 @@ const Accueil = (props: JoinCreateGameProps) => {
         });
 
         socket?.on(JoinGameResponse.Message, (args: JoinGameResponse) => {
-            console.log('pouet');
             navigate(`/game/${args.gameId}`);
         });
     }, []);

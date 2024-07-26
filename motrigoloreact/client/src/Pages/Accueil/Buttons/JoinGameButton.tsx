@@ -56,7 +56,7 @@ const JoinGameButton = (props: JoinGameProps) => {
                     placeholder="Game code"
                     variant="standard"
                     margin="normal"
-                    inputProps={{ style: { fontSize: 25, textAlign: 'center' } }}
+                    inputProps={{ maxLength: 4, style: { fontSize: 25, textAlign: 'center' } }}
                     InputLabelProps={{ style: { fontSize: 25 } }}
                     sx={{ input: { color: 'black' }, width: '100%', height: '100%', paddingTop: '2%' }}
                     InputProps={{
