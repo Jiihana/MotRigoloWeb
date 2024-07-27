@@ -33,7 +33,7 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
 
             <Router>
                 <Routes>
-                    <Route path="/" element={<GameLobby />}></Route>
+                    <Route path="/" element={<Accueil />}></Route>
 
                     <Route path="/game/:gameid" element={<GameLobby />}></Route>
                 </Routes>

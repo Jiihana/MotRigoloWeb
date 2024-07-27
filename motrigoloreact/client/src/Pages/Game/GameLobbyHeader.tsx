@@ -29,24 +29,23 @@ const GameLobbyHeader = () => {
         checkGameExists();
     }, [gameid]);
 
-    // if (isLoading) {
-    //     return (
-    //         <Box
-    //             sx={{
-    //                 display: 'flex',
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //                 height: '100vh',
-    //                 color: 'white'
-    //             }}
-    //         >
-    //             <Typography variant="h6">Loading...</Typography>
-    //         </Box>
-    //     );
-    // }
+    if (isLoading) {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    color: 'white'
+                }}
+            >
+                <Typography variant="h6">Loading...</Typography>
+            </Box>
+        );
+    }
 
-    // return gameExists ? (
-    return (
+    return gameExists ? (
         <Stack
             display="flex"
             direction="row"
@@ -66,10 +65,9 @@ const GameLobbyHeader = () => {
                 {gameid}
             </Typography>
         </Stack>
+    ) : (
+        <Navigate to="/" />
     );
-    // ) : (
-    //     <Navigate to="/" />
-    // );
 };
 
 export default GameLobbyHeader;

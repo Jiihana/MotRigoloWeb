@@ -39,7 +39,7 @@ const JoinGameButton = (props: JoinGameProps) => {
             }}
             spacing={4}
         >
-            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" onClick={handleJoinGame} background={background}></MenuButton>
+            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h4" onClick={handleJoinGame} background={background}></MenuButton>
             <Box
                 display="flex"
                 sx={{

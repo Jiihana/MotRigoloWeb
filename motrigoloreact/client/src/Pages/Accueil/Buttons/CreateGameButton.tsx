@@ -16,7 +16,7 @@ const CreateGameButton = (props: CreateGameProps) => {
         socket?.emit(CreateGameRequest.Message);
     };
 
-    return <MenuButton onClick={handleCreateGame} text="Create game" buttonWidth="100%" textSize="h3" background={background}></MenuButton>;
+    return <MenuButton onClick={handleCreateGame} text="Create game" buttonWidth="100%" textSize="h4" background={background}></MenuButton>;
 };
 
 export default CreateGameButton;
