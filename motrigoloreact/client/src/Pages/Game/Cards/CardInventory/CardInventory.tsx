@@ -15,9 +15,30 @@ const CardInventory = () => {
             }}
         >
             <Stack spacing={4} sx={{ height: 'auto', width: '30%' }}>
-                <CardWithText cardText="D4" backgroundImage={''} height={'100%'} width={'100%'} textVariant="h2"></CardWithText>
-                <CardWithText cardText="D4" backgroundImage={''} height={'100%'} width={'100%'} textVariant="h2"></CardWithText>
-                <CardWithText cardText="D4" backgroundImage={''} height={'100%'} width={'100%'} textVariant="h2"></CardWithText>
+                <CardWithText
+                    cardText="D4"
+                    backgroundImage={''}
+                    height={'100%'}
+                    width={'100%'}
+                    textVariant="h2"
+                    textShouldRotate={false}
+                ></CardWithText>
+                <CardWithText
+                    cardText="D4"
+                    backgroundImage={''}
+                    height={'100%'}
+                    width={'100%'}
+                    textVariant="h2"
+                    textShouldRotate={false}
+                ></CardWithText>
+                <CardWithText
+                    cardText="D4"
+                    backgroundImage={''}
+                    height={'100%'}
+                    width={'100%'}
+                    textVariant="h2"
+                    textShouldRotate={false}
+                ></CardWithText>
             </Stack>
         </Box>
     );

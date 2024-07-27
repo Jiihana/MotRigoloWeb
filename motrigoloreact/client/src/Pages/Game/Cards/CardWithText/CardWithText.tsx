@@ -6,6 +6,7 @@ export interface CardGridInterface {
     height: string;
     width: string;
     textVariant: TypographyVariant;
+    textShouldRotate: boolean;
 }
 
 const CardWithText = (props: CardGridInterface) => {
@@ -28,7 +29,7 @@ const CardWithText = (props: CardGridInterface) => {
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: `translate(-50%, -50%)`,
+                    transform: `translate(-50%, -50%) ${props.textShouldRotate ? 'rotate(270deg)' : ''}`,
                     color: 'black'
                 }}
             >

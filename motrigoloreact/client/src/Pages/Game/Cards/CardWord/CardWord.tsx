@@ -15,6 +15,7 @@ const CardWord = (props: CardWordInterface) => (
         height={props.height}
         width={props.width}
         textVariant="h2"
+        textShouldRotate={false}
     ></CardWithText>
 );
 

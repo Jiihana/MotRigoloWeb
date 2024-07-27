@@ -111,7 +111,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderHorizontale />
+                    <CardHeaderHorizontale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item

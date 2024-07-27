@@ -12,8 +12,22 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
                 backgroundColor: colors.amber[500]
             }}
         >
-            <CardWithText cardText="pouet" backgroundImage="url(/images/cardGrid.png)" height="80%" width="100%" textVariant="h2" />
-            <CardWithText cardText="pouet" backgroundImage="url(/images/cardWord.png)" height="25%" width="100%" textVariant="body1" />
+            <CardWithText
+                cardText="pouet"
+                backgroundImage="url(/images/cardGrid.png)"
+                height="80%"
+                width="100%"
+                textVariant="h2"
+                textShouldRotate={false}
+            />
+            <CardWithText
+                cardText="pouet"
+                backgroundImage="url(/images/cardWord.png)"
+                height="25%"
+                width="100%"
+                textVariant="body1"
+                textShouldRotate={false}
+            />
         </Stack>
     );
 };

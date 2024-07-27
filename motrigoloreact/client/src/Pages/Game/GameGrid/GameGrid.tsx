@@ -37,19 +37,18 @@ class CardsGenerator {
     public cardHeaderHorizontalGenerator(index: number) {
         const cardText = this.getCardHeaderHorizontalText(index);
 
-        return <CardHeaderHorizontale></CardHeaderHorizontale>;
+        return <CardHeaderHorizontale cardText={cardText} cardWord={'Tracteur'}></CardHeaderHorizontale>;
     }
 
     private getCardHeaderHorizontalText(index: number): string {
-        // return this.alphabet[index - 1];
-        return 'Z';
+        return this.alphabet[index / this.numberOfCardPerRow - 1];
     }
 
     //--------------------- Carte Header Verticale
     public cardHeaderVerticalGenerator(index: number) {
         const cardText = this.getCardHeaderVerticalText(index);
 
-        return <CardHeaderVerticale cardText={cardText} cardWord={'Pouet'}></CardHeaderVerticale>;
+        return <CardHeaderVerticale cardText={cardText} cardWord={'Chat'}></CardHeaderVerticale>;
     }
 
     private getCardHeaderVerticalText(index: number): string {
