@@ -6,11 +6,14 @@ import { CreateGameRequest, CreateGameResponse } from '../../common/socket_messa
 import CreateGameButton from './Buttons/CreateGameButton';
 import { useNavigate } from 'react-router-dom';
 import { JoinGameResponse } from '../../common/socket_messages/JoinGame';
+import GameSettings from '../../Settings/GameSettings';
 
 interface JoinCreateGameProps {
     // onClickCreate: React.MouseEventHandler<HTMLButtonElement>;
     // onClickJoin: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+const gameSettings = new GameSettings();
 
 const Accueil = (props: JoinCreateGameProps) => {
     const { socket } = useContext(SocketContext).SocketState;
@@ -31,13 +34,14 @@ const Accueil = (props: JoinCreateGameProps) => {
             display="flex"
             sx={{
                 backgroundImage: 'url(/images/pages/home.png)',
-                backgroundSize: 'contain',
+                backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
                 width: '100vw',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                cursor: `${gameSettings.getRandomCursor()}, auto`
             }}
         >
             <Stack

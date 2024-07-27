@@ -11,9 +11,6 @@ import CardsInventory from '../Cards/CardInventory/CardInventory';
 const gameSettings = new GameSettings();
 
 const GameLobby = () => {
-    const randomCursor = gameSettings.getRandomCursor();
-    console.log(randomCursor);
-
     return (
         <Box
             display="flex"
@@ -27,7 +24,7 @@ const GameLobby = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                cursor: `${randomCursor}, auto` // Spécifiez l'URL de votre image de curseur ici
+                cursor: `${gameSettings.getRandomCursor()}, auto`
             }}
         >
             <Stack

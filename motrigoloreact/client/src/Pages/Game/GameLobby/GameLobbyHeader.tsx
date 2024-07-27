@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, colors, Stack, Typography } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../../common/socket_messages/GameExistsCheck';
 
 const GameLobbyHeader = () => {
@@ -10,6 +10,13 @@ const GameLobbyHeader = () => {
     const [isLoading, setIsLoading] = useState(true); // État de chargement
 
     const backgroundButton = 'url(/images/buttons/menuButton2.png)';
+
+    const navigate = useNavigate();
+
+    function backToMenuHandler() {
+        console.log('pouet');
+        navigate('/');
+    }
 
     useEffect(() => {
         const checkGameExists = async () => {
@@ -60,7 +67,7 @@ const GameLobbyHeader = () => {
                 paddingTop: '0.5%'
             }}
         >
-            <MenuButton text="<- Home" buttonWidth="15%" textSize="h5" onClick={undefined} background={backgroundButton} />
+            <MenuButton text="Home" buttonWidth="15%" textSize="h5" onClick={backToMenuHandler} background={backgroundButton} />
             <Typography variant="h6" sx={{ color: 'white' }}>
                 {gameid}
             </Typography>
