@@ -17,7 +17,7 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                 position: 'relative',
                 height: '100%',
                 width: '100%',
-                backgroundImage: 'url(/images/cardIndexBack.png)',
+                backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -33,9 +33,7 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                     transform: `translate(-50%, -50%)`,
                     color: 'black'
                 }}
-            >
-                B
-            </Typography>
+            ></Typography>
         </Box>
     );
 };

@@ -85,7 +85,7 @@ const GameGrid = (props: DynamicGridProps) => {
                 xs={12 / cardPerRow}
                 key={index}
                 sx={{
-                    backgroundColor: isEven ? color1 : color2,
+                    // backgroundColor: isEven ? color1 : color2,
                     alignItems: 'flex-end',
                     display: 'flex'
                 }}
@@ -98,11 +98,12 @@ const GameGrid = (props: DynamicGridProps) => {
     return (
         <Grid
             container
-            spacing={4}
+            spacing={3}
             sx={{
                 height: '100%',
                 width: '100%',
-                backgroundColor: colors.pink[500]
+                // backgroundColor: colors.pink[500],
+                marginTop: '-0.5%'
             }}
         >
             {items}

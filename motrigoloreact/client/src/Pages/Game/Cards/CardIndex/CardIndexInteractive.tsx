@@ -37,8 +37,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         <Box
             sx={{
                 height: '115%',
-                width: '80%',
-                backgroundColor: colors.amber[500]
+                width: '80%'
+                // backgroundColor: colors.amber[500]
             }}
         >
             <CardWithTextIndex
