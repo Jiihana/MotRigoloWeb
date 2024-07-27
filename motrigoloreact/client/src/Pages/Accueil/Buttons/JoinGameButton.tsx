@@ -10,6 +10,8 @@ interface JoinGameProps {
 }
 
 const JoinGameButton = (props: JoinGameProps) => {
+    const background = 'url(/images/menuButton1.png)';
+
     const [inputValue, setInputValue] = useState('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +39,7 @@ const JoinGameButton = (props: JoinGameProps) => {
             }}
             spacing={4}
         >
-            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" onClick={handleJoinGame}></MenuButton>
+            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h3" onClick={handleJoinGame} background={background}></MenuButton>
             <Box
                 display="flex"
                 sx={{

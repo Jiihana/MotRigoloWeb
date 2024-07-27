@@ -20,7 +20,7 @@ const CardPioche = () => {
                 backgroundImage={background}
                 height={'100%'}
                 width={'100%'}
-                textVariant={'h3'}
+                textVariant={'h4'}
                 textShouldRotate={false}
             ></CardWithText>
         </Box>

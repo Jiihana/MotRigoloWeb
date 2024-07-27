@@ -41,7 +41,7 @@ class CardsGenerator {
     }
 
     private getCardHeaderHorizontalText(index: number): string {
-        return this.alphabet[index / this.numberOfCardPerRow - 1];
+        return [index / this.numberOfCardPerRow].toString();
     }
 
     //--------------------- Carte Header Verticale
@@ -52,7 +52,7 @@ class CardsGenerator {
     }
 
     private getCardHeaderVerticalText(index: number): string {
-        return index.toString();
+        return this.alphabet[index - 1];
     }
 
     //------------- INDEX CARD
@@ -63,8 +63,9 @@ class CardsGenerator {
     }
 
     private getCardIndexText(indexCard: number): { letter: string; number: number } {
-        const number = indexCard % this.numberOfCardPerRow;
-        const letter = this.alphabet[Math.floor(indexCard / this.numberOfCardPerRow) - 1];
+        const number = Math.floor(indexCard / this.numberOfCardPerRow);
+
+        const letter = this.alphabet[(indexCard % this.numberOfCardPerRow) - 1];
 
         return { letter: letter, number: number };
     }

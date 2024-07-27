@@ -29,7 +29,8 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                     variant="h1"
                     sx={{
                         position: 'absolute',
-                        transform: `translate(20%,10%)`,
+                        top: '20%',
+                        left: '10%',
                         color: 'black'
                     }}
                 >
@@ -37,12 +38,11 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                 </Typography>
 
                 <Typography
-                    variant="h3"
+                    variant="h4"
                     sx={{
                         position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: `translate(50%, -40%)`,
+                        top: '40%',
+                        left: '65%',
                         color: 'black'
                     }}
                 >

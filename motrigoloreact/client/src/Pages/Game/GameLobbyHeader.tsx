@@ -9,6 +9,8 @@ const GameLobbyHeader = () => {
     const [gameExists, setGameExists] = useState<boolean | null>(null); // État initial à null pour indiquer le chargement
     const [isLoading, setIsLoading] = useState(true); // État de chargement
 
+    const backgroundButton = 'url(/images/menuButton2.png)';
+
     useEffect(() => {
         const checkGameExists = async () => {
             try {
@@ -56,11 +58,10 @@ const GameLobbyHeader = () => {
                 justifyContent: 'space-between',
                 paddingLeft: '2%',
                 paddingRight: '2%',
-                paddingTop: '0.5%',
-                backgroundColor: colors.purple[100]
+                paddingTop: '0.5%'
             }}
         >
-            <MenuButton text="<- Home" buttonWidth="13%" textSize="h5" onClick={undefined} />
+            <MenuButton text="<- Home" buttonWidth="15%" textSize="h5" onClick={undefined} background={backgroundButton} />
             <Typography variant="h6" sx={{ color: 'white' }}>
                 {gameid}
             </Typography>

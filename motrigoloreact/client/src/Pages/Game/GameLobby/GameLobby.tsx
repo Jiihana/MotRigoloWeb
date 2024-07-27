@@ -16,7 +16,7 @@ const GameLobby = () => {
             display="flex"
             sx={{
                 backgroundImage: 'url(/images/gameLobbyBackgound.png)',
-                backgroundSize: 'contain',
+                backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 height: '100vh',
@@ -51,8 +51,7 @@ const GameLobby = () => {
                             height: '100%',
                             width: '20%',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: colors.amber[200]
+                            justifyContent: 'center'
                         }}
                     >
                         <CardsInventory cardsInInventory={{ A: 1, D: 5, C: 1 }}></CardsInventory>
@@ -62,8 +61,7 @@ const GameLobby = () => {
                             display: 'flex',
                             height: '100%',
                             width: '60%',
-                            justifyContent: 'center',
-                            backgroundColor: colors.pink[200]
+                            justifyContent: 'center'
                         }}
                     >
                         <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
@@ -73,7 +71,6 @@ const GameLobby = () => {
                         sx={{
                             height: '100%',
                             width: '20%',
-                            backgroundColor: colors.blue[200],
                             alignItems: 'center',
                             justifyContent: 'center',
                             display: 'flex'

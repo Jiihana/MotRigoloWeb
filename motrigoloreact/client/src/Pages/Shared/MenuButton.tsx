@@ -7,6 +7,7 @@ interface MenuButtonProps {
     text: string;
     buttonWidth: string;
     textSize: TypographyVariant;
+    background: string;
 }
 
 const MenuButton = (props: MenuButtonProps) => {
@@ -16,11 +17,10 @@ const MenuButton = (props: MenuButtonProps) => {
             sx={{
                 width: props.buttonWidth,
                 height: '100%',
-                backgroundImage: 'url(/images/menuButton1.png)',
+                backgroundImage: props.background,
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: colors.purple[500]
+                backgroundRepeat: 'no-repeat'
             }}
         >
             <Typography variant={props.textSize} color="black" textTransform="none">
