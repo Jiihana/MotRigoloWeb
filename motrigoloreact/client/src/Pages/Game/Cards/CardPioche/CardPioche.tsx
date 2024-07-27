@@ -3,16 +3,24 @@ import { Box, colors } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
 
 const CardPioche = () => {
-    const background = '/images/cardIndexBack.png';
+    const background = 'url(/images/cardIndexBack.png)';
 
     return (
-        <Box sx={{ height: 'auto', width: '40%', backgroundColor: colors.green[500] }}>
+        <Box
+            sx={{
+                height: '20%',
+                width: '45%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                display: 'flex'
+            }}
+        >
             <CardWithText
-                cardText="Pioche"
+                cardText={'Pioche'}
                 backgroundImage={background}
-                height="100%"
-                width="auto"
-                textVariant="h2"
+                height={'100%'}
+                width={'100%'}
+                textVariant={'h3'}
                 textShouldRotate={false}
             ></CardWithText>
         </Box>

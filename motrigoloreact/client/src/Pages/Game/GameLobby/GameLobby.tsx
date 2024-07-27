@@ -71,10 +71,12 @@ const GameLobby = () => {
 
                     <Box
                         sx={{
-                            alignItems: 'center',
                             height: '100%',
                             width: '20%',
-                            backgroundColor: colors.blue[200]
+                            backgroundColor: colors.blue[200],
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex'
                         }}
                     >
                         <CardPioche></CardPioche>
