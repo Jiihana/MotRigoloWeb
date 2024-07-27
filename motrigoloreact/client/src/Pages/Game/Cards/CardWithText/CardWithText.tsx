@@ -19,8 +19,7 @@ const CardWithText = (props: CardGridInterface) => {
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: colors.blue[500]
+                backgroundRepeat: 'no-repeat'
             }}
         >
             <Typography

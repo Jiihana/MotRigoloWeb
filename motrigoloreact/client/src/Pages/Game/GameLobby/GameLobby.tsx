@@ -3,10 +3,10 @@ import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
 import { Box, colors, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
-import CardInventory from '../Cards/CardInventory/CardInventory';
 import SocketContext from '../../../contexts/SocketContext';
 import { CheckGameExistsRequest } from '../../../common/socket_messages/GameExistsCheck';
 import GameLobbyHeader from '../GameLobbyHeader';
+import CardsInventory from '../Cards/CardInventory/CardInventory';
 
 const gameSettings = new GameSettings();
 
@@ -55,7 +55,7 @@ const GameLobby = () => {
                             backgroundColor: colors.amber[200]
                         }}
                     >
-                        {/* <CardInventory></CardInventory> */}
+                        <CardsInventory cardsInInventory={{ A: 1, D: 5, C: 1 }}></CardsInventory>
                     </Stack>
                     <Box
                         sx={{
@@ -77,7 +77,7 @@ const GameLobby = () => {
                             backgroundColor: colors.blue[200]
                         }}
                     >
-                        {/* <CardPioche></CardPioche> */}
+                        <CardPioche></CardPioche>
                     </Box>
                 </Stack>
             </Stack>

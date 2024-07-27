@@ -1,46 +1,28 @@
 import React, { useState } from 'react';
 import { Box, colors, Stack } from '@mui/material';
-import CardIndexStatique from '../CardIndex/CardIndexStatique';
-import CardWithText from '../CardWithText/CardWithText';
+import CardInventory from '../CardIndex/CardInventory';
 
-const CardInventory = () => {
+interface CardsInventoryInterface {
+    cardsInInventory: { [key: string]: number };
+}
+
+const CardsInventory = (props: CardsInventoryInterface) => {
     return (
         <Box
-            display="flex"
             sx={{
-                height: '100%',
-                width: '100%',
+                height: '65%',
+                width: '40%',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                display: 'flex'
             }}
         >
-            <Stack spacing={4} sx={{ height: 'auto', width: '30%' }}>
-                <CardWithText
-                    cardText="D4"
-                    backgroundImage={''}
-                    height={'100%'}
-                    width={'100%'}
-                    textVariant="h2"
-                    textShouldRotate={false}
-                ></CardWithText>
-                <CardWithText
-                    cardText="D4"
-                    backgroundImage={''}
-                    height={'100%'}
-                    width={'100%'}
-                    textVariant="h2"
-                    textShouldRotate={false}
-                ></CardWithText>
-                <CardWithText
-                    cardText="D4"
-                    backgroundImage={''}
-                    height={'100%'}
-                    width={'100%'}
-                    textVariant="h2"
-                    textShouldRotate={false}
-                ></CardWithText>
+            <Stack spacing={5} sx={{ height: '100%', width: '100%' }}>
+                {Object.entries(props.cardsInInventory).map(([key, value]) => (
+                    <CardInventory key={key} textNumber={value} textLetter={key} />
+                ))}
             </Stack>
         </Box>
     );
 };
-export default CardInventory;
+export default CardsInventory;

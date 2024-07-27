@@ -3,7 +3,6 @@ import { Box, colors, Grid } from '@mui/material';
 import CardHeaderVerticale from '../Game/Cards/CardHeader/CardHeaderVerticale';
 import CardHeaderHorizontale from '../Game/Cards/CardHeader/CardHeaderHorizontale';
 import CardGrid from './CardGrid';
-import CardFake from './CardFake';
 
 const TestField = () => {
     return (

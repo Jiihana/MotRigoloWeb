@@ -29,7 +29,7 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
                 backgroundImage="url(/images/cardWord.png)"
                 height="100%"
                 width="25%"
-                textVariant="body1"
+                textVariant="h6"
                 textShouldRotate={true}
             />
         </Stack>
