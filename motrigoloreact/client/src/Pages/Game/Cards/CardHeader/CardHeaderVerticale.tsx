@@ -17,7 +17,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
         >
             <CardWithText
                 cardText={props.cardText}
-                backgroundImage="url(/images/cardGrid.png)"
+                backgroundImage="url(/images/cards/cardGrid.png)"
                 height="80%"
                 width="100%"
                 textVariant="h1"
@@ -25,7 +25,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
             />
             <CardWithText
                 cardText={props.cardWord}
-                backgroundImage="url(/images/cardWord.png)"
+                backgroundImage="url(/images/cards/cardWord.png)"
                 height="25%"
                 width="100%"
                 textVariant="h6"

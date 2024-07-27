@@ -10,16 +10,12 @@ interface JoinGameProps {
 }
 
 const JoinGameButton = (props: JoinGameProps) => {
-    const background = 'url(/images/menuButton1.png)';
+    const background = 'url(/images/buttons/menuButton1.png)';
 
     const [inputValue, setInputValue] = useState('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
-    };
-
-    const handleClick = () => {
-        console.log(inputValue);
     };
 
     const { socket } = useContext(SocketContext).SocketState;
@@ -43,7 +39,7 @@ const JoinGameButton = (props: JoinGameProps) => {
             <Box
                 display="flex"
                 sx={{
-                    backgroundImage: 'url(/images/cardWord.png)',
+                    backgroundImage: 'url(/images/cards/cardWord.png)',
                     backgroundSize: 'contain',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

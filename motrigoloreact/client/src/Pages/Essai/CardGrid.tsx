@@ -17,7 +17,7 @@ const CardGrid = (props: CardGridInterface) => {
                     position: 'relative',
                     height: '80%',
                     width: 'auto',
-                    backgroundImage: 'url(/images/cardGrid.png)',
+                    backgroundImage: 'url(/images/cards/cardGrid.png)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

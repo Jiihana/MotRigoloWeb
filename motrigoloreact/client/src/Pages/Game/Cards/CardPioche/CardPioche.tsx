@@ -3,7 +3,7 @@ import { Box, colors } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
 
 const CardPioche = () => {
-    const background = 'url(/images/cardIndexBack.png)';
+    const background = 'url(/images/cards/cardIndexBack.png)';
 
     return (
         <Box

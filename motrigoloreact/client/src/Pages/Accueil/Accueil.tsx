@@ -30,7 +30,7 @@ const Accueil = (props: JoinCreateGameProps) => {
         <Box
             display="flex"
             sx={{
-                backgroundImage: 'url(/images/home.png)',
+                backgroundImage: 'url(/images/pages/home.png)',
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

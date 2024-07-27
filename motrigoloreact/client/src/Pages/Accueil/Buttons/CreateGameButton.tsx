@@ -8,7 +8,7 @@ import { CreateGameRequest } from '../../../common/socket_messages/CreateGame';
 interface CreateGameProps {}
 
 const CreateGameButton = (props: CreateGameProps) => {
-    const background = 'url(/images/menuButton1.png)';
+    const background = 'url(/images/buttons/menuButton1.png)';
 
     const { socket } = useContext(SocketContext).SocketState;
 

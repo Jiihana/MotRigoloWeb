@@ -8,7 +8,7 @@ interface CardInventoryInterface {
 }
 
 const CardInventory = (props: CardInventoryInterface) => {
-    const background = 'url(/images/cardIndexFront.png)';
+    const background = 'url(/images/cards/cardIndexFront.png)';
 
     function destroyCard() {}
 

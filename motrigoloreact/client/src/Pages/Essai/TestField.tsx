@@ -8,7 +8,7 @@ const TestField = () => {
     return (
         <Box
             sx={{
-                backgroundImage: 'url(/images/gameLobbyBackgound.png)',
+                backgroundImage: 'url(/images/pages/gameLobbyBackgound.png)',
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',

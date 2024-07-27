@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Box, colors, Stack, Typography } from '@mui/material';
-import MenuButton from '../Shared/MenuButton';
+import MenuButton from '../../Shared/MenuButton';
 import { useParams, Navigate } from 'react-router-dom';
-import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../common/socket_messages/GameExistsCheck';
+import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../../common/socket_messages/GameExistsCheck';
 
 const GameLobbyHeader = () => {
     const { gameid } = useParams();
     const [gameExists, setGameExists] = useState<boolean | null>(null); // État initial à null pour indiquer le chargement
     const [isLoading, setIsLoading] = useState(true); // État de chargement
 
-    const backgroundButton = 'url(/images/menuButton2.png)';
+    const backgroundButton = 'url(/images/buttons/menuButton2.png)';
 
     useEffect(() => {
         const checkGameExists = async () => {

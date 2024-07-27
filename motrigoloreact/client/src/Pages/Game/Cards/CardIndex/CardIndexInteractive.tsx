@@ -8,8 +8,8 @@ interface CardIndexInterface {
 }
 
 const CardIndexInteractive = (props: CardIndexInterface) => {
-    const frontBackground = 'url(/images/cardIndexFront.png)';
-    const backBackground = 'url(/images/cardIndexBack.png)';
+    const frontBackground = 'url(/images/cards/cardIndexFront.png)';
+    const backBackground = 'url(/images/cards/cardIndexBack.png)';
 
     const [textLetter, setTextLetter] = useState('');
     const [textNumber, setTextNumber] = useState('');

@@ -5,17 +5,20 @@ import { Box, colors, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import SocketContext from '../../../contexts/SocketContext';
 import { CheckGameExistsRequest } from '../../../common/socket_messages/GameExistsCheck';
-import GameLobbyHeader from '../GameLobbyHeader';
+import GameLobbyHeader from './GameLobbyHeader';
 import CardsInventory from '../Cards/CardInventory/CardInventory';
 
 const gameSettings = new GameSettings();
 
 const GameLobby = () => {
+    const randomCursor = gameSettings.getRandomCursor();
+    console.log(randomCursor);
+
     return (
         <Box
             display="flex"
             sx={{
-                backgroundImage: 'url(/images/gameLobbyBackgound.png)',
+                backgroundImage: 'url(/images/pages/gameLobbyBackgound.png)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -23,7 +26,8 @@ const GameLobby = () => {
                 width: '100vw',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                cursor: `${randomCursor}, auto` // Spécifiez l'URL de votre image de curseur ici
             }}
         >
             <Stack
