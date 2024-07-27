@@ -13,6 +13,7 @@ export interface CardGridInterface {
 const CardWithTextIndex = (props: CardGridInterface) => {
     return (
         <Box
+            onClick={props.onClickHandler}
             sx={{
                 position: 'relative',
                 height: '100%',
@@ -20,20 +21,34 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: colors.pink[500]
+                backgroundRepeat: 'no-repeat'
             }}
         >
-            <Typography
-                variant="h1"
-                sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: `translate(-50%, -50%)`,
-                    color: 'black'
-                }}
-            ></Typography>
+            <Stack direction="row">
+                <Typography
+                    variant="h1"
+                    sx={{
+                        position: 'absolute',
+                        transform: `translate(20%,10%)`,
+                        color: 'black'
+                    }}
+                >
+                    {props.cardIndexLetter}
+                </Typography>
+
+                <Typography
+                    variant="h3"
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: `translate(50%, -40%)`,
+                        color: 'black'
+                    }}
+                >
+                    {props.cardIndexNumber}
+                </Typography>
+            </Stack>
         </Box>
     );
 };

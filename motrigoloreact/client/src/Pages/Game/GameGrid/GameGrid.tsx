@@ -63,7 +63,10 @@ class CardsGenerator {
     }
 
     private getCardIndexText(indexCard: number): { letter: string; number: number } {
-        return { letter: this.alphabet[Math.floor(indexCard / this.numberOfCardPerRow)], number: (indexCard % this.numberOfCardPerRow) + 1 };
+        const number = indexCard % this.numberOfCardPerRow;
+        const letter = this.alphabet[Math.floor(indexCard / this.numberOfCardPerRow) - 1];
+
+        return { letter: letter, number: number };
     }
 }
 

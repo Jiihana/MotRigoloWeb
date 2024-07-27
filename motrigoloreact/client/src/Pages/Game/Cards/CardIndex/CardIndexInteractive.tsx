@@ -31,6 +31,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         setTextLetterHandler();
         setTextNumberHandler();
         setBackgroundHandler();
+        console.log('poue');
     }
 
     return (
@@ -38,7 +39,6 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
             sx={{
                 height: '115%',
                 width: '80%'
-                // backgroundColor: colors.amber[500]
             }}
         >
             <CardWithTextIndex
