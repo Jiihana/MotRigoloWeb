@@ -1,5 +1,5 @@
 import { Avatar, Box, colors, Stack, Typography } from '@mui/material';
-import CardHeaderHorizontale from './CardHeaderHorizontale';
+import CardHeaderHorizontale from '../Game/Cards/CardHeader/CardHeaderHorizontale';
 
 export interface CardGridInterface {}
 

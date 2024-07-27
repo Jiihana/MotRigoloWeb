@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, colors, Grid } from '@mui/material';
-import CardHeaderVerticale from './CardHeaderVerticale';
-import CardHeaderHorizontale from './CardHeaderHorizontale';
+import CardHeaderVerticale from '../Game/Cards/CardHeader/CardHeaderVerticale';
+import CardHeaderHorizontale from '../Game/Cards/CardHeader/CardHeaderHorizontale';
 import CardGrid from './CardGrid';
 import CardFake from './CardFake';
 
@@ -47,7 +47,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderVerticale />
+                    <CardHeaderVerticale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item
@@ -60,7 +60,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderVerticale />
+                    <CardHeaderVerticale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item
@@ -73,7 +73,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderVerticale />
+                    <CardHeaderVerticale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item
@@ -86,7 +86,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderVerticale />
+                    <CardHeaderVerticale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item
@@ -99,7 +99,7 @@ const TestField = () => {
                         justifyContent: 'center'
                     }}
                 >
-                    <CardHeaderVerticale />
+                    <CardHeaderVerticale cardText={''} cardWord={''} />
                 </Grid>
                 <Grid
                     item

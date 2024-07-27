@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 
 import { Box, colors, Grid, Stack } from '@mui/material';
 import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
-import CardHeaderHorizontal from '../Cards/CardHeader/CardHeaderHorizontal';
-import CardHeaderVerticale from '../../Essai/CardHeaderVerticale';
-import CardHeaderHorizontale from '../../Essai/CardHeaderHorizontale';
+import CardHeaderVerticale from '../Cards/CardHeader/CardHeaderVerticale';
+import CardHeaderHorizontale from '../Cards/CardHeader/CardHeaderHorizontale';
 
 interface DynamicGridProps {
     numberOfCardPerRow: number;
@@ -48,9 +47,9 @@ class CardsGenerator {
 
     //--------------------- Carte Header Verticale
     public cardHeaderVerticalGenerator(index: number) {
-        const cardText = this.getCardHeaderHorizontalText(index);
+        const cardText = this.getCardHeaderVerticalText(index);
 
-        return <CardHeaderVerticale></CardHeaderVerticale>;
+        return <CardHeaderVerticale cardText={cardText} cardWord={'Pouet'}></CardHeaderVerticale>;
     }
 
     private getCardHeaderVerticalText(index: number): string {

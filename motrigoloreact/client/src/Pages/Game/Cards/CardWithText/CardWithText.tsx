@@ -32,7 +32,7 @@ const CardWithText = (props: CardGridInterface) => {
                     color: 'black'
                 }}
             >
-                A
+                {props.cardText}
             </Typography>
         </Box>
     );
