@@ -8,20 +8,15 @@ import { useNavigate } from 'react-router-dom';
 import { JoinGameResponse } from '../../common/socket_messages/JoinGame';
 import GameSettings from '../../Settings/GameSettings';
 
-interface JoinCreateGameProps {
-    // onClickCreate: React.MouseEventHandler<HTMLButtonElement>;
-    // onClickJoin: React.MouseEventHandler<HTMLButtonElement>;
-}
-
 const gameSettings = new GameSettings();
 
-const Accueil = (props: JoinCreateGameProps) => {
+const Accueil = () => {
     const { socket } = useContext(SocketContext).SocketState;
     const navigate = useNavigate();
 
     useEffect(() => {
         socket?.on(CreateGameResponse.Message, (args: CreateGameResponse) => {
-            navigate(`/game/${args.gameId}`);
+            navigate(`/game/${args.gameId}`, { state: { numberOfCardPerRow: args.gridSize } });
         });
 
         socket?.on(JoinGameResponse.Message, (args: JoinGameResponse) => {

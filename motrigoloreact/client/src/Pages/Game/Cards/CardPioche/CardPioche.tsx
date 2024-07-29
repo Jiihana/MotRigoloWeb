@@ -1,9 +1,18 @@
-import React from 'react';
-import { Box, colors } from '@mui/material';
+import React, { useContext, useEffect } from 'react';
+import { Box } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
+import SocketContext from '../../../../contexts/SocketContext';
+import { GetCardPiocheRequest } from '../../../../common/socket_messages/GetCardPioche';
 
 const CardPioche = () => {
     const background = 'url(/images/cards/cardIndexBack.png)';
+
+    const { socket } = useContext(SocketContext).SocketState;
+
+    const getCardPioche = () => {
+        console.log('^pioche');
+        socket?.emit(GetCardPiocheRequest.Message);
+    };
 
     return (
         <Box
@@ -14,6 +23,7 @@ const CardPioche = () => {
                 justifyContent: 'center',
                 display: 'flex'
             }}
+            onClick={getCardPioche}
         >
             <CardWithText
                 cardText={'Pioche'}

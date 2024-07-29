@@ -13,7 +13,7 @@ const CreateGameButton = (props: CreateGameProps) => {
     const { socket } = useContext(SocketContext).SocketState;
 
     const handleCreateGame = () => {
-        socket?.emit(CreateGameRequest.Message);
+        socket?.emit(CreateGameRequest.Message, new CreateGameRequest());
     };
 
     return <MenuButton onClick={handleCreateGame} text="Create game" buttonWidth="100%" textSize="h4" background={background}></MenuButton>;

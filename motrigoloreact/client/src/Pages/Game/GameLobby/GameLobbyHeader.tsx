@@ -14,7 +14,6 @@ const GameLobbyHeader = () => {
     const navigate = useNavigate();
 
     function backToMenuHandler() {
-        console.log('pouet');
         navigate('/');
     }
 

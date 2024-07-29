@@ -1,16 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import GameGrid from '../GameGrid/GameGrid';
 import GameSettings from '../../../Settings/GameSettings';
-import { Box, colors, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import CardPioche from '../Cards/CardPioche/CardPioche';
-import SocketContext from '../../../contexts/SocketContext';
-import { CheckGameExistsRequest } from '../../../common/socket_messages/GameExistsCheck';
 import GameLobbyHeader from './GameLobbyHeader';
 import CardsInventory from '../Cards/CardInventory/CardInventory';
+import { useLocation } from 'react-router-dom';
 
 const gameSettings = new GameSettings();
 
 const GameLobby = () => {
+    const location = useLocation();
+    const { numberOfCardPerRow } = location.state || {};
+
     return (
         <Box
             display="flex"
@@ -55,7 +57,7 @@ const GameLobby = () => {
                             justifyContent: 'center'
                         }}
                     >
-                        <CardsInventory cardsInInventory={{ A: 1, D: 5, C: 1 }}></CardsInventory>
+                        <CardsInventory></CardsInventory>
                     </Stack>
                     <Box
                         sx={{
@@ -65,7 +67,7 @@ const GameLobby = () => {
                             justifyContent: 'center'
                         }}
                     >
-                        <GameGrid numberOfCardPerRow={gameSettings.nombreCartesParRangees} />
+                        <GameGrid numberOfCardPerRow={numberOfCardPerRow} />
                     </Box>
 
                     <Box
