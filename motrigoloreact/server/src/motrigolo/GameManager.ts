@@ -20,14 +20,14 @@ export class GameManager {
         return game;
     }
 
-    createGame(gridSize: number): GameModel {
+    createGame(creator: string, gridSize: number): GameModel {
         const gameModel = new GameModel(v4().slice(0, 4), gridSize);
+        gameModel.addPlayer(creator);
         this.games.push(gameModel);
-
         return gameModel;
     }
 
-    gameExists = (gameId: string): CheckGameExistsResponse => {
+    gameExists(gameId: string): CheckGameExistsResponse {
         return new CheckGameExistsResponse(this.games.some((game) => game.gameId == gameId));
-    };
+    }
 }

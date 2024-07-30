@@ -3,7 +3,8 @@ import { Box, Button, colors, Stack, TextField, Typography } from '@mui/material
 import MenuButton from '../../Shared/MenuButton';
 import SocketContext from '../../../contexts/SocketContext';
 import { JoinGameRequest } from '../../../common/socket_messages/JoinGame';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 
 interface JoinGameProps {
     // onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -18,10 +19,14 @@ const JoinGameButton = (props: JoinGameProps) => {
         setInputValue(event.target.value);
     };
 
-    const { socket } = useContext(SocketContext).SocketState;
+    const { SocketState } = useContext(SocketContext);
+    const navigate = useNavigate();
 
-    const handleJoinGame = () => {
-        socket?.emit(JoinGameRequest.Message, new JoinGameRequest(inputValue));
+    const handleJoinGame = async () => {
+        var result = await MotRigoloClient.JoinGame(SocketState.uid, inputValue);
+        if (result.isValid) {
+            navigate(`/game/${result.value?.gameId}`, { state: { gridSize: result.value?.gridSize } });
+        }
     };
 
     return (

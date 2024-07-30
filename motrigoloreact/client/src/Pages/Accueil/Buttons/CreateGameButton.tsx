@@ -1,19 +1,21 @@
-import { Box, Button, colors, Typography } from '@mui/material';
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MenuButton from '../../Shared/MenuButton';
+import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import SocketContext from '../../../contexts/SocketContext';
-import { CreateGameRequest } from '../../../common/socket_messages/CreateGame';
+import { useContext } from 'react';
+import { GameContext } from '../../../contexts/GameContext';
 
-interface CreateGameProps {}
-
-const CreateGameButton = (props: CreateGameProps) => {
+const CreateGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
 
-    const { socket } = useContext(SocketContext).SocketState;
+    const { SocketState } = useContext(SocketContext);
+    const navigate = useNavigate();
 
-    const handleCreateGame = () => {
-        socket?.emit(CreateGameRequest.Message, new CreateGameRequest());
+    const handleCreateGame = async () => {
+        var result = await MotRigoloClient.CreateGame(SocketState.uid);
+        if (result.isValid) {
+            navigate(`/game/${result.value?.gameId}`, { state: { gridSize: result.value?.gridSize, gameId: result.value?.gameId } });
+        }
     };
 
     return <MenuButton onClick={handleCreateGame} text="Create game" buttonWidth="100%" textSize="h4" background={background}></MenuButton>;

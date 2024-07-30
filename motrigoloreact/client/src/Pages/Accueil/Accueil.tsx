@@ -1,29 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { Box, Button, colors, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import JoinGameButton from './Buttons/JoinGameButton';
-import SocketContext from '../../contexts/SocketContext';
-import { CreateGameRequest, CreateGameResponse } from '../../common/socket_messages/CreateGame';
 import CreateGameButton from './Buttons/CreateGameButton';
-import { useNavigate } from 'react-router-dom';
-import { JoinGameResponse } from '../../common/socket_messages/JoinGame';
 import GameSettings from '../../Settings/GameSettings';
 
 const gameSettings = new GameSettings();
 
 const Accueil = () => {
-    const { socket } = useContext(SocketContext).SocketState;
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        socket?.on(CreateGameResponse.Message, (args: CreateGameResponse) => {
-            navigate(`/game/${args.gameId}`, { state: { numberOfCardPerRow: args.gridSize } });
-        });
-
-        socket?.on(JoinGameResponse.Message, (args: JoinGameResponse) => {
-            navigate(`/game/${args.gameId}`);
-        });
-    }, []);
-
     return (
         <Box
             display="flex"

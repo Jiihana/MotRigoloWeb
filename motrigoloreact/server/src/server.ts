@@ -4,6 +4,9 @@ import { ServerSocket } from './socket';
 import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
 import { GameServerSocket } from './gameServerSocket';
 import { GameManager } from './motrigolo/GameManager';
+import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
+import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
+import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
 
 const application = express();
 
@@ -55,6 +58,30 @@ application.get('/status', (req, res, next) => {
 
 application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
     return res.status(200).json(GameManager.instance.gameExists(req.query['gameId'] as string));
+});
+
+application.get('/' + CreateGameRequest.Message, (req, res, next) => {
+    var socketId = req.query['socketId'] as string;
+    var game = GameManager.instance.createGame(socketId, 6);
+    return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize));
+});
+
+application.get('/' + JoinGameRequest.Message, (req, res, next) => {
+    var socketId = req.query['socketId'] as string;
+    var gameId = req.query['gameId'] as string;
+    var game = GameManager.instance.getGame(gameId);
+
+    game.addPlayer(socketId);
+    return res.status(200).json(new JoinGameResponse(gameId, game.gridSize));
+});
+
+application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
+    var socketId = req.query['socketId'] as string;
+    var gameId = req.query['gameId'] as string;
+    var game = GameManager.instance.getGame(gameId);
+    const cardPiochee = game.addCardToPlayerInventory(socketId);
+
+    return res.status(200).json(new GetCardPiocheResponse(cardPiochee));
 });
 
 /** Error handling */

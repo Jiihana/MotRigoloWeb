@@ -6,15 +6,15 @@ import CardHeaderVerticale from '../Cards/CardHeader/CardHeaderVerticale';
 import CardHeaderHorizontale from '../Cards/CardHeader/CardHeaderHorizontale';
 
 interface DynamicGridProps {
-    numberOfCardPerRow: number;
+    gridSize: number;
 }
 
 class CardsGenerator {
-    private numberOfCardPerRow: number;
+    private gridSize: number;
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    constructor(numberOfCardPerRow: number) {
-        this.numberOfCardPerRow = numberOfCardPerRow;
+    constructor(gridSize: number) {
+        this.gridSize = gridSize;
     }
 
     public cardMainGenerator(index: number) {
@@ -22,11 +22,11 @@ class CardsGenerator {
             return;
         }
 
-        if (index < this.numberOfCardPerRow) {
+        if (index < this.gridSize) {
             return this.cardHeaderVerticalGenerator(index);
         }
 
-        if (index % this.numberOfCardPerRow != 0) {
+        if (index % this.gridSize != 0) {
             return this.cardIndexGenerator(index);
         }
 
@@ -41,7 +41,7 @@ class CardsGenerator {
     }
 
     private getCardHeaderHorizontalText(index: number): string {
-        return [index / this.numberOfCardPerRow].toString();
+        return [index / this.gridSize].toString();
     }
 
     //--------------------- Carte Header Verticale
@@ -63,28 +63,28 @@ class CardsGenerator {
     }
 
     private getCardIndexText(indexCard: number): { letter: string; number: number } {
-        const number = Math.floor(indexCard / this.numberOfCardPerRow);
+        const number = Math.floor(indexCard / this.gridSize);
 
-        const letter = this.alphabet[(indexCard % this.numberOfCardPerRow) - 1];
+        const letter = this.alphabet[(indexCard % this.gridSize) - 1];
 
         return { letter: letter, number: number };
     }
 }
 
 const GameGrid = (props: DynamicGridProps) => {
-    const cardPerRow = props.numberOfCardPerRow;
-    const generator = new CardsGenerator(cardPerRow);
+    const gridSize = props.gridSize;
+    const generator = new CardsGenerator(gridSize);
 
-    const items = Array.from({ length: cardPerRow * cardPerRow }).map((_, index) => {
-        const row = Math.floor(index / cardPerRow);
-        const col = index % cardPerRow;
+    const items = Array.from({ length: gridSize * gridSize }).map((_, index) => {
+        const row = Math.floor(index / gridSize);
+        const col = index % gridSize;
         const color1 = colors.purple[200];
         const color2 = colors.purple[400];
         const isEven = (row + col) % 2 === 0;
         return (
             <Grid
                 item
-                xs={12 / cardPerRow}
+                xs={12 / gridSize}
                 key={index}
                 sx={{
                     // backgroundColor: isEven ? color1 : color2,

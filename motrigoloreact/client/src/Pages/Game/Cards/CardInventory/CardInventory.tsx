@@ -1,20 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Box, colors, Stack } from '@mui/material';
+import { useContext } from 'react';
+import { Box, Stack } from '@mui/material';
 import CardInventory from '../CardIndex/CardInventory';
-import SocketContext from '../../../../contexts/SocketContext';
-import { GetCardPiocheResponse } from '../../../../common/socket_messages/GetCardPioche';
+import { GameContext } from '../../../../contexts/GameContext';
 
 const CardsInventory = () => {
-    const [cardsInInventory, setCardsInInventory] = useState<string[]>([]);
-
-    const { socket } = useContext(SocketContext).SocketState;
-
-    useEffect(() => {
-        socket?.on(GetCardPiocheResponse.Message, (args: GetCardPiocheResponse) => {
-            setCardsInInventory((prevCards) => [...prevCards, args.cardPioche]);
-            console.log(cardsInInventory);
-        });
-    }, []);
+    const gameContext = useContext(GameContext);
 
     return (
         <Box
@@ -27,7 +17,7 @@ const CardsInventory = () => {
             }}
         >
             <Stack spacing={5} sx={{ height: '100%', width: '100%' }}>
-                {cardsInInventory.map((card) => {
+                {gameContext?.cardsInventory.map((card) => {
                     const number = card.charAt(1);
                     const letter = card.charAt(0);
                     return <CardInventory key={letter} textNumber={+number} textLetter={letter} />;

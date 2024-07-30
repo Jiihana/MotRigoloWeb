@@ -1,17 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Box } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
 import SocketContext from '../../../../contexts/SocketContext';
-import { GetCardPiocheRequest } from '../../../../common/socket_messages/GetCardPioche';
+import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
+import { GameContext } from '../../../../contexts/GameContext';
 
 const CardPioche = () => {
     const background = 'url(/images/cards/cardIndexBack.png)';
 
-    const { socket } = useContext(SocketContext).SocketState;
+    const { SocketState } = useContext(SocketContext);
+    const gameContext = useContext(GameContext);
 
-    const getCardPioche = () => {
-        console.log('^pioche');
-        socket?.emit(GetCardPiocheRequest.Message);
+    const getCardPioche = async () => {
+        var result = await MotRigoloClient.GetCardPioche(SocketState.uid, gameContext?.gameId as string);
+        if (result.isValid) {
+            const card = result.value?.cardPioche as string;
+            gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);
+        }
     };
 
     return (

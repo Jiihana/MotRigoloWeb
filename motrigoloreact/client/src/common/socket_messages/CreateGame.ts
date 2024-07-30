@@ -1,7 +1,12 @@
 export class CreateGameRequest {
     static Message = 'CreateGameRequest';
-
     public gridSize = 6;
+
+    public socketId: string;
+
+    constructor(socketId: string) {
+        this.socketId = socketId;
+    }
 }
 
 export class CreateGameResponse {
