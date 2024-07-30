@@ -23,10 +23,7 @@ export class GameServerSocket {
                 return; // ToDo : thrw ?
             }
 
-            const randomIndex = Math.floor(Math.random() * game?.cardAvailablePioche.length);
-            const randomCardPioche = game?.cardAvailablePioche[randomIndex];
-
-            console.log(randomCardPioche);
+            const randomCardPioche = game.addCardToPlayerInventory(socket.id);
 
             socket.emit(GetCardPiocheResponse.Message, new GetCardPiocheResponse(randomCardPioche));
         });

@@ -2,6 +2,7 @@ import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameServerSocket } from './gameServerSocket';
+import { CheckGameExistsResponse } from '../../client/src/common/socket_messages/GameExistsCheck';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -29,6 +30,10 @@ export class ServerSocket {
         this.io.on('connect', this.StartListeners);
         console.info('Socket IO started');
     }
+
+    gameExists = (gameId: string): CheckGameExistsResponse => {
+        return this.gameServerSocket.gameExists(gameId);
+    };
 
     StartListeners = (socket: Socket) => {
         this.gameServerSocket.StartListeners(socket);

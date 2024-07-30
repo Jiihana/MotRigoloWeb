@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import { ServerSocket } from './socket';
 import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
+import { GameServerSocket } from './gameServerSocket';
 
 const application = express();
 
@@ -9,7 +10,7 @@ const application = express();
 const httpServer = http.createServer(application);
 
 /** Start Socket */
-new ServerSocket(httpServer);
+new ServerSocket(httpServer, new GameServerSocket());
 
 /** Log the request */
 application.use((req, res, next) => {
