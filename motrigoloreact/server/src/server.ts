@@ -3,6 +3,7 @@ import express from 'express';
 import { ServerSocket } from './socket';
 import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
 import { GameServerSocket } from './gameServerSocket';
+import { GameManager } from './motrigolo/GameManager';
 
 const application = express();
 
@@ -11,6 +12,8 @@ const httpServer = http.createServer(application);
 
 /** Start Socket */
 new ServerSocket(httpServer, new GameServerSocket());
+
+new GameManager();
 
 /** Log the request */
 application.use((req, res, next) => {
@@ -51,7 +54,7 @@ application.get('/status', (req, res, next) => {
 });
 
 application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
-    return res.status(200).json(ServerSocket.instance.gameExists(req.query['gameId'] as string));
+    return res.status(200).json(GameManager.instance.gameExists(req.query['gameId'] as string));
 });
 
 /** Error handling */

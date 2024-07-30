@@ -31,10 +31,6 @@ export class ServerSocket {
         console.info('Socket IO started');
     }
 
-    gameExists = (gameId: string): CheckGameExistsResponse => {
-        return this.gameServerSocket.gameExists(gameId);
-    };
-
     StartListeners = (socket: Socket) => {
         this.gameServerSocket.StartListeners(socket);
 
