@@ -1,26 +1,17 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
-import GameModel from './motrigolo/models/GameModel';
-import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../client/src/common/socket_messages/GameExistsCheck';
-import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
-import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
-import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
+import { GameServerSocket } from './gameServerSocket';
 
 export class ServerSocket {
     public static instance: ServerSocket;
     public io: Server;
-
-    public games: GameModel[] = [];
-
-    gameExists = (gameId: string): CheckGameExistsResponse => {
-        return new CheckGameExistsResponse(this.games.some((game) => game.gameId == gameId));
-    };
+    private gameServerSocket: GameServerSocket;
 
     /** Master list of all connected users */
     public users: { [uid: string]: string };
 
-    constructor(server: HttpServer) {
+    constructor(server: HttpServer, gameServerSocket: GameServerSocket) {
         ServerSocket.instance = this;
         this.users = {};
         this.io = new Server(server, {
@@ -33,48 +24,14 @@ export class ServerSocket {
             }
         });
 
+        this.gameServerSocket = gameServerSocket;
+
         this.io.on('connect', this.StartListeners);
         console.info('Socket IO started');
     }
 
     StartListeners = (socket: Socket) => {
-        socket.on(GetCardPiocheRequest.Message, () => {
-            const rooms = Array.from(socket.rooms);
-
-            const game = this.games.find((game) => game.gameId == rooms[1]);
-
-            if (game === undefined) {
-                return; // ToDo : thrw ?
-            }
-
-            const randomIndex = Math.floor(Math.random() * game?.cardAvailablePioche.length);
-            const randomCardPioche = game?.cardAvailablePioche[randomIndex];
-
-            console.log(randomCardPioche);
-
-            socket.emit(GetCardPiocheResponse.Message, new GetCardPiocheResponse(randomCardPioche));
-        });
-
-        socket.on(CreateGameRequest.Message, (args: CreateGameRequest) => {
-            const gameModel = new GameModel(v4().slice(0, 4), args.gridSize);
-            gameModel.addPlayer(socket.id);
-            this.games.push(gameModel);
-
-            socket.join(gameModel.gameId);
-            socket.emit(CreateGameResponse.Message, new CreateGameResponse(gameModel.gameId, gameModel.gridSize));
-        });
-
-        socket.on(JoinGameRequest.Message, (args: JoinGameRequest) => {
-            const game = this.games.find((game) => game.gameId == args.gameId);
-            if (game === undefined) {
-                return; // ToDo : thrw ?
-            }
-
-            game.addPlayer(socket.id);
-
-            socket.join(args.gameId);
-            socket.emit(JoinGameResponse.Message, new JoinGameResponse(game.gameId));
-        });
+        this.gameServerSocket.StartListeners(socket);
 
         socket.on('handshake', (callback: (uid: string, users: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);
