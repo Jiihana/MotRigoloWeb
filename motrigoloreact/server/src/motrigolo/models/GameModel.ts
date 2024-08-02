@@ -15,12 +15,15 @@ class GameModel {
         this.GridCardsState = this.setGridCardsState();
     }
 
-    public FlipOverCard(IndexCard: string) {
+    public FlipOverCard(IndexCard: string): boolean {
         if (this.GridCardsState.has(IndexCard)) {
             const value = this.GridCardsState.get(IndexCard);
 
             this.GridCardsState.set(IndexCard, !value);
+            return !value;
         }
+
+        throw new Error("La carte n'est pas inscrite dans les cartes existantes du jeu");
     }
 
     public addPlayer(playerId: string) {
@@ -44,7 +47,6 @@ class GameModel {
         const pioche = this.getCardsPioche();
         const randomIndex = Math.floor(Math.random() * pioche.length);
         const randomCardPioche = pioche[randomIndex];
-        console.log(randomCardPioche);
         return randomCardPioche;
     }
 
@@ -78,7 +80,7 @@ class GameModel {
         let gridCardsState = new Map();
 
         this.setGridCards().forEach((gridCard) => {
-            gridCardsState.set({ gridCard }, false);
+            gridCardsState.set(gridCard.toString(), false);
         });
 
         return gridCardsState;

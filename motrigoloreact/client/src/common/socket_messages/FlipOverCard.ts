@@ -12,8 +12,10 @@ export class FlipOverCardResponse {
     static Message = 'FlipOverCardResponse';
 
     public cardIndex: string;
+    public isCardRetournee: boolean;
 
-    constructor(cardIndex: string) {
+    constructor(cardIndex: string, isCardRetournee: boolean) {
         this.cardIndex = cardIndex;
+        this.isCardRetournee = isCardRetournee;
     }
 }

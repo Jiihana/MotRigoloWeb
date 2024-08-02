@@ -14,8 +14,8 @@ export class GameServerSocket {
             const rooms = Array.from(socket.rooms);
             const game = GameManager.instance.getGame(rooms[1]);
 
-            game.FlipOverCard(args.cardIndex);
-            this.io.to(game.gameId).emit(FlipOverCardResponse.Message, new FlipOverCardResponse(args.cardIndex));
+            const isCardRetournee = game.FlipOverCard(args.cardIndex);
+            this.io.to(game.gameId).emit(FlipOverCardResponse.Message, new FlipOverCardResponse(args.cardIndex, isCardRetournee));
         });
     };
 }

@@ -12,7 +12,6 @@ export class GameManager {
 
     getGame(gameId: string): GameModel {
         const game = this.games.find((game) => game.gameId == gameId);
-        console.log(this.games);
         if (game == undefined) {
             throw new Error('Cannot find game: game is undefined');
         }

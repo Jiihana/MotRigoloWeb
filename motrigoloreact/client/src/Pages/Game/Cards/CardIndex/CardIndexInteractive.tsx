@@ -17,22 +17,22 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     const [textNumber, setTextNumber] = useState('');
     const [background, setBackground] = useState(backBackground);
 
-    function setTextLetterHandler() {
-        return textLetter == '' ? setTextLetter(props.indexLetter) : setTextLetter('');
+    function setTextLetterHandler(isCardRetournee: boolean) {
+        isCardRetournee ? setTextLetter(props.indexLetter) : setTextLetter('');
     }
 
-    function setTextNumberHandler() {
-        return textNumber == '' ? setTextNumber(props.indexNumber.toString()) : setTextNumber('');
+    function setTextNumberHandler(isCardRetournee: boolean) {
+        isCardRetournee ? setTextNumber(props.indexNumber.toString()) : setTextNumber('');
     }
 
-    function setBackgroundHandler() {
-        return background == backBackground ? setBackground(frontBackground) : setBackground(backBackground);
+    function setBackgroundHandler(isCardRetournee: boolean) {
+        isCardRetournee ? setBackground(frontBackground) : setBackground(backBackground);
     }
 
-    function FlipOverCard() {
-        setTextLetterHandler();
-        setTextNumberHandler();
-        setBackgroundHandler();
+    function FlipOverCard(isCardRetournee: boolean) {
+        setTextLetterHandler(isCardRetournee);
+        setTextNumberHandler(isCardRetournee);
+        setBackgroundHandler(isCardRetournee);
     }
 
     const { socket } = useContext(SocketContext).SocketState;
@@ -45,7 +45,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     useEffect(() => {
         socket?.on(FlipOverCardResponse.Message, (args: FlipOverCardResponse) => {
             if (args.cardIndex == `${props.indexLetter}${props.indexNumber}`) {
-                FlipOverCard();
+                console.log(args.isCardRetournee);
+                FlipOverCard(args.isCardRetournee);
                 console.log(`Reponse card retournée: ${props.indexLetter}${props.indexNumber}`);
             }
         });
