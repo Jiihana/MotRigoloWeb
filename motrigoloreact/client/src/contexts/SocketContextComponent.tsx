@@ -50,11 +50,6 @@ const SocketContextComponent: React.FunctionComponent<ISocketContextComponentPro
         socket.io.on('reconnect_error', (error) => {
             console.info('Reconnection error: ' + error);
         });
-
-        socket.io.on('reconnect_failed', () => {
-            console.info('Reconnection failure.');
-            alert('We are unable to connect you to the chat service.  Please make sure your internet connection is stable or try again later.');
-        });
     };
 
     const SendHandshake = async () => {

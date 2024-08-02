@@ -34,6 +34,12 @@ class GameModel {
         this.players.push(new PlayerModel(playerId));
     }
 
+    public removePlayer(playerId: string) {
+        this.players.push(new PlayerModel(playerId));
+
+        this.players = this.players.filter((player) => player.playerId !== playerId);
+    }
+
     public addCardToPlayerInventory(playerId: string): string {
         const player = this.players.find((player) => player.playerId == playerId);
 

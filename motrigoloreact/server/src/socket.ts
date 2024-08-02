@@ -2,6 +2,7 @@ import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameServerSocket } from './gameServerSocket';
+import { GameManager } from './motrigolo/GameManager';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -82,6 +83,17 @@ export class ServerSocket {
                 const users = Object.values(this.users);
 
                 this.SendMessage('user_disconnected', users, socket.id);
+
+                const rooms = Array.from(socket.rooms);
+                const game = GameManager.instance.getGame(rooms[1]);
+
+                game.removePlayer(socket.id);
+                console.log(game.players);
+                console.log(GameManager.instance.games);
+                if (game.players.length == 0) {
+                    GameManager.instance.deleteGame(game.gameId);
+                }
+                console.log(GameManager.instance.games);
             }
         });
     };

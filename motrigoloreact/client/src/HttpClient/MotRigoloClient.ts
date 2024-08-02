@@ -1,4 +1,5 @@
 import { CreateGameRequest, CreateGameResponse } from '../common/socket_messages/CreateGame';
+import { DeleteGameRequest, DeleteGameResponse } from '../common/socket_messages/DeleteGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../common/socket_messages/GetCardPioche';
 import { JoinGameRequest, JoinGameResponse } from '../common/socket_messages/JoinGame';
 
@@ -41,6 +42,22 @@ export class MotRigoloClient {
         try {
             const response = await fetch(`${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
             const result: GetCardPiocheResponse = await response.json();
+            return {
+                isValid: true,
+                value: result
+            };
+        } catch (error) {
+            return {
+                value: undefined,
+                isValid: false
+            };
+        }
+    };
+
+    static DeleteGame = async (socketId: string, gameId: string): Promise<HttpResult<DeleteGameResponse>> => {
+        try {
+            const response = await fetch(`${MotRigoloClient.baseUrl}/${DeleteGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
+            const result: DeleteGameResponse = await response.json();
             return {
                 isValid: true,
                 value: result

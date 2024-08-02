@@ -35,7 +35,6 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         setTextLetterHandler(isCardRetournee);
         setTextNumberHandler(isCardRetournee);
         setBackgroundHandler(isCardRetournee);
-        console.log('flip over card');
     }
 
     const { socket } = useContext(SocketContext).SocketState;
@@ -47,7 +46,6 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     useEffect(() => {
         socket?.on(FlipOverCardResponse.Message, (args: FlipOverCardResponse) => {
             if (args.cardIndex == `${props.indexLetter}${props.indexNumber}`) {
-                console.log(args.isCardRetournee);
                 FlipOverCard(args.isCardRetournee);
             }
         });

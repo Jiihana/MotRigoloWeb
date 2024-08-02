@@ -4,7 +4,7 @@ import GameModel from './models/GameModel';
 
 export class GameManager {
     public static instance: GameManager;
-    private games: GameModel[] = [];
+    public games: GameModel[] = [];
 
     constructor() {
         GameManager.instance = this;
@@ -24,6 +24,13 @@ export class GameManager {
         gameModel.addPlayer(creator);
         this.games.push(gameModel);
         return gameModel;
+    }
+
+    deleteGame(gameId: string) {
+        if (this.games.find((game) => game.gameId == gameId) != undefined) {
+            this.games = this.games.filter((game) => game.gameId !== gameId);
+            console.log(`la game ${gameId} a été delete`);
+        }
     }
 
     gameExists(gameId: string): CheckGameExistsResponse {

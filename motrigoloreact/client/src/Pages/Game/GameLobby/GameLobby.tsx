@@ -12,7 +12,6 @@ const GameLobby = () => {
 
     useEffect(() => {
         socket?.emit(SynchronizeGameValuesRequest.Message, new SynchronizeGameValuesRequest());
-        console.log(`Toutes les cartes demande a etre actualisee`);
     }, []);
 
     return (
