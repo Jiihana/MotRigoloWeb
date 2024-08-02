@@ -26,6 +26,10 @@ class GameModel {
         throw new Error("La carte n'est pas inscrite dans les cartes existantes du jeu");
     }
 
+    public SynchronizeCards(): Map<string, boolean> {
+        return this.GridCardsState;
+    }
+
     public addPlayer(playerId: string) {
         this.players.push(new PlayerModel(playerId));
     }

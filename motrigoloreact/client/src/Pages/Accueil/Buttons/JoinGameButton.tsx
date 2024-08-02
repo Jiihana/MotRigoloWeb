@@ -5,6 +5,7 @@ import SocketContext from '../../../contexts/SocketContext';
 import { JoinGameRequest } from '../../../common/socket_messages/JoinGame';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
+import { SynchronizeGameValuesRequest } from '../../../common/socket_messages/SynchronizeGameValues';
 
 interface JoinGameProps {
     // onClick: React.MouseEventHandler<HTMLButtonElement>;

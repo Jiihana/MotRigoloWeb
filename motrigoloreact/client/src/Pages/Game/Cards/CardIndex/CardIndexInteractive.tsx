@@ -3,6 +3,7 @@ import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
 import { Box } from '@mui/material';
 import SocketContext from '../../../../contexts/SocketContext';
 import { FlipOverCardRequest, FlipOverCardResponse } from '../../../../common/socket_messages/FlipOverCard';
+import { SynchronizeGameValuesResponse } from '../../../../common/socket_messages/SynchronizeGameValues';
 
 interface CardIndexInterface {
     indexNumber: number;
@@ -10,6 +11,7 @@ interface CardIndexInterface {
 }
 
 const CardIndexInteractive = (props: CardIndexInterface) => {
+    const IndexCard = `${props.indexLetter}${props.indexNumber}`;
     const frontBackground = 'url(/images/cards/cardIndexFront.png)';
     const backBackground = 'url(/images/cards/cardIndexBack.png)';
 
@@ -33,13 +35,13 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         setTextLetterHandler(isCardRetournee);
         setTextNumberHandler(isCardRetournee);
         setBackgroundHandler(isCardRetournee);
+        console.log('flip over card');
     }
 
     const { socket } = useContext(SocketContext).SocketState;
 
     const FlipOverCardHandler = () => {
         socket?.emit(FlipOverCardRequest.Message, new FlipOverCardRequest(`${props.indexLetter}${props.indexNumber}`));
-        console.log(`Demande de card retournée: ${props.indexLetter}${props.indexNumber}`);
     };
 
     useEffect(() => {
@@ -47,7 +49,16 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
             if (args.cardIndex == `${props.indexLetter}${props.indexNumber}`) {
                 console.log(args.isCardRetournee);
                 FlipOverCard(args.isCardRetournee);
-                console.log(`Reponse card retournée: ${props.indexLetter}${props.indexNumber}`);
+            }
+        });
+
+        socket?.on(SynchronizeGameValuesResponse.Message, (args: SynchronizeGameValuesResponse) => {
+            const gridCardsMap = new Map(Object.entries(args.gridCards));
+
+            if (gridCardsMap.has(IndexCard)) {
+                const value = gridCardsMap.get(IndexCard);
+
+                FlipOverCard(value);
             }
         });
     }, []);
