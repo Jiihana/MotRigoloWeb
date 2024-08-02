@@ -6,11 +6,21 @@ class GameModel {
     public gridCards: string[];
     public gridSize: number;
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    public GridCardsState = new Map();
 
     constructor(gameId: string, gridSize: number) {
         this.gameId = gameId;
         this.gridSize = gridSize;
         this.gridCards = this.setGridCards();
+        this.GridCardsState = this.setGridCardsState();
+    }
+
+    public FlipOverCard(IndexCard: string) {
+        if (this.GridCardsState.has(IndexCard)) {
+            const value = this.GridCardsState.get(IndexCard);
+
+            this.GridCardsState.set(IndexCard, !value);
+        }
     }
 
     public addPlayer(playerId: string) {
@@ -62,6 +72,16 @@ class GameModel {
         }
 
         return pioche;
+    }
+
+    private setGridCardsState(): Map<string, boolean> {
+        let gridCardsState = new Map();
+
+        this.setGridCards().forEach((gridCard) => {
+            gridCardsState.set({ gridCard }, false);
+        });
+
+        return gridCardsState;
     }
 }
 

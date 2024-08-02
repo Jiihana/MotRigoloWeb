@@ -14,7 +14,7 @@ const application = express();
 const httpServer = http.createServer(application);
 
 /** Start Socket */
-new ServerSocket(httpServer, new GameServerSocket());
+new ServerSocket(httpServer);
 
 new GameManager();
 
@@ -63,12 +63,15 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
 application.get('/' + CreateGameRequest.Message, (req, res, next) => {
     var socketId = req.query['socketId'] as string;
     var game = GameManager.instance.createGame(socketId, 6);
+    ServerSocket.instance.AddSocketToRoom(socketId, game.gameId);
+
     return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize));
 });
 
 application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     var socketId = req.query['socketId'] as string;
     var gameId = req.query['gameId'] as string;
+    ServerSocket.instance.AddSocketToRoom(socketId, gameId);
     var game = GameManager.instance.getGame(gameId);
 
     game.addPlayer(socketId);

@@ -2,7 +2,6 @@ import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
 import { GameServerSocket } from './gameServerSocket';
-import { CheckGameExistsResponse } from '../../client/src/common/socket_messages/GameExistsCheck';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -12,7 +11,7 @@ export class ServerSocket {
     /** Master list of all connected users */
     public users: { [uid: string]: string };
 
-    constructor(server: HttpServer, gameServerSocket: GameServerSocket) {
+    constructor(server: HttpServer) {
         ServerSocket.instance = this;
         this.users = {};
         this.io = new Server(server, {
@@ -25,11 +24,17 @@ export class ServerSocket {
             }
         });
 
-        this.gameServerSocket = gameServerSocket;
+        this.gameServerSocket = new GameServerSocket(this.io);
 
         this.io.on('connect', this.StartListeners);
         console.info('Socket IO started');
     }
+
+    AddSocketToRoom = async (socketId: string, gameId: string) => {
+        const sockets = await this.io.fetchSockets();
+        var player = sockets.find((x) => x.id == socketId);
+        player?.join(gameId);
+    };
 
     StartListeners = (socket: Socket) => {
         this.gameServerSocket.StartListeners(socket);

@@ -18,7 +18,6 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const gameContext = useContext(GameContext);
 
     useEffect(() => {
-        console.log(gameContext);
         gameContext?.setGameId(props.gameId);
     }, []);
 

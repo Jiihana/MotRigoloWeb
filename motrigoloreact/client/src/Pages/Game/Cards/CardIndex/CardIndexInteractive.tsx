@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
-import { Box, colors } from '@mui/material';
+import { Box } from '@mui/material';
+import SocketContext from '../../../../contexts/SocketContext';
+import { FlipOverCardRequest, FlipOverCardResponse } from '../../../../common/socket_messages/FlipOverCard';
 
 interface CardIndexInterface {
     indexNumber: number;
@@ -27,12 +29,27 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         return background == backBackground ? setBackground(frontBackground) : setBackground(backBackground);
     }
 
-    function ToggleCard() {
+    function FlipOverCard() {
         setTextLetterHandler();
         setTextNumberHandler();
         setBackgroundHandler();
-        console.log('poue');
     }
+
+    const { socket } = useContext(SocketContext).SocketState;
+
+    const FlipOverCardHandler = () => {
+        socket?.emit(FlipOverCardRequest.Message, new FlipOverCardRequest(`${props.indexLetter}${props.indexNumber}`));
+        console.log(`Demande de card retournée: ${props.indexLetter}${props.indexNumber}`);
+    };
+
+    useEffect(() => {
+        socket?.on(FlipOverCardResponse.Message, (args: FlipOverCardResponse) => {
+            if (args.cardIndex == `${props.indexLetter}${props.indexNumber}`) {
+                FlipOverCard();
+                console.log(`Reponse card retournée: ${props.indexLetter}${props.indexNumber}`);
+            }
+        });
+    }, []);
 
     return (
         <Box
@@ -46,7 +63,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
                 cardIndexNumber={textNumber}
                 cardIndexLetter={textLetter}
                 cardTextSize="h5"
-                onClickHandler={ToggleCard}
+                onClickHandler={FlipOverCardHandler}
             ></CardWithTextIndex>
         </Box>
     );

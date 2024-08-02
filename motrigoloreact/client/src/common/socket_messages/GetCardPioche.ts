@@ -1,5 +1,5 @@
 export class GetCardPiocheRequest {
-    static Message = 'GetCardPiocheRequestRequest';
+    static Message = 'GetCardPiocheRequest';
 }
 
 export class GetCardPiocheResponse {
