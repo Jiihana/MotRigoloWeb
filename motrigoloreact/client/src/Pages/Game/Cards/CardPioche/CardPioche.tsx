@@ -12,7 +12,12 @@ const CardPioche = () => {
     const gameContext = useContext(GameContext);
 
     const getCardPioche = async () => {
-        var result = await MotRigoloClient.GetCardPioche(SocketState.uid, gameContext?.gameId as string);
+        var result = await MotRigoloClient.GetCardPioche(SocketState.socket?.id!, gameContext?.gameId as string);
+
+        if (result.value?.cardPioche == '') {
+            console.log('Carte reçue de la pioche null');
+            return;
+        }
         if (result.isValid) {
             const card = result.value?.cardPioche as string;
             gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);

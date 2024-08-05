@@ -1,11 +1,7 @@
-import React from 'react';
-
 class GameSettings {
-    nombreCartesParRangees: number;
     cursorImage: string;
 
-    constructor(nombreCartesParRangees: number = 6) {
-        this.nombreCartesParRangees = nombreCartesParRangees;
+    constructor() {
         this.cursorImage = this.getRandomCursor();
     }
 

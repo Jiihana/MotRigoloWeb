@@ -83,17 +83,6 @@ export class ServerSocket {
                 const users = Object.values(this.users);
 
                 this.SendMessage('user_disconnected', users, socket.id);
-
-                const rooms = Array.from(socket.rooms);
-                const game = GameManager.instance.getGame(rooms[1]);
-
-                game.removePlayer(socket.id);
-                console.log(game.players);
-                console.log(GameManager.instance.games);
-                if (game.players.length == 0) {
-                    GameManager.instance.deleteGame(game.gameId);
-                }
-                console.log(GameManager.instance.games);
             }
         });
     };

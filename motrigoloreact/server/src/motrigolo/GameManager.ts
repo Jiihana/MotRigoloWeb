@@ -6,6 +6,8 @@ export class GameManager {
     public static instance: GameManager;
     public games: GameModel[] = [];
 
+    private gridSize = 2;
+
     constructor() {
         GameManager.instance = this;
     }
@@ -19,8 +21,8 @@ export class GameManager {
         return game;
     }
 
-    createGame(creator: string, gridSize: number): GameModel {
-        const gameModel = new GameModel(v4().slice(0, 4), gridSize);
+    createGame(creator: string): GameModel {
+        const gameModel = new GameModel(v4().slice(0, 4), this.gridSize);
         gameModel.addPlayer(creator);
         this.games.push(gameModel);
         return gameModel;

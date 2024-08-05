@@ -7,6 +7,7 @@ import { GameManager } from './motrigolo/GameManager';
 import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
 import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
+import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../../client/src/common/socket_messages/RemoveCardFromInventory';
 
 const application = express();
 
@@ -62,7 +63,7 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
 
 application.get('/' + CreateGameRequest.Message, (req, res, next) => {
     var socketId = req.query['socketId'] as string;
-    var game = GameManager.instance.createGame(socketId, 6);
+    var game = GameManager.instance.createGame(socketId);
     ServerSocket.instance.AddSocketToRoom(socketId, game.gameId);
 
     return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize));
@@ -85,6 +86,16 @@ application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
     const cardPiochee = game.addCardToPlayerInventory(socketId);
 
     return res.status(200).json(new GetCardPiocheResponse(cardPiochee));
+});
+
+application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) => {
+    var socketId = req.query['socketId'] as string;
+    var gameId = req.query['gameId'] as string;
+    var card = req.query['card'] as string;
+    var game = GameManager.instance.getGame(gameId);
+    game.removeCardFromPlayerInventory(socketId, card);
+
+    return res.status(200).json(new RemoveCardFromInventoryResponse(card));
 });
 
 /** Error handling */

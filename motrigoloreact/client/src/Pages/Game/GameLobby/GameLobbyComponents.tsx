@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { GameContext } from '../../../contexts/GameContext';
 import { Box, Stack } from '@mui/material';
-import CardsInventory from '../Cards/CardInventory/CardInventory';
+import CardsInventory from '../Cards/CardsInventory/CardsInventory';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import GameGrid from '../GameGrid/GameGrid';
 import GameLobbyHeader from './GameLobbyHeader';
@@ -16,7 +16,6 @@ type GameLobbyComponentsProps = {
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const gameContext = useContext(GameContext);
-
     useEffect(() => {
         gameContext?.setGameId(props.gameId);
     }, []);

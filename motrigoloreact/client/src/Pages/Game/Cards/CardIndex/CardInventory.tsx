@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import { useContext } from 'react';
+import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
 import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
 import { Box } from '@mui/material';
+import SocketContext from '../../../../contexts/SocketContext';
+import { GameContext } from '../../../../contexts/GameContext';
 
 interface CardInventoryInterface {
     textNumber: number;
@@ -10,7 +13,16 @@ interface CardInventoryInterface {
 const CardInventory = (props: CardInventoryInterface) => {
     const background = 'url(/images/cards/cardIndexFront.png)';
 
-    function destroyCard() {}
+    const { SocketState } = useContext(SocketContext);
+    const gameContext = useContext(GameContext);
+
+    const RemoveCard = async (card: string) => {
+        var result = await MotRigoloClient.RemoveCardInventory(SocketState.socket?.id!, gameContext?.gameId as string, card);
+        if (result.isValid) {
+            const card = result.value?.card as string;
+            gameContext?.setCardsInventory((prevCards) => prevCards.filter((prevCard) => prevCard !== card));
+        }
+    };
 
     return (
         <Box
@@ -24,7 +36,7 @@ const CardInventory = (props: CardInventoryInterface) => {
                 cardIndexNumber={props.textNumber.toString()}
                 cardIndexLetter={props.textLetter}
                 cardTextSize="h5"
-                onClickHandler={destroyCard}
+                onClickHandler={RemoveCard.bind(null, `${props.textLetter}${props.textNumber}`)}
             ></CardWithTextIndex>
         </Box>
     );

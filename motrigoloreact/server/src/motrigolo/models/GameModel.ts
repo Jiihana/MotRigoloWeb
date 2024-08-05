@@ -48,13 +48,26 @@ class GameModel {
         }
 
         const randomCard = this.drawRandomPiocheCard();
-        player.cardsInventory.push(randomCard);
 
-        return randomCard;
+        return player.addCardToInventory(randomCard);
+    }
+
+    public removeCardFromPlayerInventory(playerId: string, card: string): string {
+        const player = this.players.find((player) => player.playerId == playerId);
+
+        if (player == undefined) {
+            throw new Error("player is undefined: couldn't add card to inventory");
+        }
+
+        return player.removeCardFromInventory(card);
     }
 
     private drawRandomPiocheCard(): string {
         const pioche = this.getCardsPioche();
+
+        if (pioche.length == 0) {
+            return '';
+        }
         const randomIndex = Math.floor(Math.random() * pioche.length);
         const randomCardPioche = pioche[randomIndex];
         return randomCardPioche;

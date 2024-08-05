@@ -1,6 +1,5 @@
 export class CreateGameRequest {
     static Message = 'CreateGameRequest';
-    public gridSize = 6;
 
     public socketId: string;
 
