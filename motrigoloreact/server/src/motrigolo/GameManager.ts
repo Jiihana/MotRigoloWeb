@@ -6,7 +6,7 @@ export class GameManager {
     public static instance: GameManager;
     public games: GameModel[] = [];
 
-    private gridSize = 2;
+    private gridSize = 6;
 
     constructor() {
         GameManager.instance = this;

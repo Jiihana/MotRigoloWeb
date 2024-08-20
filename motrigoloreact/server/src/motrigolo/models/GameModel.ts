@@ -86,15 +86,15 @@ class GameModel {
     }
 
     private setGridCards(): string[] {
-        let pioche = [];
+        let gridCards = [];
 
-        for (let numberIndex = 0; numberIndex < this.gridSize; numberIndex++) {
-            for (let letterIndex = 0; letterIndex < this.gridSize; letterIndex++) {
-                pioche.push(`${this.alphabet[letterIndex]}${numberIndex}`);
+        for (let numberIndex = 0; numberIndex < this.gridSize - 1; numberIndex++) {
+            for (let letterIndex = 0; letterIndex < this.gridSize - 1; letterIndex++) {
+                gridCards.push(`${this.alphabet[letterIndex]}${numberIndex + 1}`);
             }
         }
 
-        return pioche;
+        return gridCards;
     }
 
     private setGridCardsState(): Map<string, boolean> {
