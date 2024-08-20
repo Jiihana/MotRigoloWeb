@@ -7,12 +7,14 @@ class GameModel {
     public gridSize: number;
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     public GridCardsState = new Map();
+    private CardAlreadyPiochee: string[];
 
     constructor(gameId: string, gridSize: number) {
         this.gameId = gameId;
         this.gridSize = gridSize;
         this.gridCards = this.setGridCards();
         this.GridCardsState = this.setGridCardsState();
+        this.CardAlreadyPiochee = [];
     }
 
     public FlipOverCard(IndexCard: string): boolean {
@@ -64,24 +66,28 @@ class GameModel {
         const pioche = this.getCardsPioche();
 
         if (pioche.length == 0) {
+            console.log('la pioche est vide');
             return '';
         }
+
         const randomIndex = Math.floor(Math.random() * pioche.length);
-        const randomCardPioche = pioche[randomIndex];
-        return randomCardPioche;
+        const randomCardPiochee = pioche[randomIndex];
+        this.CardAlreadyPiochee.push(randomCardPiochee);
+        console.log(`carte piochée ${randomCardPiochee}`);
+
+        return randomCardPiochee;
     }
 
     private getCardsPioche(): string[] {
         let pioche = [...this.gridCards];
 
-        this.players.forEach((player) => {
-            player.cardsInventory.forEach((card) => {
-                if (pioche.includes(card)) {
-                    pioche = pioche.filter((piocheCard) => piocheCard != card);
-                }
-            });
+        this.CardAlreadyPiochee.forEach((card) => {
+            if (pioche.includes(card)) {
+                pioche = pioche.filter((piocheCard) => piocheCard != card);
+            }
         });
 
+        console.log(`les cartes de la pioche sont ${pioche}`);
         return pioche;
     }
 
@@ -94,6 +100,7 @@ class GameModel {
             }
         }
 
+        console.log(`les cartes de la grille sont ${gridCards}`);
         return gridCards;
     }
 

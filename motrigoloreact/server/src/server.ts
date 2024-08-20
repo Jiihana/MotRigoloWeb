@@ -94,7 +94,6 @@ application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
     }
 
     const cardPiochee = game.addCardToPlayerInventory(socketId);
-
     return res.status(200).json(new GetCardPiocheResponse(cardPiochee));
 });
 

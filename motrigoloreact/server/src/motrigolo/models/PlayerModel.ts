@@ -23,19 +23,13 @@ class PlayerModel {
 
     public removeCardFromInventory(cardToRemove: string): string {
         if (this.cardsInventory.length == 0) {
+            console.log('inventaire de carte vide, rien à remove');
             return '';
         }
 
         this.cardsInventory = this.cardsInventory.filter((card) => card !== cardToRemove);
 
-        this.cardsInventory.forEach((CardInventory) => {
-            console.log(CardInventory);
-        });
-
-        if (this.cardsInventory.length == 0) {
-            console.log('card inventory EMPTY');
-        }
-
+        console.log(`carte ${cardToRemove} removed de l'inventaire`);
         return cardToRemove;
     }
 }

@@ -35,7 +35,6 @@ export class ServerSocket {
         const sockets = await this.io.fetchSockets();
         var player = sockets.find((x) => x.id == socketId);
         player?.join(gameId);
-        console.log(player?.rooms);
     };
 
     RemoveSocketFromRoom = async (socketId: string, gameId: string) => {

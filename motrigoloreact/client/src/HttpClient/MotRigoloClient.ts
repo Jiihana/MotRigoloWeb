@@ -40,6 +40,7 @@ export class MotRigoloClient {
     };
 
     static GetCardPioche = async (socketId: string, gameId: string): Promise<HttpResult<GetCardPiocheResponse>> => {
+        console.log(`game id dans la requete GetCardPioche ${gameId}`);
         try {
             const response = await fetch(`${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
             const result: GetCardPiocheResponse = await response.json();

@@ -6,13 +6,14 @@ export class GameManager {
     public static instance: GameManager;
     public games: GameModel[] = [];
 
-    private gridSize = 6;
+    private gridSize = 3;
 
     constructor() {
         GameManager.instance = this;
     }
 
     getGame(gameId: string): GameModel | undefined {
+        console.log(`game ID = ${gameId}`);
         return this.games.find((game) => game.gameId == gameId);
     }
 
@@ -25,7 +26,6 @@ export class GameManager {
 
     private deleteGame(currentGame: GameModel) {
         this.games = this.games.filter((game) => game !== currentGame);
-        console.log(`la game ${currentGame.gameId} a été delete`);
     }
 
     removePlayerFromGame(gameId: string, socketId: string) {

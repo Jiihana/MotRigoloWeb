@@ -12,6 +12,7 @@ const GameLobby = () => {
 
     useEffect(() => {
         socket?.emit(SynchronizeGameValuesRequest.Message, new SynchronizeGameValuesRequest());
+        console.log(gameId);
     }, []);
 
     return (
