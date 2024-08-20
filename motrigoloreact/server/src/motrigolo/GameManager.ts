@@ -12,13 +12,8 @@ export class GameManager {
         GameManager.instance = this;
     }
 
-    getGame(gameId: string): GameModel {
-        const game = this.games.find((game) => game.gameId == gameId);
-        if (game == undefined) {
-            throw new Error('Cannot find game: game is undefined');
-        }
-
-        return game;
+    getGame(gameId: string): GameModel | undefined {
+        return this.games.find((game) => game.gameId == gameId);
     }
 
     createGame(creator: string): GameModel {
@@ -28,10 +23,22 @@ export class GameManager {
         return gameModel;
     }
 
-    deleteGame(gameId: string) {
-        if (this.games.find((game) => game.gameId == gameId) != undefined) {
-            this.games = this.games.filter((game) => game.gameId !== gameId);
-            console.log(`la game ${gameId} a été delete`);
+    private deleteGame(currentGame: GameModel) {
+        this.games = this.games.filter((game) => game !== currentGame);
+        console.log(`la game ${currentGame.gameId} a été delete`);
+    }
+
+    removePlayerFromGame(gameId: string, socketId: string) {
+        const game = this.getGame(gameId);
+
+        if (game == undefined) {
+            return;
+        }
+
+        game.removePlayer(socketId);
+
+        if (game.players.length == 0) {
+            this.deleteGame(game);
         }
     }
 

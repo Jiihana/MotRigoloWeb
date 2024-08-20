@@ -35,8 +35,6 @@ class GameModel {
     }
 
     public removePlayer(playerId: string) {
-        this.players.push(new PlayerModel(playerId));
-
         this.players = this.players.filter((player) => player.playerId !== playerId);
     }
 

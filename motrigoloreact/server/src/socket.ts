@@ -35,6 +35,13 @@ export class ServerSocket {
         const sockets = await this.io.fetchSockets();
         var player = sockets.find((x) => x.id == socketId);
         player?.join(gameId);
+        console.log(player?.rooms);
+    };
+
+    RemoveSocketFromRoom = async (socketId: string, gameId: string) => {
+        const sockets = await this.io.fetchSockets();
+        var player = sockets.find((x) => x.id == socketId);
+        player?.leave(gameId);
     };
 
     StartListeners = (socket: Socket) => {
@@ -72,10 +79,11 @@ export class ServerSocket {
             );
         });
 
-        socket.on('disconnect', () => {
+        socket.on('disconnecting', async () => {
             console.info('Disconnect received from: ' + socket.id);
 
             const uid = this.GetUidFromSocketID(socket.id);
+            this.removePlayerFromGame(socket);
 
             if (uid) {
                 delete this.users[uid];
@@ -84,6 +92,16 @@ export class ServerSocket {
 
                 this.SendMessage('user_disconnected', users, socket.id);
             }
+        });
+    };
+
+    removePlayerFromGame = (socket: Socket) => {
+        GameManager.instance.games.forEach((game) => {
+            game.players.forEach((player) => {
+                if (player.playerId == socket.id) {
+                    GameManager.instance.removePlayerFromGame(game.gameId, socket.id);
+                }
+            });
         });
     };
 

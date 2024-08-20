@@ -8,6 +8,7 @@ import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/s
 import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../../client/src/common/socket_messages/RemoveCardFromInventory';
+import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveGame';
 
 const application = express();
 
@@ -75,6 +76,10 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     ServerSocket.instance.AddSocketToRoom(socketId, gameId);
     var game = GameManager.instance.getGame(gameId);
 
+    if (game == undefined) {
+        return;
+    }
+
     game.addPlayer(socketId);
     return res.status(200).json(new JoinGameResponse(gameId, game.gridSize));
 });
@@ -83,6 +88,11 @@ application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
     var socketId = req.query['socketId'] as string;
     var gameId = req.query['gameId'] as string;
     var game = GameManager.instance.getGame(gameId);
+
+    if (game == undefined) {
+        return;
+    }
+
     const cardPiochee = game.addCardToPlayerInventory(socketId);
 
     return res.status(200).json(new GetCardPiocheResponse(cardPiochee));
@@ -93,9 +103,24 @@ application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) =
     var gameId = req.query['gameId'] as string;
     var card = req.query['card'] as string;
     var game = GameManager.instance.getGame(gameId);
+
+    if (game == undefined) {
+        return;
+    }
+
     game.removeCardFromPlayerInventory(socketId, card);
 
     return res.status(200).json(new RemoveCardFromInventoryResponse(card));
+});
+
+application.get('/' + LeaveGameRequest.Message, (req, res, next) => {
+    var socketId = req.query['socketId'] as string;
+    var gameId = req.query['gameId'] as string;
+
+    GameManager.instance.removePlayerFromGame(gameId, socketId);
+    ServerSocket.instance.RemoveSocketFromRoom(socketId, gameId);
+
+    return res.status(200);
 });
 
 /** Error handling */

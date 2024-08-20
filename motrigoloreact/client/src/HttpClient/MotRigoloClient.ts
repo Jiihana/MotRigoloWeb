@@ -1,5 +1,5 @@
 import { CreateGameRequest, CreateGameResponse } from '../common/socket_messages/CreateGame';
-import { DeleteGameRequest, DeleteGameResponse } from '../common/socket_messages/DeleteGame';
+import { LeaveGameRequest } from '../common/socket_messages/LeaveGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../common/socket_messages/GetCardPioche';
 import { JoinGameRequest, JoinGameResponse } from '../common/socket_messages/JoinGame';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../common/socket_messages/RemoveCardFromInventory';
@@ -73,17 +73,14 @@ export class MotRigoloClient {
         }
     };
 
-    static DeleteGame = async (socketId: string, gameId: string): Promise<HttpResult<DeleteGameResponse>> => {
+    static LeaveGame = async (socketId: string, gameId: string): Promise<HttpResultBasic> => {
         try {
-            const response = await fetch(`${MotRigoloClient.baseUrl}/${DeleteGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
-            const result: DeleteGameResponse = await response.json();
+            await fetch(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
             return {
-                isValid: true,
-                value: result
+                isValid: true
             };
         } catch (error) {
             return {
-                value: undefined,
                 isValid: false
             };
         }
@@ -92,5 +89,9 @@ export class MotRigoloClient {
 
 export type HttpResult<T> = {
     value: undefined | T;
+    isValid: boolean;
+};
+
+export type HttpResultBasic = {
     isValid: boolean;
 };
