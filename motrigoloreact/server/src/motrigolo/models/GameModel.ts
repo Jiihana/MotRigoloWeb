@@ -11,6 +11,7 @@ class GameModel {
     public gridCards: string[];
     public gridSize: number;
     public GridCardsState = new Map();
+    public piocheEmpty = false;
 
     constructor(gameId: string, gridSize: number) {
         this.gameId = gameId;
@@ -70,6 +71,10 @@ class GameModel {
     private drawRandomPiocheCard(): string {
         const pioche = this.getCardsPioche();
 
+        if (pioche.length == 1) {
+            this.piocheEmpty = true;
+        }
+
         if (pioche.length == 0) {
             console.log('la pioche est vide');
             return '';
@@ -77,6 +82,7 @@ class GameModel {
 
         const randomIndex = Math.floor(Math.random() * pioche.length);
         const randomCardPiochee = pioche[randomIndex];
+
         console.log(`carte piochée ${randomCardPiochee}`);
 
         return randomCardPiochee;

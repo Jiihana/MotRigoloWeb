@@ -33,7 +33,7 @@ export class GameServerSocket {
 
             const gridCardsState = game.SynchronizeCards();
             const gridCardsObject = Object.fromEntries(gridCardsState.entries());
-            this.io.to(game.gameId).emit(SynchronizeGameValuesResponse.Message, new SynchronizeGameValuesResponse(gridCardsObject));
+            this.io.to(game.gameId).emit(SynchronizeGameValuesResponse.Message, new SynchronizeGameValuesResponse(gridCardsObject, game.piocheEmpty));
         });
     };
 }

@@ -1,11 +1,9 @@
-import React, { ChangeEvent, useContext, useState } from 'react';
-import { Box, Button, colors, Stack, TextField, Typography } from '@mui/material';
+import { ChangeEvent, useContext, useState } from 'react';
+import { Box, Stack, TextField } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
 import SocketContext from '../../../contexts/SocketContext';
-import { JoinGameRequest } from '../../../common/socket_messages/JoinGame';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
-import { SynchronizeGameValuesRequest } from '../../../common/socket_messages/SynchronizeGameValues';
 
 interface JoinGameProps {
     // onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -64,7 +62,7 @@ const JoinGameButton = (props: JoinGameProps) => {
                     InputLabelProps={{ style: { fontSize: 25 } }}
                     sx={{ input: { color: 'black' }, width: '100%', height: '100%', paddingTop: '2%' }}
                     InputProps={{
-                        disableUnderline: true // Désactive le trait par défaut si vous souhaitez personnaliser entièrement le trait
+                        disableUnderline: true
                     }}
                 />
             </Box>
