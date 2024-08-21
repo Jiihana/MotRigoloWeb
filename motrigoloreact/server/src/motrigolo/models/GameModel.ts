@@ -1,4 +1,5 @@
 import PlayerModel from './PlayerModel';
+import * as fs from 'fs';
 
 class GameModel {
     public gameId: string;
@@ -8,6 +9,7 @@ class GameModel {
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     public GridCardsState = new Map();
     private CardAlreadyPiochee: string[];
+    private ChoosenWords: string[];
 
     constructor(gameId: string, gridSize: number) {
         this.gameId = gameId;
@@ -15,6 +17,7 @@ class GameModel {
         this.gridCards = this.setGridCards();
         this.GridCardsState = this.setGridCardsState();
         this.CardAlreadyPiochee = [];
+        this.ChoosenWords = [];
     }
 
     public FlipOverCard(IndexCard: string): boolean {
@@ -112,6 +115,22 @@ class GameModel {
         });
 
         return gridCardsState;
+    }
+
+    private chooseRandomWords(numberWords: number) {
+        for (let index = 0; index < numberWords; index++) {
+            const filePath = '../../Assets/DictionnairesMots.txt';
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+            // Extraire chaque mot
+            const wordsArray = fileContent.split(' ');
+
+            // Afficher les mots extraits
+            console.log(wordsArray);
+
+            const randomIndex = Math.floor(Math.random() * wordsArray.length);
+            const randomWord = this.ChoosenWords.push(wordsArray[randomIndex]);
+        }
     }
 }
 
