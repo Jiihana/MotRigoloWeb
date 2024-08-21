@@ -21,7 +21,6 @@ const CardPioche = () => {
         }
         if (result.isValid) {
             const card = result.value?.cardPioche as string;
-            alert(`carte reçue de la pioche ${card}`);
             gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);
         }
     };

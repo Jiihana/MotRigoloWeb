@@ -2,21 +2,22 @@ import PlayerModel from './PlayerModel';
 import * as fs from 'fs';
 
 class GameModel {
+    private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private cardsDiscarded: string[];
+    private ChoosenWords: string[];
+
     public gameId: string;
     public players: PlayerModel[] = [];
     public gridCards: string[];
     public gridSize: number;
-    private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     public GridCardsState = new Map();
-    private CardAlreadyPiochee: string[];
-    private ChoosenWords: string[];
 
     constructor(gameId: string, gridSize: number) {
         this.gameId = gameId;
         this.gridSize = gridSize;
         this.gridCards = this.setGridCards();
         this.GridCardsState = this.setGridCardsState();
-        this.CardAlreadyPiochee = [];
+        this.cardsDiscarded = [];
         this.ChoosenWords = [];
     }
 
@@ -62,6 +63,7 @@ class GameModel {
             throw new Error("player is undefined: couldn't add card to inventory");
         }
 
+        this.cardsDiscarded.push(card);
         return player.removeCardFromInventory(card);
     }
 
@@ -75,7 +77,6 @@ class GameModel {
 
         const randomIndex = Math.floor(Math.random() * pioche.length);
         const randomCardPiochee = pioche[randomIndex];
-        this.CardAlreadyPiochee.push(randomCardPiochee);
         console.log(`carte piochée ${randomCardPiochee}`);
 
         return randomCardPiochee;
@@ -84,7 +85,15 @@ class GameModel {
     private getCardsPioche(): string[] {
         let pioche = [...this.gridCards];
 
-        this.CardAlreadyPiochee.forEach((card) => {
+        this.players.forEach((player) => {
+            player.cardsInventory.forEach((card) => {
+                if (pioche.includes(card)) {
+                    pioche = pioche.filter((piocheCard) => piocheCard != card);
+                }
+            });
+        });
+
+        this.cardsDiscarded.forEach((card) => {
             if (pioche.includes(card)) {
                 pioche = pioche.filter((piocheCard) => piocheCard != card);
             }
