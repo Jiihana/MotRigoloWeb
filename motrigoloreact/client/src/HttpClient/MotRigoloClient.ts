@@ -45,17 +45,17 @@ export class MotRigoloClient {
             if (!response.ok) {
                 const result: string = await response.json();
                 return {
-                    state: 'error',
+                    success: false,
                     errorMessage: result
                 };
             }
 
             return {
-                state: 'ok'
+                success: true
             };
         } catch (error) {
             return {
-                state: 'error',
+                success: false,
                 errorMessage: 'Un problème est survenu lors du call HTTP'
             };
         }
@@ -67,19 +67,19 @@ export class MotRigoloClient {
             if (!response.ok) {
                 const result: string = await response.json();
                 return {
-                    state: 'error',
+                    success: false,
                     errorMessage: result
                 };
             }
 
             const result: T = await response.json();
             return {
-                state: 'ok',
+                success: true,
                 value: result
             };
         } catch (error) {
             return {
-                state: 'error',
+                success: false,
                 errorMessage: 'Un problème est survenu lors du call HTTP'
             };
         }
@@ -91,7 +91,7 @@ export type HttpResult = HttpError | HttpResultBasic;
 export type HttpResultValue<T> = HttpError | HttpResultWithValue<T>;
 
 export type HttpError = {
-    state: 'error';
+    success: false;
     errorMessage: string;
 };
 
@@ -100,5 +100,5 @@ export type HttpResultWithValue<T> = {
 } & HttpResultBasic;
 
 export type HttpResultBasic = {
-    state: 'ok';
+    success: true;
 };

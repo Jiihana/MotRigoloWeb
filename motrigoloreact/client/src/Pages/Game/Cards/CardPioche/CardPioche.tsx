@@ -20,10 +20,11 @@ const CardPioche = () => {
     const getCardPioche = async () => {
         var result = await MotRigoloClient.GetCardPioche(SocketState.socket?.id!, gameContext?.gameId as string);
 
-        if (result.state === 'error') {
+        if (result.success == false) {
             alertContext?.setAlertMessage(result.errorMessage);
             return;
         }
+
         if (result.value.cardPioche == '') {
             console.log('Carte reçue de la pioche stringEmpty');
             return;
@@ -37,6 +38,8 @@ const CardPioche = () => {
 
     useEffect(() => {
         socket?.on(SynchronizeGameValuesResponse.Message, (args: SynchronizeGameValuesResponse) => {
+            console.log(`synchronize game response recue, valeur de la pioche ${args.piocheEmpty}`);
+
             setPiocheEmpty(args.piocheEmpty);
         });
     }, []);

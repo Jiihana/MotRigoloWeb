@@ -18,7 +18,7 @@ const CardInventory = (props: CardInventoryInterface) => {
 
     const RemoveCard = async (card: string) => {
         var result = await MotRigoloClient.RemoveCardInventory(SocketState.socket?.id!, gameContext?.gameId as string, card);
-        if (result.isValid) {
+        if (result.success == true) {
             const card = result.value?.card as string;
             gameContext?.setCardsInventory((prevCards) => prevCards.filter((prevCard) => prevCard !== card));
         }

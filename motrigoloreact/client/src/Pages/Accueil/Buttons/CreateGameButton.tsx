@@ -3,7 +3,6 @@ import MenuButton from '../../Shared/MenuButton';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import SocketContext from '../../../contexts/SocketContext';
 import { useContext } from 'react';
-import { GameContext } from '../../../contexts/GameContext';
 
 const CreateGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
@@ -13,7 +12,7 @@ const CreateGameButton = () => {
 
     const handleCreateGame = async () => {
         var result = await MotRigoloClient.CreateGame(SocketState.socket?.id as string);
-        if (result.isValid) {
+        if (result.success == true) {
             navigate(`/game/${result.value?.gameId}`, { state: { gridSize: result.value?.gridSize, gameId: result.value?.gameId } });
         }
     };
