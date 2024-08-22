@@ -1,3 +1,4 @@
+import GameModelError from '../GameModelError';
 import PlayerModel from './PlayerModel';
 import * as fs from 'fs';
 
@@ -22,7 +23,7 @@ class GameModel {
         this.ChoosenWords = [];
     }
 
-    public FlipOverCard(IndexCard: string): boolean {
+    public FlipOverCard(IndexCard: string): boolean | GameModelError {
         if (this.GridCardsState.has(IndexCard)) {
             const value = this.GridCardsState.get(IndexCard);
 
@@ -30,7 +31,7 @@ class GameModel {
             return !value;
         }
 
-        throw new Error("La carte n'est pas inscrite dans les cartes existantes du jeu");
+        return GameModelError.gameUndefined;
     }
 
     public SynchronizeCards(): Map<string, boolean> {
@@ -45,11 +46,11 @@ class GameModel {
         this.players = this.players.filter((player) => player.playerId !== playerId);
     }
 
-    public addCardToPlayerInventory(playerId: string): string {
+    public addCardToPlayerInventory(playerId: string): string | GameModelError {
         const player = this.players.find((player) => player.playerId == playerId);
 
         if (player == undefined) {
-            throw new Error("player is undefined: couldn't add card to inventory");
+            return new GameModelError(`${GameModelError.joueurUndefined} ${GameModelError.cannotAddCardToInventory}`);
         }
 
         const randomCard = this.drawRandomPiocheCard();
@@ -57,11 +58,11 @@ class GameModel {
         return player.addCardToInventory(randomCard);
     }
 
-    public removeCardFromPlayerInventory(playerId: string, card: string): string {
+    public removeCardFromPlayerInventory(playerId: string, card: string): string | GameModelError {
         const player = this.players.find((player) => player.playerId == playerId);
 
         if (player == undefined) {
-            throw new Error("player is undefined: couldn't add card to inventory");
+            return new GameModelError(`${GameModelError.joueurUndefined} ${GameModelError.cannotRemoveCardFromInventory}`);
         }
 
         this.cardsDiscarded.push(card);

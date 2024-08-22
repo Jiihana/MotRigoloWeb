@@ -7,92 +7,98 @@ import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
 
-    static CreateGame = async (socketId: string): Promise<HttpResult<CreateGameResponse>> => {
+    static CreateGame = async (socketId: string): Promise<HttpResultValue<CreateGameResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<CreateGameResponse>(
+            `${MotRigoloClient.baseUrl}/${CreateGameRequest.Message}?socketId=${socketId}`
+        );
+    };
+
+    static JoinGame = async (socketId: string, gameId: string): Promise<HttpResultValue<JoinGameResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(
+            `${MotRigoloClient.baseUrl}/${JoinGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`
+        );
+    };
+
+    static GetCardPioche = async (socketId: string, gameId: string): Promise<HttpResultValue<GetCardPiocheResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<GetCardPiocheResponse>(
+            `${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`
+        );
+    };
+
+    static RemoveCardInventory = async (
+        socketId: string,
+        gameId: string,
+        card: string
+    ): Promise<HttpResultValue<RemoveCardFromInventoryResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<RemoveCardFromInventoryResponse>(
+            `${MotRigoloClient.baseUrl}/${RemoveCardFromInventoryRequest.Message}?socketId=${socketId}&gameId=${gameId}&card=${card}`
+        );
+    };
+
+    static LeaveGame = async (socketId: string, gameId: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
+    };
+
+    static async Call(url: string): Promise<HttpResult> {
         try {
-            const response = await fetch(`${MotRigoloClient.baseUrl}/${CreateGameRequest.Message}?socketId=${socketId}`);
-            const result: CreateGameResponse = await response.json();
+            var response = await fetch(url);
+            if (!response.ok) {
+                const result: string = await response.json();
+                return {
+                    state: 'error',
+                    errorMessage: result
+                };
+            }
+
             return {
-                isValid: true,
+                state: 'ok'
+            };
+        } catch (error) {
+            return {
+                state: 'error',
+                errorMessage: 'Un problème est survenu lors du call HTTP'
+            };
+        }
+    }
+
+    static async CallWithResponseValue<T>(url: string): Promise<HttpResultValue<T>> {
+        try {
+            var response = await fetch(url);
+            if (!response.ok) {
+                const result: string = await response.json();
+                return {
+                    state: 'error',
+                    errorMessage: result
+                };
+            }
+
+            const result: T = await response.json();
+            return {
+                state: 'ok',
                 value: result
             };
         } catch (error) {
             return {
-                value: undefined,
-                isValid: false
+                state: 'error',
+                errorMessage: 'Un problème est survenu lors du call HTTP'
             };
         }
-    };
-
-    static JoinGame = async (socketId: string, gameId: string): Promise<HttpResult<JoinGameResponse>> => {
-        try {
-            const response = await fetch(`${MotRigoloClient.baseUrl}/${JoinGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
-            const result: JoinGameResponse = await response.json();
-            return {
-                isValid: true,
-                value: result
-            };
-        } catch (error) {
-            return {
-                value: undefined,
-                isValid: false
-            };
-        }
-    };
-
-    static GetCardPioche = async (socketId: string, gameId: string): Promise<HttpResult<GetCardPiocheResponse>> => {
-        console.log(`game id dans la requete GetCardPioche ${gameId}`);
-        try {
-            const response = await fetch(`${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
-            const result: GetCardPiocheResponse = await response.json();
-            return {
-                isValid: true,
-                value: result
-            };
-        } catch (error) {
-            return {
-                value: undefined,
-                isValid: false
-            };
-        }
-    };
-
-    static RemoveCardInventory = async (socketId: string, gameId: string, card: string): Promise<HttpResult<RemoveCardFromInventoryResponse>> => {
-        try {
-            const response = await fetch(
-                `${MotRigoloClient.baseUrl}/${RemoveCardFromInventoryRequest.Message}?socketId=${socketId}&gameId=${gameId}&card=${card}`
-            );
-            const result: RemoveCardFromInventoryResponse = await response.json();
-            return {
-                isValid: true,
-                value: result
-            };
-        } catch (error) {
-            return {
-                value: undefined,
-                isValid: false
-            };
-        }
-    };
-
-    static LeaveGame = async (socketId: string, gameId: string): Promise<HttpResultBasic> => {
-        try {
-            await fetch(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
-            return {
-                isValid: true
-            };
-        } catch (error) {
-            return {
-                isValid: false
-            };
-        }
-    };
+    }
 }
 
-export type HttpResult<T> = {
-    value: undefined | T;
-    isValid: boolean;
+export type HttpResult = HttpError | HttpResultBasic;
+
+export type HttpResultValue<T> = HttpError | HttpResultWithValue<T>;
+
+export type HttpError = {
+    state: 'error';
+    errorMessage: string;
 };
 
+export type HttpResultWithValue<T> = {
+    value: T;
+} & HttpResultBasic;
+
 export type HttpResultBasic = {
-    isValid: boolean;
+    state: 'ok';
 };

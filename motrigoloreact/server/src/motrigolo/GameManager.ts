@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import { CheckGameExistsResponse } from '../../../client/src/common/socket_messages/GameExistsCheck';
 import GameModel from './models/GameModel';
+import GameModelError from './GameModelError';
 
 export class GameManager {
     public static instance: GameManager;
@@ -12,9 +13,14 @@ export class GameManager {
         GameManager.instance = this;
     }
 
-    getGame(gameId: string): GameModel | undefined {
-        console.log(`game ID = ${gameId}`);
-        return this.games.find((game) => game.gameId == gameId);
+    getGame(gameId: string): GameModel | GameModelError {
+        const game = this.games.find((game) => game.gameId == gameId);
+
+        if (game == undefined) {
+            return GameModelError.gameUndefined;
+        }
+
+        return game;
     }
 
     createGame(creator: string): GameModel {
@@ -28,11 +34,11 @@ export class GameManager {
         this.games = this.games.filter((game) => game !== currentGame);
     }
 
-    removePlayerFromGame(gameId: string, socketId: string) {
+    removePlayerFromGame(gameId: string, socketId: string): void | GameModelError {
         const game = this.getGame(gameId);
 
-        if (game == undefined) {
-            return;
+        if (game instanceof GameModelError) {
+            return new GameModelError(`${game.message} Impossible d'enlever le joueur de la game`);
         }
 
         game.removePlayer(socketId);

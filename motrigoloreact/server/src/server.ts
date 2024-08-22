@@ -2,13 +2,13 @@ import http from 'http';
 import express from 'express';
 import { ServerSocket } from './socket';
 import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
-import { GameServerSocket } from './gameServerSocket';
 import { GameManager } from './motrigolo/GameManager';
 import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
 import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socket_messages/JoinGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../../client/src/common/socket_messages/RemoveCardFromInventory';
 import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveGame';
+import GameModelError from './motrigolo/GameModelError';
 
 const application = express();
 
@@ -63,21 +63,21 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
 });
 
 application.get('/' + CreateGameRequest.Message, (req, res, next) => {
-    var socketId = req.query['socketId'] as string;
-    var game = GameManager.instance.createGame(socketId);
+    const socketId = req.query['socketId'] as string;
+    const game = GameManager.instance.createGame(socketId);
     ServerSocket.instance.AddSocketToRoom(socketId, game.gameId);
 
     return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize));
 });
 
 application.get('/' + JoinGameRequest.Message, (req, res, next) => {
-    var socketId = req.query['socketId'] as string;
-    var gameId = req.query['gameId'] as string;
+    const socketId = req.query['socketId'] as string;
+    const gameId = req.query['gameId'] as string;
     ServerSocket.instance.AddSocketToRoom(socketId, gameId);
-    var game = GameManager.instance.getGame(gameId);
+    const game = GameManager.instance.getGame(gameId);
 
-    if (game == undefined) {
-        return;
+    if (game instanceof GameModelError) {
+        return res.status(404).json(game.message);
     }
 
     game.addPlayer(socketId);
@@ -85,26 +85,30 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
 });
 
 application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
-    var socketId = req.query['socketId'] as string;
-    var gameId = req.query['gameId'] as string;
-    var game = GameManager.instance.getGame(gameId);
+    const socketId = req.query['socketId'] as string;
+    const gameId = req.query['gameId'] as string;
+    const game = GameManager.instance.getGame(gameId);
 
-    if (game == undefined) {
-        return;
+    if (game instanceof GameModelError) {
+        return res.status(404).json(game.message);
     }
 
     const cardPiochee = game.addCardToPlayerInventory(socketId);
+    if (cardPiochee instanceof GameModelError) {
+        return res.status(404).json(cardPiochee.message);
+    }
+
     return res.status(200).json(new GetCardPiocheResponse(cardPiochee, game.piocheEmpty));
 });
 
 application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) => {
-    var socketId = req.query['socketId'] as string;
-    var gameId = req.query['gameId'] as string;
-    var card = req.query['card'] as string;
-    var game = GameManager.instance.getGame(gameId);
+    const socketId = req.query['socketId'] as string;
+    const gameId = req.query['gameId'] as string;
+    const card = req.query['card'] as string;
+    const game = GameManager.instance.getGame(gameId);
 
-    if (game == undefined) {
-        return;
+    if (game instanceof GameModelError) {
+        return res.status(404).json(game.message);
     }
 
     game.removeCardFromPlayerInventory(socketId, card);
@@ -113,8 +117,8 @@ application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) =
 });
 
 application.get('/' + LeaveGameRequest.Message, (req, res, next) => {
-    var socketId = req.query['socketId'] as string;
-    var gameId = req.query['gameId'] as string;
+    const socketId = req.query['socketId'] as string;
+    const gameId = req.query['gameId'] as string;
 
     GameManager.instance.removePlayerFromGame(gameId, socketId);
     ServerSocket.instance.RemoveSocketFromRoom(socketId, gameId);

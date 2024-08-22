@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
 import SocketContext from '../../../../contexts/SocketContext';
-import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
+import { MotRigoloClient, HttpError } from '../../../../HttpClient/MotRigoloClient';
 import { GameContext } from '../../../../contexts/GameContext';
 import { SynchronizeGameValuesResponse } from '../../../../common/socket_messages/SynchronizeGameValues';
+import { AlertContext } from '../../../../contexts/AlertContext';
 
 const CardPioche = () => {
     const background = 'url(/images/cards/cardIndexBack.png)';
@@ -12,22 +13,26 @@ const CardPioche = () => {
     const { SocketState } = useContext(SocketContext);
     const { socket } = useContext(SocketContext).SocketState;
     const gameContext = useContext(GameContext);
+    const alertContext = useContext(AlertContext);
 
     const [piocheEmpty, setPiocheEmpty] = useState<boolean>(false);
 
     const getCardPioche = async () => {
         var result = await MotRigoloClient.GetCardPioche(SocketState.socket?.id!, gameContext?.gameId as string);
 
-        if (result.value?.cardPioche == '') {
+        if (result.state === 'error') {
+            alertContext?.setAlertMessage(result.errorMessage);
+            return;
+        }
+        if (result.value.cardPioche == '') {
             console.log('Carte reçue de la pioche stringEmpty');
             return;
         }
-        if (result.isValid) {
-            const card = result.value?.cardPioche as string;
-            gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);
-            setPiocheEmpty(result.value?.piocheEmpty as boolean);
-            console.log(piocheEmpty);
-        }
+
+        const card = result.value?.cardPioche as string;
+        gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);
+        setPiocheEmpty(result.value?.piocheEmpty as boolean);
+        console.log(piocheEmpty);
     };
 
     useEffect(() => {

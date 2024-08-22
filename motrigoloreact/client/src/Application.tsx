@@ -4,6 +4,8 @@ import { themeOptions } from './Theme/Theme';
 import Accueil from './Pages/Accueil/Accueil';
 import GameLobby from './Pages/Game/GameLobby/GameLobby';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AlertProvider } from './contexts/AlertContext';
+import Alert from './Pages/Shared/Alert';
 
 export interface IApplicationProps {}
 
@@ -14,15 +16,18 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
+            <AlertProvider>
+                <CssBaseline />
 
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Accueil />}></Route>
+                <Router>
+                    <Alert />
+                    <Routes>
+                        <Route path="/" element={<Accueil />}></Route>
 
-                    <Route path="/game/:gameid" element={<GameLobby />}></Route>
-                </Routes>
-            </Router>
+                        <Route path="/game/:gameid" element={<GameLobby />}></Route>
+                    </Routes>
+                </Router>
+            </AlertProvider>
         </ThemeProvider>
     );
 };
