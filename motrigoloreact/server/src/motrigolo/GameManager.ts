@@ -1,5 +1,4 @@
 import { v4 } from 'uuid';
-import { CheckGameExistsResponse } from '../../../client/src/common/socket_messages/GameExistsCheck';
 import GameModel from './models/GameModel';
 import GameModelError from './GameModelError';
 
@@ -63,7 +62,7 @@ export class GameManager {
         });
     }
 
-    gameExists(gameId: string): CheckGameExistsResponse {
-        return new CheckGameExistsResponse(this.games.some((game) => game.gameId == gameId));
+    gameExists(gameId: string) {
+        return this.games.some((game) => game.gameId == gameId);
     }
 }

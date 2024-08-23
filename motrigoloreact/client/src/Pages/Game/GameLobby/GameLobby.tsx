@@ -19,14 +19,9 @@ const GameLobby = () => {
         socket?.emit(SynchronizeGameValuesRequest.Message, new SynchronizeGameValuesRequest());
 
         const checkGameExists = async () => {
-            console.log(gameId);
             const result = await MotRigoloClient.CheckGameExists(gameId);
+            setGameExists(result.success);
 
-            if (!result.success) {
-                setGameExists(false);
-            } else {
-                setGameExists(result.value.gameExists);
-            }
             setIsLoading(false);
         };
 

@@ -3,7 +3,8 @@ import { LeaveGameRequest } from '../common/socket_messages/LeaveGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../common/socket_messages/GetCardPioche';
 import { JoinGameRequest, JoinGameResponse } from '../common/socket_messages/JoinGame';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../common/socket_messages/RemoveCardFromInventory';
-import { CheckGameExistsRequest, CheckGameExistsResponse } from '../common/socket_messages/GameExistsCheck';
+import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsCheck';
+import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
@@ -40,25 +41,27 @@ export class MotRigoloClient {
         return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
     };
 
-    static CheckGameExists = async (gameId: string): Promise<HttpResultValue<CheckGameExistsResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<CheckGameExistsResponse>(
-            `${MotRigoloClient.baseUrl}/${CheckGameExistsRequest.Message}?gameId=${gameId}`
-        );
+    static CheckGameExists = async (gameId: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${CheckGameExistsRequest.Message}?gameId=${gameId}`);
+    };
+
+    static FlipOverCard = async (cardIndex: string, gameId: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${FlipOverCardRequest.Message}?cardIndex=${cardIndex}&gameId=${gameId}`);
     };
 
     static async Call(url: string): Promise<HttpResult> {
         try {
             var response = await fetch(url);
-            if (!response.ok) {
-                const result: string = await response.json();
+            if (response.ok) {
                 return {
-                    success: false,
-                    errorMessage: result
+                    success: true
                 };
             }
 
+            const result: string = await response.json();
             return {
-                success: true
+                success: false,
+                errorMessage: result
             };
         } catch (error) {
             return {

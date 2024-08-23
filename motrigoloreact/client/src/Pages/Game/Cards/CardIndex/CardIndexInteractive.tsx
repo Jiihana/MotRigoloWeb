@@ -4,6 +4,8 @@ import { Box } from '@mui/material';
 import SocketContext from '../../../../contexts/SocketContext';
 import { FlipOverCardRequest, FlipOverCardResponse } from '../../../../common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesResponse } from '../../../../common/socket_messages/SynchronizeGameValues';
+import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
+import { GameContext } from '../../../../contexts/GameContext';
 
 interface CardIndexInterface {
     indexNumber: number;
@@ -14,6 +16,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     const IndexCard = `${props.indexLetter}${props.indexNumber}`;
     const frontBackground = 'url(/images/cards/cardIndexFront.png)';
     const backBackground = 'url(/images/cards/cardIndexBack.png)';
+
+    const gameContext = useContext(GameContext);
 
     const [textLetter, setTextLetter] = useState('');
     const [textNumber, setTextNumber] = useState('');
@@ -39,8 +43,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
 
     const { socket } = useContext(SocketContext).SocketState;
 
-    const FlipOverCardHandler = () => {
-        socket?.emit(FlipOverCardRequest.Message, new FlipOverCardRequest(`${props.indexLetter}${props.indexNumber}`));
+    const FlipOverCardHandler = async () => {
+        await MotRigoloClient.FlipOverCard(`${props.indexLetter}${props.indexNumber}`, gameContext?.gameId as string);
     };
 
     useEffect(() => {

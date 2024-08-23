@@ -23,14 +23,15 @@ class GameModel {
         this.ChosenWords = [];
     }
 
-    public FlipOverCard(IndexCard: string): boolean | GameModelError {
-        if (this.GridCardsState.has(IndexCard)) {
-            const value = this.GridCardsState.get(IndexCard);
+    public FlipOverCard(indexCard: string): boolean | GameModelError {
+        if (this.GridCardsState.has(indexCard)) {
+            const value = this.GridCardsState.get(indexCard);
 
-            this.GridCardsState.set(IndexCard, !value);
+            this.GridCardsState.set(indexCard, !value);
             return !value;
         }
 
+        // todo meilleur gestion erreur
         return GameModelError.gameUndefined;
     }
 

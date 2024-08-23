@@ -14,24 +14,6 @@ export class GameServerSocket {
     }
 
     StartListeners = (socket: Socket) => {
-        socket.on(FlipOverCardRequest.Message, (args: FlipOverCardRequest) => {
-            const rooms = Array.from(socket.rooms);
-
-            const game = GameManager.instance.getGame(rooms[1]);
-            if (game instanceof GameModelError) {
-                socket?.emit(AlertResponse.Message, new AlertResponse(`${game.message} Impossible de flipOver une carte`));
-            }
-
-            if (game instanceof GameModel) {
-                const result = game.FlipOverCard(args.cardIndex);
-                if (typeof result === 'boolean') {
-                    this.io.to(game.gameId).emit(FlipOverCardResponse.Message, new FlipOverCardResponse(args.cardIndex, result));
-                } else if (result instanceof GameModelError) {
-                    socket?.emit(AlertResponse.Message, new AlertResponse(result.message));
-                }
-            }
-        });
-
         socket.on(SynchronizeGameValuesRequest.Message, () => {
             const rooms = Array.from(socket.rooms);
 

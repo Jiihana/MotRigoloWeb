@@ -9,6 +9,8 @@ import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/co
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../../client/src/common/socket_messages/RemoveCardFromInventory';
 import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveGame';
 import GameModelError from './motrigolo/GameModelError';
+import { FlipOverCardRequest } from '../../client/src/common/socket_messages/FlipOverCard';
+import { Socket } from 'socket.io';
 
 const application = express();
 
@@ -59,7 +61,12 @@ application.get('/status', (req, res, next) => {
 });
 
 application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
-    return res.status(200).json(GameManager.instance.gameExists(req.query['gameId'] as string));
+    const response = GameManager.instance.gameExists(req.query['gameId'] as string);
+    if (!response) {
+        return res.status(404).send();
+    }
+
+    return res.status(200).send();
 });
 
 application.get('/' + CreateGameRequest.Message, (req, res, next) => {
@@ -124,6 +131,23 @@ application.get('/' + LeaveGameRequest.Message, (req, res, next) => {
     GameManager.instance.removePlayerFromGame(socketId);
     ServerSocket.instance.RemoveSocketFromRoom(socketId, gameId);
 
+    return res.status(200).send();
+});
+
+application.get('/' + FlipOverCardRequest.Message, (req, res, next) => {
+    const cardIndex = req.query['cardIndex'] as string;
+    const gameId = req.query['gameId'] as string;
+
+    const game = GameManager.instance.getGame(gameId);
+    if (game instanceof GameModelError) {
+        return res.status(404).json(`${game.message}. ${GameModelError.cannotFlipOverCard}`);
+    }
+
+    const flipOverResult = ServerSocket.instance.FlipOverCard(game, cardIndex);
+
+    if (flipOverResult instanceof GameModelError) {
+        return res.status(400).json(`${flipOverResult.message}. ${GameModelError.cannotFlipOverCard}`);
+    }
     return res.status(200).send();
 });
 

@@ -7,13 +7,3 @@ export class CheckGameExistsRequest {
         this.gameId = gameId;
     }
 }
-
-export class CheckGameExistsResponse {
-    static Message = 'CheckGameExistsResponse';
-
-    public gameExists: boolean;
-
-    constructor(gameExists: boolean) {
-        this.gameExists = gameExists;
-    }
-}
