@@ -5,6 +5,7 @@ import { JoinGameRequest, JoinGameResponse } from '../common/socket_messages/Joi
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../common/socket_messages/RemoveCardFromInventory';
 import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsCheck';
 import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
+import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../common/socket_messages/SynchronizeGameValues';
 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
@@ -47,6 +48,14 @@ export class MotRigoloClient {
 
     static FlipOverCard = async (cardIndex: string, gameId: string): Promise<HttpResult> => {
         return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${FlipOverCardRequest.Message}?cardIndex=${cardIndex}&gameId=${gameId}`);
+    };
+
+    static SynchronizeGameValues = async (gameId: string): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
+        console.log(gameId);
+
+        return await MotRigoloClient.CallWithResponseValue<SynchronizeGameValuesResponse>(
+            `${MotRigoloClient.baseUrl}/${SynchronizeGameValuesRequest.Message}?gameId=${gameId}`
+        );
     };
 
     static async Call(url: string): Promise<HttpResult> {

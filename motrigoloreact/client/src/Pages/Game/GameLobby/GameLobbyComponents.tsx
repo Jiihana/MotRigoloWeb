@@ -8,6 +8,8 @@ import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
 import { AlertResponse } from '../../../common/socket_messages/Alert';
 import SocketContext from '../../../contexts/SocketContext';
+import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
+import { AlertContext } from '../../../contexts/AlertContext';
 
 const gameSettings = new GameSettings();
 
@@ -19,11 +21,9 @@ type GameLobbyComponentsProps = {
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const gameContext = useContext(GameContext);
-    const { socket } = useContext(SocketContext).SocketState;
+    const alertContext = useContext(AlertContext);
 
     useEffect(() => {
-        console.log('salut lobby');
-
         if (
             gameContext == undefined ||
             props.gameId == undefined ||
@@ -31,13 +31,25 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
             props.gridSize < 2 ||
             props.chosenWords.length == 0
         ) {
-            socket?.emit(AlertResponse.Message, new AlertResponse(`Impossible de set les valeurs du game context`));
+            alertContext?.setAlertMessage('Impossible de set les valeurs du game context');
             return;
         }
+
+        const synchronizeGameValues = async () => {
+            const result = await MotRigoloClient.SynchronizeGameValues(props.gameId);
+            if (!result.success) {
+                alertContext?.setAlertMessage(result.errorMessage);
+                return;
+            }
+
+            gameContext?.setGridCardsStates(result.value.gridCards);
+            gameContext?.setPiocheEmpty(result.value.piocheEmpty);
+        };
 
         gameContext.setGameId(props.gameId);
         gameContext.setGridSize(props.gridSize);
         gameContext.setChosenWords(props.chosenWords);
+        synchronizeGameValues();
     }, []);
 
     return (

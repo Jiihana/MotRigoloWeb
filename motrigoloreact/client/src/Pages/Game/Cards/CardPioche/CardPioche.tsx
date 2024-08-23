@@ -37,11 +37,7 @@ const CardPioche = () => {
     };
 
     useEffect(() => {
-        socket?.on(SynchronizeGameValuesResponse.Message, (args: SynchronizeGameValuesResponse) => {
-            console.log(`synchronize game response recue, valeur de la pioche ${args.piocheEmpty}`);
-
-            setPiocheEmpty(args.piocheEmpty);
-        });
+        setPiocheEmpty(gameContext?.piocheEmpty as boolean);
     }, []);
 
     return (

@@ -13,7 +13,7 @@ const CreateGameButton = () => {
     const handleCreateGame = async () => {
         var result = await MotRigoloClient.CreateGame(SocketState.socket?.id as string);
 
-        if (result.success == true) {
+        if (result.success) {
             navigate(`/game/${result.value?.gameId}`, {
                 state: { gridSize: result.value?.gridSize, gameId: result.value?.gameId, chosenWords: result.value?.chosenWords }
             });

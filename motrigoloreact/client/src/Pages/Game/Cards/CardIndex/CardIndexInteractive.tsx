@@ -53,17 +53,17 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
                 FlipOverCard(args.isCardRetournee);
             }
         });
-
-        socket?.on(SynchronizeGameValuesResponse.Message, (args: SynchronizeGameValuesResponse) => {
-            const gridCardsMap = new Map(Object.entries(args.gridCards));
-
-            if (gridCardsMap.has(IndexCard)) {
-                const value = gridCardsMap.get(IndexCard);
-
-                FlipOverCard(value);
-            }
-        });
     }, []);
+
+    useEffect(() => {
+        const gridCardsMap = new Map(Object.entries(gameContext?.gridCardsStates as Object));
+
+        if (gridCardsMap.has(IndexCard)) {
+            const value = gridCardsMap.get(IndexCard);
+
+            FlipOverCard(value);
+        }
+    }, [gameContext?.gridCardsStates]);
 
     return (
         <Box

@@ -1,6 +1,6 @@
 import http from 'http';
 import express from 'express';
-import { ServerSocket } from './socket';
+import { ServerSocket } from './serverSocket';
 import { CheckGameExistsRequest } from '../../client/src/common/socket_messages/GameExistsCheck';
 import { GameManager } from './motrigolo/GameManager';
 import { CreateGameRequest, CreateGameResponse } from '../../client/src/common/socket_messages/CreateGame';
@@ -11,6 +11,7 @@ import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveG
 import GameModelError from './motrigolo/GameModelError';
 import { FlipOverCardRequest } from '../../client/src/common/socket_messages/FlipOverCard';
 import { Socket } from 'socket.io';
+import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../../client/src/common/socket_messages/SynchronizeGameValues';
 
 const application = express();
 
@@ -149,6 +150,19 @@ application.get('/' + FlipOverCardRequest.Message, (req, res, next) => {
         return res.status(400).json(`${flipOverResult.message}. ${GameModelError.cannotFlipOverCard}`);
     }
     return res.status(200).send();
+});
+
+application.get('/' + SynchronizeGameValuesRequest.Message, (req, res, next) => {
+    const gameId = req.query['gameId'] as string;
+
+    const game = GameManager.instance.getGame(gameId);
+    if (game instanceof GameModelError) {
+        return res.status(404).json(`${game.message}. ${GameModelError.cannotSynchronizeGameValues}`);
+    }
+
+    const gridCardsState = game.SynchronizeCards();
+    const gridCardsObject = Object.fromEntries(gridCardsState.entries());
+    return res.status(200).json(new SynchronizeGameValuesResponse(gridCardsObject, game.piocheEmpty));
 });
 
 /** Error handling */

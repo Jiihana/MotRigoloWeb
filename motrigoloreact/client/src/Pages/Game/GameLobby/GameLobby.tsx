@@ -1,23 +1,19 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { GameProvider } from '../../../contexts/GameContext';
+import { GameContext, GameProvider } from '../../../contexts/GameContext';
 import GameLobbyComponents from './GameLobbyComponents';
 import { useContext, useEffect, useState } from 'react';
-import SocketContext from '../../../contexts/SocketContext';
-import { SynchronizeGameValuesRequest } from '../../../common/socket_messages/SynchronizeGameValues';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import { Box, Typography } from '@mui/material';
+import { AlertContext } from '../../../contexts/AlertContext';
 
 const GameLobby = () => {
     const location = useLocation();
     const { gridSize, gameId, chosenWords } = location.state || {};
-    const { socket } = useContext(SocketContext).SocketState;
 
     const [isLoading, setIsLoading] = useState(true);
     const [gameExists, setGameExists] = useState<boolean | null>(null);
 
     useEffect(() => {
-        socket?.emit(SynchronizeGameValuesRequest.Message, new SynchronizeGameValuesRequest());
-
         const checkGameExists = async () => {
             const result = await MotRigoloClient.CheckGameExists(gameId);
             setGameExists(result.success);
@@ -46,7 +42,7 @@ const GameLobby = () => {
 
     return gameExists ? (
         <GameProvider>
-            <GameLobbyComponents gridSize={gridSize} gameId={gameId} chosenWords={chosenWords}></GameLobbyComponents>
+            <GameLobbyComponents gridSize={gridSize} gameId={gameId} chosenWords={chosenWords} />
         </GameProvider>
     ) : (
         <Navigate to="/" />

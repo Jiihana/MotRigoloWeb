@@ -1,7 +1,6 @@
 import { Server as HttpServer } from 'http';
 import { Socket, Server } from 'socket.io';
 import { v4 } from 'uuid';
-import { GameServerSocket } from './gameServerSocket';
 import { GameManager } from './motrigolo/GameManager';
 import GameModel from './motrigolo/models/GameModel';
 import { FlipOverCardResponse } from '../../client/src/common/socket_messages/FlipOverCard';
@@ -10,7 +9,6 @@ import GameModelError from './motrigolo/GameModelError';
 export class ServerSocket {
     public static instance: ServerSocket;
     public io: Server;
-    private gameServerSocket: GameServerSocket;
 
     /** Master list of all connected users */
     public users: { [uid: string]: string };
@@ -27,8 +25,6 @@ export class ServerSocket {
                 origin: '*'
             }
         });
-
-        this.gameServerSocket = new GameServerSocket(this.io);
 
         this.io.on('connect', this.StartListeners);
         console.info('Socket IO started');
@@ -57,8 +53,6 @@ export class ServerSocket {
     };
 
     StartListeners = (socket: Socket) => {
-        this.gameServerSocket.StartListeners(socket);
-
         socket.on('handshake', (callback: (uid: string, users: string[]) => void) => {
             console.info('Handshake received from: ' + socket.id);
 

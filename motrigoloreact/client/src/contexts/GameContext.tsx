@@ -10,6 +10,10 @@ type GameContextType = {
     setCardsInventory: (cards: string[] | ((prevCards: string[]) => string[])) => void;
     chosenWords: string[];
     setChosenWords: (chosenWords: string[]) => void;
+    gridCardsStates: object;
+    setGridCardsStates: (gridCardsStates: object) => void;
+    piocheEmpty: boolean;
+    setPiocheEmpty: (piocheEmpty: boolean) => void;
 };
 
 // Créer le contexte avec un type par défaut
@@ -21,9 +25,26 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     const [gridSize, setGridSize] = useState<number>(0);
     const [cardsInventory, setCardsInventory] = useState<string[]>([]);
     const [chosenWords, setChosenWords] = useState<string[]>([]);
+    const [gridCardsStates, setGridCardsStates] = useState<object>({});
+    const [piocheEmpty, setPiocheEmpty] = useState<boolean>(false);
 
     return (
-        <GameContext.Provider value={{ gameId, setGameId, gridSize, setGridSize, cardsInventory, setCardsInventory, chosenWords, setChosenWords }}>
+        <GameContext.Provider
+            value={{
+                gameId,
+                setGameId,
+                gridSize,
+                setGridSize,
+                cardsInventory,
+                setCardsInventory,
+                chosenWords,
+                setChosenWords,
+                gridCardsStates,
+                setGridCardsStates,
+                piocheEmpty,
+                setPiocheEmpty
+            }}
+        >
             {children}
         </GameContext.Provider>
     );
