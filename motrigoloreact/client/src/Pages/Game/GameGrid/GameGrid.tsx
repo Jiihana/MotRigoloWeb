@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import { useContext } from 'react';
 
-import { Box, colors, Grid, Stack } from '@mui/material';
+import { Grid } from '@mui/material';
 import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
 import CardHeaderVerticale from '../Cards/CardHeader/CardHeaderVerticale';
 import CardHeaderHorizontale from '../Cards/CardHeader/CardHeaderHorizontale';
+import { GameContext } from '../../../contexts/GameContext';
 
 interface DynamicGridProps {
     gridSize: number;
@@ -12,6 +13,8 @@ interface DynamicGridProps {
 class CardsGenerator {
     private gridSize: number;
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    gameContext = useContext(GameContext);
 
     constructor(gridSize: number) {
         this.gridSize = gridSize;
@@ -37,7 +40,12 @@ class CardsGenerator {
     public cardHeaderHorizontalGenerator(index: number) {
         const cardText = this.getCardHeaderHorizontalText(index);
 
-        return <CardHeaderHorizontale cardText={cardText} cardWord={'Tracteur'}></CardHeaderHorizontale>;
+        return (
+            <CardHeaderHorizontale
+                cardText={cardText}
+                cardWord={this.gameContext!.chosenWords[this.gridSize - 2 + index / this.gridSize]}
+            ></CardHeaderHorizontale>
+        );
     }
 
     private getCardHeaderHorizontalText(index: number): string {
@@ -48,7 +56,7 @@ class CardsGenerator {
     public cardHeaderVerticalGenerator(index: number) {
         const cardText = this.getCardHeaderVerticalText(index);
 
-        return <CardHeaderVerticale cardText={cardText} cardWord={'Chat'}></CardHeaderVerticale>;
+        return <CardHeaderVerticale cardText={cardText} cardWord={this.gameContext!.chosenWords[index - 1]}></CardHeaderVerticale>;
     }
 
     private getCardHeaderVerticalText(index: number): string {

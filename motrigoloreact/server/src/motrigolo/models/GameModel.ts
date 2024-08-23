@@ -5,8 +5,8 @@ import * as fs from 'fs';
 class GameModel {
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     private cardsDiscarded: string[];
-    private ChosenWords: string[];
 
+    public ChosenWords: string[];
     public gameId: string;
     public players: PlayerModel[] = [];
     public gridCards: string[];
@@ -70,20 +70,24 @@ class GameModel {
     }
 
     public chooseRandomWords(numberWords: number): string[] {
-        for (let index = 0; index < numberWords; index++) {
-            const filePath = '../../motrigoloreact/server/src/Assets/DictionnairesMots.txt';
-            const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const filePath = '../../motrigoloreact/server/src/Assets/DictionnairesMots.txt';
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-            // Extraire chaque mot
-            const wordsArray = fileContent.split(' ');
+        const wordsArray = fileContent.split(' ');
 
+        while (this.ChosenWords.length < numberWords) {
             const randomIndex = Math.floor(Math.random() * wordsArray.length);
-            this.ChosenWords.push(wordsArray[randomIndex]);
+
+            const selectedWord = wordsArray[randomIndex];
+
+            // Vérifier si le mot n'est pas déjà sélectionné
+            if (!this.ChosenWords.includes(selectedWord)) {
+                this.ChosenWords.push(selectedWord);
+            }
         }
 
         return this.ChosenWords;
     }
-
     private drawRandomPiocheCard(): string {
         const pioche = this.getCardsPioche();
 

@@ -5,11 +5,7 @@ import SocketContext from '../../../contexts/SocketContext';
 import { useNavigate } from 'react-router-dom';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 
-interface JoinGameProps {
-    // onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
-
-const JoinGameButton = (props: JoinGameProps) => {
+const JoinGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
 
     const [inputValue, setInputValue] = useState('');
@@ -24,7 +20,9 @@ const JoinGameButton = (props: JoinGameProps) => {
     const handleJoinGame = async () => {
         var result = await MotRigoloClient.JoinGame(SocketState.socket?.id as string, inputValue);
         if (result.success == true) {
-            navigate(`/game/${result.value.gameId}`, { state: { gridSize: result.value.gridSize, gameId: result.value.gameId } });
+            navigate(`/game/${result.value.gameId}`, {
+                state: { gridSize: result.value.gridSize, gameId: result.value.gameId, chosenWords: result.value.chosenWords }
+            });
         }
     };
 

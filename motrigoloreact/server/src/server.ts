@@ -82,7 +82,7 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     }
 
     game.addPlayer(socketId);
-    return res.status(200).json(new JoinGameResponse(gameId, game.gridSize));
+    return res.status(200).json(new JoinGameResponse(gameId, game.gridSize, game.ChosenWords));
 });
 
 application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {

@@ -22,17 +22,20 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const { socket } = useContext(SocketContext).SocketState;
 
     useEffect(() => {
-        if (gameContext == undefined) {
-            socket?.emit(AlertResponse.Message, new AlertResponse(`game undefined, impossible de set les valeurs du game context`));
+        if (
+            gameContext == undefined ||
+            props.gameId == undefined ||
+            props.gridSize == undefined ||
+            props.gridSize < 2 ||
+            props.chosenWords.length == 0
+        ) {
+            socket?.emit(AlertResponse.Message, new AlertResponse(`Impossible de set les valeurs du game context`));
             return;
         }
 
         gameContext.setGameId(props.gameId);
         gameContext.setGridSize(props.gridSize);
         gameContext.setChosenWords(props.chosenWords);
-
-        console.log(props.chosenWords);
-        console.log(gameContext.chosenWords);
     }, []);
 
     return (
