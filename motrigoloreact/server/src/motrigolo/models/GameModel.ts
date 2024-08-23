@@ -1,6 +1,6 @@
-import GameModelError from '../GameModelError';
 import PlayerModel from './PlayerModel';
 import * as fs from 'fs';
+import { ResultatValue } from '../GameModelError';
 
 class GameModel {
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -23,16 +23,21 @@ class GameModel {
         this.ChosenWords = [];
     }
 
-    public FlipOverCard(indexCard: string): boolean | GameModelError {
+    public FlipOverCard(indexCard: string): ResultatValue<boolean> {
         if (this.GridCardsState.has(indexCard)) {
             const value = this.GridCardsState.get(indexCard);
 
             this.GridCardsState.set(indexCard, !value);
-            return !value;
+            return {
+                success: true,
+                value: !value
+            };
         }
 
-        // todo meilleur gestion erreur
-        return GameModelError.gameUndefined;
+        return {
+            success: false,
+            message: `La carte avec l'index ${indexCard} n'a pas pu être retournée.`
+        };
     }
 
     public SynchronizeCards(): Map<string, boolean> {
@@ -44,31 +49,39 @@ class GameModel {
     }
 
     public removePlayer(playerId: string) {
-        console.log('player removed from game');
         this.players = this.players.filter((player) => player.playerId !== playerId);
     }
 
-    public addCardToPlayerInventory(playerId: string): string | GameModelError {
-        const player = this.players.find((player) => player.playerId == playerId);
-
-        if (player == undefined) {
-            return new GameModelError(`${GameModelError.joueurUndefined} ${GameModelError.cannotAddCardToInventory}`);
+    public addCardToPlayerInventory(playerId: string): ResultatValue<string> {
+        const player = this.findPlayer(playerId);
+        if (!player.success) {
+            return {
+                success: false,
+                message: `${player.message} Impossible d'ajouter la carte de l'inventaire.`
+            };
         }
 
         const randomCard = this.drawRandomPiocheCard();
-
-        return player.addCardToInventory(randomCard);
+        return {
+            success: true,
+            value: player.value.addCardToInventory(randomCard)
+        };
     }
 
-    public removeCardFromPlayerInventory(playerId: string, card: string): string | GameModelError {
-        const player = this.players.find((player) => player.playerId == playerId);
-
-        if (player == undefined) {
-            return new GameModelError(`${GameModelError.joueurUndefined} ${GameModelError.cannotRemoveCardFromInventory}`);
+    public removeCardFromPlayerInventory(playerId: string, card: string): ResultatValue<string> {
+        const player = this.findPlayer(playerId);
+        if (!player.success) {
+            return {
+                success: false,
+                message: `${player.message} Impossible de retirer la carte de l'inventaire.`
+            };
         }
 
         this.cardsDiscarded.push(card);
-        return player.removeCardFromInventory(card);
+        return {
+            success: true,
+            value: player.value.removeCardFromInventory(card)
+        };
     }
 
     public chooseRandomWords(numberWords: number): string[] {
@@ -90,6 +103,22 @@ class GameModel {
 
         return this.ChosenWords;
     }
+
+    private findPlayer(playerId: string): ResultatValue<PlayerModel> {
+        const player = this.players.find((player) => player.playerId == playerId);
+        if (player === undefined) {
+            return {
+                success: false,
+                message: `Le joueur avec l'id ${playerId} n'a pas été trouvé.`
+            };
+        }
+
+        return {
+            success: true,
+            value: player
+        };
+    }
+
     private drawRandomPiocheCard(): string {
         const pioche = this.getCardsPioche();
 

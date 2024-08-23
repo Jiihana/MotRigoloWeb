@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import GameModel from './models/GameModel';
-import GameModelError from './GameModelError';
+import { ResultatValue } from './GameModelError';
 
 export class GameManager {
     public static instance: GameManager;
@@ -12,14 +12,19 @@ export class GameManager {
         GameManager.instance = this;
     }
 
-    getGame(gameId: string): GameModel | GameModelError {
+    getGame(gameId: string): ResultatValue<GameModel> {
         const game = this.games.find((game) => game.gameId == gameId);
-
         if (game == undefined) {
-            return GameModelError.gameUndefined;
+            return {
+                success: false,
+                message: 'La game est undefined.'
+            };
         }
 
-        return game;
+        return {
+            success: true,
+            value: game
+        };
     }
 
     createGame(creator: string): GameModel {
@@ -29,29 +34,26 @@ export class GameManager {
         return gameModel;
     }
 
-    chooseWords(gameId: string): string[] | GameModelError {
+    chooseWords(gameId: string): ResultatValue<string[]> {
         const game = this.getGame(gameId);
 
-        if (game instanceof GameModelError) {
-            return new GameModelError(`${game.message} Impossible de choisir des mots`);
+        if (!game.success) {
+            return {
+                success: false,
+                message: `${game.message} Impossible de choisir des mots`
+            };
         }
 
-        return game.chooseRandomWords((this.gridSize - 1) * 2);
+        return {
+            success: true,
+            value: game.value.chooseRandomWords((this.gridSize - 1) * 2)
+        };
     }
 
-    private deleteGame(currentGame: GameModel) {
-        console.log('game deleted');
-        this.games = this.games.filter((game) => game !== currentGame);
-    }
-
-    removePlayerFromGame(socketId: string): void | GameModelError {
+    removePlayerFromGame(socketId: string) {
         this.games.forEach((game) => {
             game.players.forEach((player) => {
                 if (player.playerId == socketId) {
-                    if (game instanceof GameModelError) {
-                        return new GameModelError(`${game.message} Impossible d'enlever le joueur de la game`);
-                    }
-
                     game.removePlayer(socketId);
 
                     if (game.players.length == 0) {
@@ -62,7 +64,12 @@ export class GameManager {
         });
     }
 
-    gameExists(gameId: string) {
+    gameExists(gameId: string): boolean {
         return this.games.some((game) => game.gameId == gameId);
+    }
+
+    private deleteGame(currentGame: GameModel) {
+        console.log('game deleted');
+        this.games = this.games.filter((game) => game !== currentGame);
     }
 }

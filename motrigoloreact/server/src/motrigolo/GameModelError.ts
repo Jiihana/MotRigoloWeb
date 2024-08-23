@@ -1,13 +1,23 @@
-export default class GameModelError {
-    public static gameUndefined: GameModelError = new GameModelError('La game est undefined.');
-    public static joueurUndefined: GameModelError = new GameModelError('Le joueur est undefined.');
-    public static cannotAddCardToInventory: GameModelError = new GameModelError("Impossible d'ajouter une carte dans l'inventaire.");
-    public static cannotRemoveCardFromInventory: GameModelError = new GameModelError("Impossible d'enlever une carte de l'inventaire.");
-    public static cannotFlipOverCard: GameModelError = new GameModelError('Impossible de flip over une carte.');
-    public static cannotSynchronizeGameValues: GameModelError = new GameModelError('Impossible de synchroniser les données de jeu.');
-    public message: string;
+export const gameUndefined = 'La game est undefined.';
+export const joueurUndefined = 'Le joueur est undefined.';
+export const cannotAddCardToInventory = "Impossible d'ajouter une carte dans l'inventaire.";
+export const cannotRemoveCardFromInventory = "Impossible d'enlever une carte de l'inventaire.";
+export const cannotFlipOverCard = 'Impossible de flip over une carte.';
+export const cannotSynchronizeGameValues = 'Impossible de synchroniser les données de jeu.';
 
-    constructor(message: string) {
-        this.message = message;
-    }
-}
+export type ResultatValue<T> = ResultatSuccessValue<T> | ResultatFailure;
+
+export type ResultatSuccessValue<T> = {
+    value: T;
+} & ResultatSuccess;
+
+export type Resultat = ResultatSuccess | ResultatFailure;
+
+export type ResultatSuccess = {
+    success: true;
+};
+
+export type ResultatFailure = {
+    success: false;
+    message: string;
+};

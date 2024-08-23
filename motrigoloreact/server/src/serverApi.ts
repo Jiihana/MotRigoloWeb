@@ -8,10 +8,9 @@ import { JoinGameRequest, JoinGameResponse } from '../../client/src/common/socke
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../../client/src/common/socket_messages/GetCardPioche';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../../client/src/common/socket_messages/RemoveCardFromInventory';
 import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveGame';
-import GameModelError from './motrigolo/GameModelError';
 import { FlipOverCardRequest } from '../../client/src/common/socket_messages/FlipOverCard';
-import { Socket } from 'socket.io';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../../client/src/common/socket_messages/SynchronizeGameValues';
+import { cannotFlipOverCard, cannotSynchronizeGameValues } from './motrigolo/GameModelError';
 
 const application = express();
 
@@ -85,12 +84,12 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     ServerSocket.instance.AddSocketToRoom(socketId, gameId);
     const game = GameManager.instance.getGame(gameId);
 
-    if (game instanceof GameModelError) {
+    if (!game.success) {
         return res.status(404).json(game.message);
     }
 
-    game.addPlayer(socketId);
-    return res.status(200).json(new JoinGameResponse(gameId, game.gridSize, game.ChosenWords));
+    game.value.addPlayer(socketId);
+    return res.status(200).json(new JoinGameResponse(gameId, game.value.gridSize, game.value.ChosenWords));
 });
 
 application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
@@ -98,16 +97,16 @@ application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
     const gameId = req.query['gameId'] as string;
     const game = GameManager.instance.getGame(gameId);
 
-    if (game instanceof GameModelError) {
+    if (!game.success) {
         return res.status(404).json(game.message);
     }
 
-    const cardPiochee = game.addCardToPlayerInventory(socketId);
-    if (cardPiochee instanceof GameModelError) {
+    const cardPiochee = game.value.addCardToPlayerInventory(socketId);
+    if (!cardPiochee.success) {
         return res.status(404).json(cardPiochee.message);
     }
 
-    return res.status(200).json(new GetCardPiocheResponse(cardPiochee, game.piocheEmpty));
+    return res.status(200).json(new GetCardPiocheResponse(cardPiochee.value, game.value.piocheEmpty));
 });
 
 application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) => {
@@ -116,11 +115,11 @@ application.get('/' + RemoveCardFromInventoryRequest.Message, (req, res, next) =
     const card = req.query['card'] as string;
     const game = GameManager.instance.getGame(gameId);
 
-    if (game instanceof GameModelError) {
+    if (!game.success) {
         return res.status(404).json(game.message);
     }
 
-    game.removeCardFromPlayerInventory(socketId, card);
+    game.value.removeCardFromPlayerInventory(socketId, card);
 
     return res.status(200).json(new RemoveCardFromInventoryResponse(card));
 });
@@ -140,15 +139,17 @@ application.get('/' + FlipOverCardRequest.Message, (req, res, next) => {
     const gameId = req.query['gameId'] as string;
 
     const game = GameManager.instance.getGame(gameId);
-    if (game instanceof GameModelError) {
-        return res.status(404).json(`${game.message}. ${GameModelError.cannotFlipOverCard}`);
+
+    if (!game.success) {
+        return res.status(404).json(`${game.message}. ${cannotFlipOverCard}`);
     }
 
-    const flipOverResult = ServerSocket.instance.FlipOverCard(game, cardIndex);
+    const flipOverResult = ServerSocket.instance.FlipOverCard(game.value, cardIndex);
 
-    if (flipOverResult instanceof GameModelError) {
-        return res.status(400).json(`${flipOverResult.message}. ${GameModelError.cannotFlipOverCard}`);
+    if (!flipOverResult.success) {
+        return res.status(400).json(`${flipOverResult.message}. ${cannotFlipOverCard}`);
     }
+
     return res.status(200).send();
 });
 
@@ -156,13 +157,13 @@ application.get('/' + SynchronizeGameValuesRequest.Message, (req, res, next) => 
     const gameId = req.query['gameId'] as string;
 
     const game = GameManager.instance.getGame(gameId);
-    if (game instanceof GameModelError) {
-        return res.status(404).json(`${game.message}. ${GameModelError.cannotSynchronizeGameValues}`);
+    if (!game.success) {
+        return res.status(404).json(`${game.message}. ${cannotSynchronizeGameValues}`);
     }
 
-    const gridCardsState = game.SynchronizeCards();
+    const gridCardsState = game.value.SynchronizeCards();
     const gridCardsObject = Object.fromEntries(gridCardsState.entries());
-    return res.status(200).json(new SynchronizeGameValuesResponse(gridCardsObject, game.piocheEmpty));
+    return res.status(200).json(new SynchronizeGameValuesResponse(gridCardsObject, game.value.piocheEmpty));
 });
 
 /** Error handling */

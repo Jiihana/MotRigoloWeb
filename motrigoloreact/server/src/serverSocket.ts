@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 import { GameManager } from './motrigolo/GameManager';
 import GameModel from './motrigolo/models/GameModel';
 import { FlipOverCardResponse } from '../../client/src/common/socket_messages/FlipOverCard';
-import GameModelError from './motrigolo/GameModelError';
+import { Resultat } from './motrigolo/GameModelError';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -42,11 +42,10 @@ export class ServerSocket {
         player?.leave(gameId);
     };
 
-    FlipOverCard = (game: GameModel, cardIndex: string): void | GameModelError => {
+    FlipOverCard = (game: GameModel, cardIndex: string): Resultat => {
         const result = game.FlipOverCard(cardIndex);
-        if (typeof result === 'boolean') {
-            this.io.to(game.gameId).emit(FlipOverCardResponse.Message, new FlipOverCardResponse(cardIndex, result));
-            return;
+        if (result.success) {
+            this.io.to(game.gameId).emit(FlipOverCardResponse.Message, new FlipOverCardResponse(cardIndex, result.value));
         }
 
         return result;
