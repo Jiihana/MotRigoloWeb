@@ -65,9 +65,10 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
 application.get('/' + CreateGameRequest.Message, (req, res, next) => {
     const socketId = req.query['socketId'] as string;
     const game = GameManager.instance.createGame(socketId);
+    const chosenWords = game.chooseRandomWords((game.gridSize - 1) * 2);
     ServerSocket.instance.AddSocketToRoom(socketId, game.gameId);
 
-    return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize));
+    return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize, chosenWords));
 });
 
 application.get('/' + JoinGameRequest.Message, (req, res, next) => {

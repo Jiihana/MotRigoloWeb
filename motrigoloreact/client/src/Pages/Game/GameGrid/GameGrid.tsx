@@ -76,18 +76,12 @@ const GameGrid = (props: DynamicGridProps) => {
     const generator = new CardsGenerator(gridSize);
 
     const items = Array.from({ length: gridSize * gridSize }).map((_, index) => {
-        const row = Math.floor(index / gridSize);
-        const col = index % gridSize;
-        const color1 = colors.purple[200];
-        const color2 = colors.purple[400];
-        const isEven = (row + col) % 2 === 0;
         return (
             <Grid
                 item
                 xs={12 / gridSize}
                 key={index}
                 sx={{
-                    // backgroundColor: isEven ? color1 : color2,
                     alignItems: 'flex-end',
                     display: 'flex'
                 }}
@@ -104,7 +98,6 @@ const GameGrid = (props: DynamicGridProps) => {
             sx={{
                 height: '100%',
                 width: '100%',
-                // backgroundColor: colors.pink[500],
                 marginTop: '-0.5%'
             }}
         >

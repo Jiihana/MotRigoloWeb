@@ -30,6 +30,16 @@ export class GameManager {
         return gameModel;
     }
 
+    chooseWords(gameId: string): string[] | GameModelError {
+        const game = this.getGame(gameId);
+
+        if (game instanceof GameModelError) {
+            return new GameModelError(`${game.message} Impossible de choisir des mots`);
+        }
+
+        return game.chooseRandomWords((this.gridSize - 1) * 2);
+    }
+
     private deleteGame(currentGame: GameModel) {
         this.games = this.games.filter((game) => game !== currentGame);
     }

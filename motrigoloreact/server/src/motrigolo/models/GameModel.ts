@@ -5,7 +5,7 @@ import * as fs from 'fs';
 class GameModel {
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     private cardsDiscarded: string[];
-    private ChoosenWords: string[];
+    private ChosenWords: string[];
 
     public gameId: string;
     public players: PlayerModel[] = [];
@@ -20,7 +20,7 @@ class GameModel {
         this.gridCards = this.setGridCards();
         this.GridCardsState = this.setGridCardsState();
         this.cardsDiscarded = [];
-        this.ChoosenWords = [];
+        this.ChosenWords = [];
     }
 
     public FlipOverCard(IndexCard: string): boolean | GameModelError {
@@ -67,6 +67,21 @@ class GameModel {
 
         this.cardsDiscarded.push(card);
         return player.removeCardFromInventory(card);
+    }
+
+    public chooseRandomWords(numberWords: number): string[] {
+        for (let index = 0; index < numberWords; index++) {
+            const filePath = '../../motrigoloreact/server/src/Assets/DictionnairesMots.txt';
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+            // Extraire chaque mot
+            const wordsArray = fileContent.split(' ');
+
+            const randomIndex = Math.floor(Math.random() * wordsArray.length);
+            this.ChosenWords.push(wordsArray[randomIndex]);
+        }
+
+        return this.ChosenWords;
     }
 
     private drawRandomPiocheCard(): string {
@@ -131,22 +146,6 @@ class GameModel {
         });
 
         return gridCardsState;
-    }
-
-    private chooseRandomWords(numberWords: number) {
-        for (let index = 0; index < numberWords; index++) {
-            const filePath = '../../Assets/DictionnairesMots.txt';
-            const fileContent = fs.readFileSync(filePath, 'utf-8');
-
-            // Extraire chaque mot
-            const wordsArray = fileContent.split(' ');
-
-            // Afficher les mots extraits
-            console.log(wordsArray);
-
-            const randomIndex = Math.floor(Math.random() * wordsArray.length);
-            const randomWord = this.ChoosenWords.push(wordsArray[randomIndex]);
-        }
     }
 }
 

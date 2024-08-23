@@ -7,17 +7,16 @@ import { SynchronizeGameValuesRequest } from '../../../common/socket_messages/Sy
 
 const GameLobby = () => {
     const location = useLocation();
-    const { gridSize, gameId } = location.state || {};
+    const { gridSize, gameId, chosenWords } = location.state || {};
     const { socket } = useContext(SocketContext).SocketState;
 
     useEffect(() => {
         socket?.emit(SynchronizeGameValuesRequest.Message, new SynchronizeGameValuesRequest());
-        console.log(gameId);
     }, []);
 
     return (
         <GameProvider>
-            <GameLobbyComponents gridSize={gridSize} gameId={gameId}></GameLobbyComponents>
+            <GameLobbyComponents gridSize={gridSize} gameId={gameId} chosenWords={chosenWords}></GameLobbyComponents>
         </GameProvider>
     );
 };

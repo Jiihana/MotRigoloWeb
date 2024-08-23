@@ -6,18 +6,33 @@ import CardPioche from '../Cards/CardPioche/CardPioche';
 import GameGrid from '../GameGrid/GameGrid';
 import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
+import { AlertResponse } from '../../../common/socket_messages/Alert';
+import SocketContext from '../../../contexts/SocketContext';
 
 const gameSettings = new GameSettings();
 
 type GameLobbyComponentsProps = {
     gameId: string;
     gridSize: number;
+    chosenWords: string[];
 };
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const gameContext = useContext(GameContext);
+    const { socket } = useContext(SocketContext).SocketState;
+
     useEffect(() => {
-        gameContext?.setGameId(props.gameId);
+        if (gameContext == undefined) {
+            socket?.emit(AlertResponse.Message, new AlertResponse(`game undefined, impossible de set les valeurs du game context`));
+            return;
+        }
+
+        gameContext.setGameId(props.gameId);
+        gameContext.setGridSize(props.gridSize);
+        gameContext.setChosenWords(props.chosenWords);
+
+        console.log(props.chosenWords);
+        console.log(gameContext.chosenWords);
     }, []);
 
     return (
