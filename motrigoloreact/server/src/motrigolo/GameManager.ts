@@ -41,21 +41,26 @@ export class GameManager {
     }
 
     private deleteGame(currentGame: GameModel) {
+        console.log('game deleted');
         this.games = this.games.filter((game) => game !== currentGame);
     }
 
-    removePlayerFromGame(gameId: string, socketId: string): void | GameModelError {
-        const game = this.getGame(gameId);
+    removePlayerFromGame(socketId: string): void | GameModelError {
+        this.games.forEach((game) => {
+            game.players.forEach((player) => {
+                if (player.playerId == socketId) {
+                    if (game instanceof GameModelError) {
+                        return new GameModelError(`${game.message} Impossible d'enlever le joueur de la game`);
+                    }
 
-        if (game instanceof GameModelError) {
-            return new GameModelError(`${game.message} Impossible d'enlever le joueur de la game`);
-        }
+                    game.removePlayer(socketId);
 
-        game.removePlayer(socketId);
-
-        if (game.players.length == 0) {
-            this.deleteGame(game);
-        }
+                    if (game.players.length == 0) {
+                        this.deleteGame(game);
+                    }
+                }
+            });
+        });
     }
 
     gameExists(gameId: string): CheckGameExistsResponse {

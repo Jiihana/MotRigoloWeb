@@ -82,7 +82,7 @@ export class ServerSocket {
             console.info('Disconnect received from: ' + socket.id);
 
             const uid = this.GetUidFromSocketID(socket.id);
-            this.removePlayerFromGame(socket);
+            GameManager.instance.removePlayerFromGame(socket.id);
 
             if (uid) {
                 delete this.users[uid];
@@ -91,16 +91,6 @@ export class ServerSocket {
 
                 this.SendMessage('user_disconnected', users, socket.id);
             }
-        });
-    };
-
-    removePlayerFromGame = (socket: Socket) => {
-        GameManager.instance.games.forEach((game) => {
-            game.players.forEach((player) => {
-                if (player.playerId == socket.id) {
-                    GameManager.instance.removePlayerFromGame(game.gameId, socket.id);
-                }
-            });
         });
     };
 

@@ -1,57 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Box, colors, Stack, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { Stack, Typography } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
-import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import { CheckGameExistsRequest, CheckGameExistsResponse } from '../../../common/socket_messages/GameExistsCheck';
+import { useParams, useNavigate } from 'react-router-dom';
+import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
+import SocketContext from '../../../contexts/SocketContext';
+import { GameContext } from '../../../contexts/GameContext';
 
 const GameLobbyHeader = () => {
     const { gameid } = useParams();
-    const [gameExists, setGameExists] = useState<boolean | null>(null); // État initial à null pour indiquer le chargement
-    const [isLoading, setIsLoading] = useState(true); // État de chargement
+    const { SocketState } = useContext(SocketContext);
+    const gameContext = useContext(GameContext);
 
     const backgroundButton = 'url(/images/buttons/menuButton2.png)';
 
     const navigate = useNavigate();
 
-    function backToMenuHandler() {
+    const backToMenuHandler = async () => {
+        await MotRigoloClient.LeaveGame(SocketState.socket?.id!, gameContext?.gameId as string);
         navigate('/');
-    }
+    };
 
-    useEffect(() => {
-        const checkGameExists = async () => {
-            try {
-                const response = await fetch(`http://localhost:1337/${CheckGameExistsRequest.Message}?gameId=${gameid}`);
-
-                const result = (await response.json()) as CheckGameExistsResponse;
-                setGameExists(result.gameExists);
-            } catch (error) {
-                console.error('Failed to check if game exists', error);
-                setGameExists(false);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        checkGameExists();
-    }, [gameid]);
-
-    if (isLoading) {
-        return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                    color: 'white'
-                }}
-            >
-                <Typography variant="h6">Loading...</Typography>
-            </Box>
-        );
-    }
-
-    return gameExists ? (
+    return (
         <Stack
             display="flex"
             direction="row"
@@ -71,8 +40,6 @@ const GameLobbyHeader = () => {
                 {gameid}
             </Typography>
         </Stack>
-    ) : (
-        <Navigate to="/" />
     );
 };
 

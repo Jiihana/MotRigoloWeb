@@ -3,6 +3,7 @@ import { LeaveGameRequest } from '../common/socket_messages/LeaveGame';
 import { GetCardPiocheRequest, GetCardPiocheResponse } from '../common/socket_messages/GetCardPioche';
 import { JoinGameRequest, JoinGameResponse } from '../common/socket_messages/JoinGame';
 import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from '../common/socket_messages/RemoveCardFromInventory';
+import { CheckGameExistsRequest, CheckGameExistsResponse } from '../common/socket_messages/GameExistsCheck';
 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
@@ -37,6 +38,12 @@ export class MotRigoloClient {
 
     static LeaveGame = async (socketId: string, gameId: string): Promise<HttpResult> => {
         return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
+    };
+
+    static CheckGameExists = async (gameId: string): Promise<HttpResultValue<CheckGameExistsResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<CheckGameExistsResponse>(
+            `${MotRigoloClient.baseUrl}/${CheckGameExistsRequest.Message}?gameId=${gameId}`
+        );
     };
 
     static async Call(url: string): Promise<HttpResult> {

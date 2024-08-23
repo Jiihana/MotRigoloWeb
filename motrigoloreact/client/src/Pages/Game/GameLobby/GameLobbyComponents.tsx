@@ -22,6 +22,8 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const { socket } = useContext(SocketContext).SocketState;
 
     useEffect(() => {
+        console.log('salut lobby');
+
         if (
             gameContext == undefined ||
             props.gameId == undefined ||

@@ -121,10 +121,10 @@ application.get('/' + LeaveGameRequest.Message, (req, res, next) => {
     const socketId = req.query['socketId'] as string;
     const gameId = req.query['gameId'] as string;
 
-    GameManager.instance.removePlayerFromGame(gameId, socketId);
+    GameManager.instance.removePlayerFromGame(socketId);
     ServerSocket.instance.RemoveSocketFromRoom(socketId, gameId);
 
-    return res.status(200);
+    return res.status(200).send();
 });
 
 /** Error handling */

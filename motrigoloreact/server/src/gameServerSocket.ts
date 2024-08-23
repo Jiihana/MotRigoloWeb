@@ -36,6 +36,7 @@ export class GameServerSocket {
             const rooms = Array.from(socket.rooms);
 
             const game = GameManager.instance.getGame(rooms[1]);
+
             if (game instanceof GameModelError) {
                 socket?.emit(AlertResponse.Message, new AlertResponse(`${game.message} Impossible de synchroniser les valeurs de jeu`));
             }

@@ -43,6 +43,7 @@ class GameModel {
     }
 
     public removePlayer(playerId: string) {
+        console.log('player removed from game');
         this.players = this.players.filter((player) => player.playerId !== playerId);
     }
 
@@ -125,7 +126,6 @@ class GameModel {
             }
         });
 
-        console.log(`les cartes de la pioche sont ${pioche}`);
         return pioche;
     }
 
@@ -138,7 +138,6 @@ class GameModel {
             }
         }
 
-        console.log(`les cartes de la grille sont ${gridCards}`);
         return gridCards;
     }
 
