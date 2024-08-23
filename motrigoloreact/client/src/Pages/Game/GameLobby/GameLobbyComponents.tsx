@@ -6,34 +6,39 @@ import CardPioche from '../Cards/CardPioche/CardPioche';
 import GameGrid from '../GameGrid/GameGrid';
 import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
-import { AlertResponse } from '../../../common/socket_messages/Alert';
-import SocketContext from '../../../contexts/SocketContext';
 import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import { AlertContext } from '../../../contexts/AlertContext';
+import SocketContext from '../../../contexts/SocketContext';
+import { useParams } from 'react-router-dom';
 
 const gameSettings = new GameSettings();
 
 type GameLobbyComponentsProps = {
     gameId: string;
-    gridSize: number;
-    chosenWords: string[];
 };
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
+    const { socket } = useContext(SocketContext).SocketState;
 
     useEffect(() => {
-        if (
-            gameContext == undefined ||
-            props.gameId == undefined ||
-            props.gridSize == undefined ||
-            props.gridSize < 2 ||
-            props.chosenWords.length == 0
-        ) {
+        if (gameContext == undefined || props.gameId == undefined) {
             alertContext?.setAlertMessage('Impossible de set les valeurs du game context');
             return;
         }
+
+        const joinGame = async () => {
+            const result = await MotRigoloClient.JoinGame(socket?.id as string, props.gameId);
+
+            if (!result.success) {
+                alertContext?.setAlertMessage('Impossible de join la partie');
+                return;
+            }
+
+            gameContext.setGridSize(result.value.gridSize);
+            gameContext.setChosenWords(result.value.chosenWords);
+        };
 
         const synchronizeGameValues = async () => {
             const result = await MotRigoloClient.SynchronizeGameValues(props.gameId);
@@ -47,8 +52,8 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
         };
 
         gameContext.setGameId(props.gameId);
-        gameContext.setGridSize(props.gridSize);
-        gameContext.setChosenWords(props.chosenWords);
+        joinGame();
+
         synchronizeGameValues();
     }, []);
 
@@ -106,7 +111,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                             justifyContent: 'center'
                         }}
                     >
-                        <GameGrid gridSize={props.gridSize} />
+                        <GameGrid gridSize={gameContext?.gridSize as number} />
                     </Box>
 
                     <Box

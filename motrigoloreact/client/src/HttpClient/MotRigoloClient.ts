@@ -51,8 +51,6 @@ export class MotRigoloClient {
     };
 
     static SynchronizeGameValues = async (gameId: string): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
-        console.log(gameId);
-
         return await MotRigoloClient.CallWithResponseValue<SynchronizeGameValuesResponse>(
             `${MotRigoloClient.baseUrl}/${SynchronizeGameValuesRequest.Message}?gameId=${gameId}`
         );

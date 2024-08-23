@@ -18,12 +18,7 @@ const JoinGameButton = () => {
     const navigate = useNavigate();
 
     const handleJoinGame = async () => {
-        var result = await MotRigoloClient.JoinGame(SocketState.socket?.id as string, inputValue);
-        if (result.success == true) {
-            navigate(`/game/${result.value.gameId}`, {
-                state: { gridSize: result.value.gridSize, gameId: result.value.gameId, chosenWords: result.value.chosenWords }
-            });
-        }
+        navigate(`/game/${inputValue}`);
     };
 
     return (
