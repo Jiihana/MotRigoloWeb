@@ -17,7 +17,20 @@ type GameContextType = {
 };
 
 // Créer le contexte avec un type par défaut
-const GameContext = createContext<GameContextType | undefined>(undefined);
+const GameContext = createContext<GameContextType>({
+    gameId: '',
+    setGameId: () => {},
+    gridSize: 0,
+    setGridSize: () => {},
+    cardsInventory: [],
+    setCardsInventory: () => {},
+    chosenWords: [],
+    setChosenWords: () => {},
+    gridCardsStates: {},
+    setGridCardsStates: () => {},
+    piocheEmpty: false,
+    setPiocheEmpty: () => {}
+});
 
 // Créer un provider
 const GameProvider = ({ children }: { children: ReactNode }) => {

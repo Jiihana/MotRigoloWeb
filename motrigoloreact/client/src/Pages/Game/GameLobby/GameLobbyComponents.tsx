@@ -23,7 +23,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const { socket } = useContext(SocketContext).SocketState;
 
     useEffect(() => {
-        if (gameContext == undefined || props.gameId == undefined) {
+        if (props.gameId == undefined) {
             alertContext?.setAlertMessage('Impossible de set les valeurs du game context');
             return;
         }
@@ -47,8 +47,8 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 return;
             }
 
-            gameContext?.setGridCardsStates(result.value.gridCards);
-            gameContext?.setPiocheEmpty(result.value.piocheEmpty);
+            gameContext.setGridCardsStates(result.value.gridCards);
+            gameContext.setPiocheEmpty(result.value.piocheEmpty);
         };
 
         gameContext.setGameId(props.gameId);

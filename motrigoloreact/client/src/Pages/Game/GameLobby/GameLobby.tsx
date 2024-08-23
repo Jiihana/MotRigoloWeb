@@ -14,14 +14,15 @@ const GameLobby = () => {
     useEffect(() => {
         const checkGameExists = async () => {
             const result = await MotRigoloClient.CheckGameExists(gameid as string);
+
             setGameExists(result.success);
 
             setIsLoading(false);
         };
         checkGameExists();
-    }, []);
+    }, [gameExists]);
 
-    if (isLoading) {
+    if (isLoading || gameExists == null) {
         return (
             <Box
                 sx={{
