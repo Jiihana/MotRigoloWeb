@@ -51,7 +51,7 @@ class CardsGenerator {
     public cardHeaderVerticalGenerator(index: number) {
         const cardText = this.getCardHeaderVerticalText(index);
 
-        return <CardHeaderVerticale cardText={cardText} cardWord={this.gameContext!.chosenWords[index - 1]}></CardHeaderVerticale>;
+        return <CardHeaderVerticale cardText={cardText} index={index}></CardHeaderVerticale>;
     }
 
     private getCardHeaderVerticalText(index: number): string {

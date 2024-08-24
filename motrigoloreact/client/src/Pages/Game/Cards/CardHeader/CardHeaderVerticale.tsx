@@ -8,18 +8,50 @@ import SocketContext from '../../../../contexts/SocketContext';
 
 export interface CardGridInterface {
     cardText: string;
-    cardWord: string;
+    index: number;
 }
 
 const CardHeaderVerticale = (props: CardGridInterface) => {
-    const { getClient, chosenWords } = useContext(GameContext);
+    const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
     const { socket } = useContext(SocketContext).SocketState;
+    const wordIndex = props.index - 1;
 
-    const [cardWord, setCardWord] = useState<string>(props.cardWord);
+    const [cardWord, setCardWord] = useState(gameContext.chosenWords[wordIndex]);
 
-    const modifyWord = async () => {};
+    let hasSubscribeEvent = false;
 
+    const modifyWord = async () => {
+        var result = await gameContext.getClient().ModifyWord(cardWord);
+
+        if (!result.success) {
+            alertContext?.setAlertMessage(result.errorMessage);
+        }
+    };
+
+    const subscribeEvent = () => {
+        if (!hasSubscribeEvent) {
+            socket?.on(ModifyWordResponse.Message, (arg) => OnModifyWord(arg));
+            hasSubscribeEvent = true;
+        }
+    };
+
+    const OnModifyWord = (args: ModifyWordResponse) => {
+        if (cardWord === args.oldWord) {
+            console.log(`new word:${args.newWord} old word ${args.oldWord} => cardword ${cardWord}`);
+            setCardWord(args.newWord);
+        }
+    };
+
+    useEffect(() => {
+        const chosenWords = gameContext.chosenWords;
+        chosenWords[wordIndex] = cardWord;
+        gameContext.setChosenWords(chosenWords);
+
+        console.log(`game context words: ${gameContext.chosenWords}`);
+    }, [cardWord]);
+
+    subscribeEvent();
     return (
         <Stack
             sx={{
