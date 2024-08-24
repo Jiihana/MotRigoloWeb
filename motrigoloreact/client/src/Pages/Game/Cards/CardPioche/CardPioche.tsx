@@ -4,14 +4,12 @@ import CardWithText from '../CardWithText/CardWithText';
 import SocketContext from '../../../../contexts/SocketContext';
 import { MotRigoloClient, HttpError } from '../../../../HttpClient/MotRigoloClient';
 import { GameContext } from '../../../../contexts/GameContext';
-import { SynchronizeGameValuesResponse } from '../../../../common/socket_messages/SynchronizeGameValues';
 import { AlertContext } from '../../../../contexts/AlertContext';
 
 const CardPioche = () => {
     const background = 'url(/images/cards/cardIndexBack.png)';
 
     const { SocketState } = useContext(SocketContext);
-    const { socket } = useContext(SocketContext).SocketState;
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
 
@@ -20,7 +18,7 @@ const CardPioche = () => {
     const getCardPioche = async () => {
         var result = await MotRigoloClient.GetCardPioche(SocketState.socket?.id!, gameContext?.gameId as string);
 
-        if (result.success == false) {
+        if (!result.success) {
             alertContext?.setAlertMessage(result.errorMessage);
             return;
         }

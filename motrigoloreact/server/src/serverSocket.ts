@@ -5,6 +5,7 @@ import { GameManager } from './motrigolo/GameManager';
 import GameModel from './motrigolo/models/GameModel';
 import { FlipOverCardResponse } from '../../client/src/common/socket_messages/FlipOverCard';
 import { Resultat } from './motrigolo/GameModelError';
+import { ModifyWordResponse } from '../../client/src/common/socket_messages/ModifyWord';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -40,6 +41,15 @@ export class ServerSocket {
         const sockets = await this.io.fetchSockets();
         var player = sockets.find((x) => x.id == socketId);
         player?.leave(gameId);
+    };
+
+    ModifyWord = async (game: GameModel, word: string) => {
+        const result = await game.modifyWord(word);
+        if (result.success) {
+            this.io.to(game.gameId).emit(ModifyWordResponse.Message, new ModifyWordResponse(word, result.value));
+        }
+
+        return result;
     };
 
     FlipOverCard = (game: GameModel, cardIndex: string): Resultat => {

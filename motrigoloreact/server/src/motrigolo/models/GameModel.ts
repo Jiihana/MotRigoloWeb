@@ -1,6 +1,10 @@
 import PlayerModel from './PlayerModel';
-import * as fs from 'fs';
-import { ResultatValue } from '../GameModelError';
+import { Resultat, ResultatValue } from '../GameModelError';
+
+type wordApiDto = {
+    name: string;
+    category: string;
+};
 
 class GameModel {
     private alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -84,24 +88,78 @@ class GameModel {
         };
     }
 
-    public chooseRandomWords(numberWords: number): string[] {
-        const filePath = '../../motrigoloreact/server/src/Assets/DictionnairesMots.txt';
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
+    public async modifyWord(word: string): Promise<ResultatValue<string>> {
+        try {
+            const fetch = require('node-fetch');
+            const response = await fetch(`https://trouve-mot.fr/api/sizemax/9/`);
 
-        const wordsArray = fileContent.split(' ');
-
-        while (this.ChosenWords.length < numberWords) {
-            const randomIndex = Math.floor(Math.random() * wordsArray.length);
-
-            const selectedWord = wordsArray[randomIndex];
-
-            // Vérifier si le mot n'est pas déjà sélectionné
-            if (!this.ChosenWords.includes(selectedWord)) {
-                this.ChosenWords.push(selectedWord);
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/ pour modifier 1 mot`
+                };
             }
-        }
 
-        return this.ChosenWords;
+            const result = (await response.json()) as wordApiDto[];
+
+            this.ChosenWords.forEach((chosenWord, index) => {
+                if (chosenWord == word) {
+                    this.ChosenWords[index] = result[0].name.charAt(0).toUpperCase() + result[0].name.slice(1);
+                }
+            });
+
+            return {
+                value: result[0].name.charAt(0).toUpperCase() + result[0].name.slice(1),
+                success: true
+            };
+        } catch (e) {
+            console.log(e);
+            return {
+                success: false,
+                message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/ pour modifier 1 mot`
+            };
+        }
+    }
+
+    public async chooseRandomWords(): Promise<Resultat> {
+        const numberOfWords = (this.gridSize - 1) * 2;
+
+        try {
+            const fetch = require('node-fetch');
+            const response = await fetch(`https://trouve-mot.fr/api/sizemax/9/${numberOfWords}`);
+
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/`
+                };
+            }
+
+            const result = (await response.json()) as wordApiDto[];
+
+            result.forEach((word) => {
+                this.ChosenWords.push(word.name.charAt(0).toUpperCase() + word.name.slice(1));
+            });
+
+            if (this.ChosenWords.length < numberOfWords) {
+                this.ChosenWords = [];
+
+                return {
+                    success: false,
+                    message: `Il n'y a pas le bon nombre de mots sélectionnés`
+                };
+            }
+
+            return {
+                success: true
+            };
+        } catch (e) {
+            console.log(e);
+            return {
+                success: false,
+                message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/`
+            };
+        }
     }
 
     private findPlayer(playerId: string): ResultatValue<PlayerModel> {

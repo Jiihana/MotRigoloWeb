@@ -6,6 +6,7 @@ import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from 
 import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsCheck';
 import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../common/socket_messages/SynchronizeGameValues';
+import { ModifyWordRequest, ModifyWordResponse } from '../common/socket_messages/ModifyWord';
 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
@@ -26,6 +27,10 @@ export class MotRigoloClient {
         return await MotRigoloClient.CallWithResponseValue<GetCardPiocheResponse>(
             `${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`
         );
+    };
+
+    static ModifyWord = async (gameId: string, word: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${ModifyWordRequest.Message}?gameId=${gameId}&word=${word}`);
     };
 
     static RemoveCardInventory = async (

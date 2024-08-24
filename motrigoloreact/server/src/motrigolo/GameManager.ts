@@ -27,26 +27,20 @@ export class GameManager {
         };
     }
 
-    createGame(creator: string): GameModel {
+    async createGame(creator: string): Promise<ResultatValue<GameModel>> {
         const gameModel = new GameModel(v4().slice(0, 4), this.gridSize);
         gameModel.addPlayer(creator);
         this.games.push(gameModel);
-        return gameModel;
-    }
 
-    chooseWords(gameId: string): ResultatValue<string[]> {
-        const game = this.getGame(gameId);
+        const result = await gameModel.chooseRandomWords();
 
-        if (!game.success) {
-            return {
-                success: false,
-                message: `${game.message} Impossible de choisir des mots`
-            };
+        if (!result.success) {
+            return result;
         }
 
         return {
             success: true,
-            value: game.value.chooseRandomWords((this.gridSize - 1) * 2)
+            value: gameModel
         };
     }
 

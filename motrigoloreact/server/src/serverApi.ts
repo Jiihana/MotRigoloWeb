@@ -11,6 +11,7 @@ import { LeaveGameRequest } from '../../client/src/common/socket_messages/LeaveG
 import { FlipOverCardRequest } from '../../client/src/common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../../client/src/common/socket_messages/SynchronizeGameValues';
 import { cannotFlipOverCard, cannotSynchronizeGameValues } from './motrigolo/GameModelError';
+import { ModifyWordRequest, ModifyWordResponse } from '../../client/src/common/socket_messages/ModifyWord';
 
 const application = express();
 
@@ -69,13 +70,17 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
     return res.status(200).send();
 });
 
-application.get('/' + CreateGameRequest.Message, (req, res, next) => {
+application.get('/' + CreateGameRequest.Message, async (req, res, next) => {
     const socketId = req.query['socketId'] as string;
-    const game = GameManager.instance.createGame(socketId);
-    const chosenWords = game.chooseRandomWords((game.gridSize - 1) * 2);
-    ServerSocket.instance.AddSocketToRoom(socketId, game.gameId);
+    const game = await GameManager.instance.createGame(socketId);
 
-    return res.status(200).json(new CreateGameResponse(game.gameId, game.gridSize, chosenWords));
+    if (!game.success) {
+        return res.status(500).json(game.message);
+    }
+
+    ServerSocket.instance.AddSocketToRoom(socketId, game.value.gameId);
+
+    return res.status(200).json(new CreateGameResponse(game.value.gameId, game.value.gridSize, game.value.ChosenWords));
 });
 
 application.get('/' + JoinGameRequest.Message, (req, res, next) => {
@@ -164,6 +169,24 @@ application.get('/' + SynchronizeGameValuesRequest.Message, (req, res, next) => 
     const gridCardsState = game.value.SynchronizeCards();
     const gridCardsObject = Object.fromEntries(gridCardsState.entries());
     return res.status(200).json(new SynchronizeGameValuesResponse(gridCardsObject, game.value.piocheEmpty));
+});
+
+application.get('/' + ModifyWordRequest.Message, async (req, res, next) => {
+    const gameId = req.query['gameId'] as string;
+    const word = req.query['word'] as string;
+
+    const game = GameManager.instance.getGame(gameId);
+    if (!game.success) {
+        return res.status(404).json(`${game.message}. ${cannotSynchronizeGameValues}`);
+    }
+
+    const response = await ServerSocket.instance.ModifyWord(game.value, word);
+
+    if (!response.success) {
+        return res.status(500).json(response.message);
+    }
+
+    return res.status(200).send();
 });
 
 /** Error handling */
