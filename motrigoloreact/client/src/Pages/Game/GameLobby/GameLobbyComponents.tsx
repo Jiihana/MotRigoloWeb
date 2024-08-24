@@ -18,7 +18,7 @@ type GameLobbyComponentsProps = {
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const alertContext = useContext(AlertContext);
     const { getClient: socketClient } = useContext(SocketContext);
-    const { gameId, gridSize, getClient, setGridSize, setChosenWords, setGameId, setGridCardsStates, setPiocheEmpty } = useContext(GameContext);
+    const gameContext = useContext(GameContext);
 
     useEffect(() => {
         const joinGame = async () => {
@@ -29,8 +29,8 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 return;
             }
 
-            setGridSize(result.value.gridSize);
-            setChosenWords(result.value.chosenWords);
+            gameContext.setGridSize(result.value.gridSize);
+            gameContext.setChosenWords(result.value.chosenWords);
         };
 
         if (props.gameId === undefined) {
@@ -38,26 +38,26 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
             return;
         }
 
-        setGameId(props.gameId);
+        gameContext.setGameId(props.gameId);
         joinGame();
     }, []);
 
     useEffect(() => {
         const synchronizeGameValues = async () => {
-            const result = await getClient().SynchronizeGameValues();
+            const result = await gameContext.getClient().SynchronizeGameValues();
             if (!result.success) {
                 alertContext?.setAlertMessage(result.errorMessage);
                 return;
             }
 
-            setGridCardsStates(result.value.gridCards);
-            setPiocheEmpty(result.value.piocheEmpty);
+            gameContext.setGridCardsStates(result.value.gridCards);
+            gameContext.setPiocheEmpty(result.value.piocheEmpty);
         };
 
-        if (gameId !== defaultGameId) {
+        if (gameContext.gameId !== defaultGameId) {
             synchronizeGameValues();
         }
-    }, [gameId]);
+    }, [gameContext.gameId]);
 
     return (
         <Box
@@ -113,7 +113,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                             justifyContent: 'center'
                         }}
                     >
-                        <GameGrid gridSize={gridSize} />
+                        <GameGrid gridSize={gameContext.gridSize} />
                     </Box>
 
                     <Box

@@ -8,15 +8,18 @@ import { ModifyWordResponse } from '../../../../common/socket_messages/ModifyWor
 
 export interface CardGridInterface {
     cardText: string;
-    cardWord: string;
+    index: number;
 }
 
 const CardHeaderHorizontale = (props: CardGridInterface) => {
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
     const { socket } = useContext(SocketContext).SocketState;
+    const wordIndex = gameContext.gridSize - 2 + props.index / gameContext.gridSize;
 
-    const [cardWord, setCardWord] = useState(props.cardWord);
+    const [cardWord, setCardWord] = useState(gameContext.chosenWords[wordIndex]);
+
+    let hasSubscribeEvent = false;
 
     const modifyWord = async () => {
         var result = await gameContext.getClient().ModifyWord(cardWord);
@@ -26,33 +29,29 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
         }
     };
 
-    useEffect(() => {
-        socket?.on(ModifyWordResponse.Message, (arg) => OnModifyWord(arg));
-    }, []);
-
-    const OnModifyWord = (args: ModifyWordResponse) => {
-        console.log(`old word: ${args.oldWord}`);
-        console.log(`mot sur la carte: ${cardWord}`);
-        if (cardWord === args.oldWord) {
-            console.log(`le mod correspond. changement du mot sur la carte: ${cardWord} en ${args.newWord}`);
-            setCardWord(args.newWord);
-            console.log(`nouveau mot sur la carte ${cardWord}`);
-
-            let chosenWords = gameContext.chosenWords;
-
-            chosenWords.forEach((chosenWord, index) => {
-                if (chosenWord === args.oldWord) {
-                    console.log(`mot cherché ${args.oldWord} trouvé dans le game context, remplacement par ${args.newWord}`);
-                    chosenWords[index] = args.newWord;
-                }
-            });
-
-            gameContext.setChosenWords(chosenWords);
-
-            console.log(`on set le game context, voici les mots choisi: ${gameContext.chosenWords}`);
+    const subscribeEvent = () => {
+        if (!hasSubscribeEvent) {
+            socket?.on(ModifyWordResponse.Message, (arg) => OnModifyWord(arg));
+            hasSubscribeEvent = true;
         }
     };
 
+    const OnModifyWord = (args: ModifyWordResponse) => {
+        if (cardWord === args.oldWord) {
+            console.log(`new word:${args.newWord} old word ${args.oldWord} => cardword ${cardWord}`);
+            setCardWord(args.newWord);
+        }
+    };
+
+    useEffect(() => {
+        const chosenWords = gameContext.chosenWords;
+        chosenWords[wordIndex] = cardWord;
+        gameContext.setChosenWords(chosenWords);
+
+        console.log(`game context words: ${gameContext.chosenWords}`);
+    }, [cardWord]);
+
+    subscribeEvent();
     return (
         <Stack
             direction="row"

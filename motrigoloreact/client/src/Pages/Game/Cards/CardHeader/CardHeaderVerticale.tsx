@@ -18,28 +18,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
 
     const [cardWord, setCardWord] = useState<string>(props.cardWord);
 
-    const modifyWord = async () => {
-        var result = await getClient().ModifyWord(cardWord);
-
-        if (!result.success) {
-            alertContext?.setAlertMessage(result.errorMessage);
-            return;
-        }
-    };
-
-    useEffect(() => {
-        socket?.on(ModifyWordResponse.Message, (args: ModifyWordResponse) => {
-            if (cardWord === args.oldWord) {
-                setCardWord(args.newWord);
-            }
-
-            chosenWords.forEach((chosenWord, index) => {
-                if (chosenWord === args.oldWord) {
-                    chosenWords[index] = args.newWord;
-                }
-            });
-        });
-    }, []);
+    const modifyWord = async () => {};
 
     return (
         <Stack

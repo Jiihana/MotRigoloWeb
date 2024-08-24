@@ -40,12 +40,7 @@ class CardsGenerator {
     public cardHeaderHorizontalGenerator(index: number) {
         const cardText = this.getCardHeaderHorizontalText(index);
 
-        return (
-            <CardHeaderHorizontale
-                cardText={cardText}
-                cardWord={this.gameContext!.chosenWords[this.gridSize - 2 + index / this.gridSize]}
-            ></CardHeaderHorizontale>
-        );
+        return <CardHeaderHorizontale cardText={cardText} index={index} />;
     }
 
     private getCardHeaderHorizontalText(index: number): string {

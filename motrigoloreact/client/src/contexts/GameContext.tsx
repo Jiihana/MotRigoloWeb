@@ -20,7 +20,7 @@ type GameContextType = {
 };
 
 // Créer le contexte avec un type par défaut
-const GameContext = createContext<GameContextType>({
+const GameContextDefault = createContext<GameContextType>({
     gameId: '',
     setGameId: () => {},
     gridSize: 0,
@@ -56,7 +56,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <GameContext.Provider
+        <GameContextDefault.Provider
             value={{
                 gameId,
                 setGameId,
@@ -74,8 +74,8 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
             }}
         >
             {children}
-        </GameContext.Provider>
+        </GameContextDefault.Provider>
     );
 };
 
-export { GameContext, GameProvider };
+export { GameContextDefault as GameContext, GameProvider };
