@@ -1,6 +1,5 @@
-import { Box, Button, colors, Typography, TypographyVariant } from '@mui/material';
+import { Button, Typography, TypographyVariant } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 interface MenuButtonProps {
     onClick: React.MouseEventHandler | undefined;

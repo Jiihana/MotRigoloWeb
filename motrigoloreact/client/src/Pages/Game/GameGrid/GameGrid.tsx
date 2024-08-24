@@ -21,7 +21,7 @@ class CardsGenerator {
     }
 
     public cardMainGenerator(index: number) {
-        if (index == 0) {
+        if (index === 0) {
             return;
         }
 
@@ -29,7 +29,7 @@ class CardsGenerator {
             return this.cardHeaderVerticalGenerator(index);
         }
 
-        if (index % this.gridSize != 0) {
+        if (index % this.gridSize !== 0) {
             return this.cardIndexGenerator(index);
         }
 

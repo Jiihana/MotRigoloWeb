@@ -1,4 +1,4 @@
-import { Avatar, Box, colors, Typography, TypographyPropsVariantOverrides, TypographyVariant } from '@mui/material';
+import { Box, Typography, TypographyVariant } from '@mui/material';
 
 export interface CardGridInterface {
     cardText: string;

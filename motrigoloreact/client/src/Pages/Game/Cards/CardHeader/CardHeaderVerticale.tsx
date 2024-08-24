@@ -3,7 +3,6 @@ import CardWithText from '../CardWithText/CardWithText';
 import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '../../../../contexts/GameContext';
 import { AlertContext } from '../../../../contexts/AlertContext';
-import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
 import { ModifyWordResponse } from '../../../../common/socket_messages/ModifyWord';
 import SocketContext from '../../../../contexts/SocketContext';
 
@@ -13,14 +12,14 @@ export interface CardGridInterface {
 }
 
 const CardHeaderVerticale = (props: CardGridInterface) => {
-    const gameContext = useContext(GameContext);
+    const { getClient, chosenWords } = useContext(GameContext);
     const alertContext = useContext(AlertContext);
     const { socket } = useContext(SocketContext).SocketState;
 
     const [cardWord, setCardWord] = useState<string>(props.cardWord);
 
     const modifyWord = async () => {
-        var result = await MotRigoloClient.ModifyWord(gameContext?.gameId as string, cardWord);
+        var result = await getClient().ModifyWord(cardWord);
 
         if (!result.success) {
             alertContext?.setAlertMessage(result.errorMessage);
@@ -30,13 +29,13 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
 
     useEffect(() => {
         socket?.on(ModifyWordResponse.Message, (args: ModifyWordResponse) => {
-            if (cardWord == args.oldWord) {
+            if (cardWord === args.oldWord) {
                 setCardWord(args.newWord);
             }
 
-            gameContext.chosenWords.forEach((chosenWord, index) => {
-                if (chosenWord == args.oldWord) {
-                    gameContext.chosenWords[index] = args.newWord;
+            chosenWords.forEach((chosenWord, index) => {
+                if (chosenWord === args.oldWord) {
+                    chosenWords[index] = args.newWord;
                 }
             });
         });

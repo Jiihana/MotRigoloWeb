@@ -1,14 +1,10 @@
 import { useContext } from 'react';
 import { Stack, Typography } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
-import { useParams, useNavigate } from 'react-router-dom';
-import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
-import SocketContext from '../../../contexts/SocketContext';
+import { useNavigate } from 'react-router-dom';
 import { GameContext } from '../../../contexts/GameContext';
 
 const GameLobbyHeader = () => {
-    const { gameid } = useParams();
-    const { SocketState } = useContext(SocketContext);
     const gameContext = useContext(GameContext);
 
     const backgroundButton = 'url(/images/buttons/menuButton2.png)';
@@ -16,7 +12,7 @@ const GameLobbyHeader = () => {
     const navigate = useNavigate();
 
     const backToMenuHandler = async () => {
-        await MotRigoloClient.LeaveGame(SocketState.socket?.id!, gameContext?.gameId as string);
+        await gameContext.getClient().LeaveGame();
         navigate('/');
     };
 
@@ -37,7 +33,7 @@ const GameLobbyHeader = () => {
         >
             <MenuButton text="Home" buttonWidth="15%" textSize="h5" onClick={backToMenuHandler} background={backgroundButton} />
             <Typography variant="h6" sx={{ color: 'white' }}>
-                {gameid}
+                {gameContext.gameId}
             </Typography>
         </Stack>
     );

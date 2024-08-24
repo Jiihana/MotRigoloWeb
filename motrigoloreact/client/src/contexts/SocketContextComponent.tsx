@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import { useSocket } from '../hooks/useSocket';
 import { defaultSocketContextState, SocketContextProvider, SocketReducer } from './SocketContext';
+import { MotRigoloSocketContextHttpClient } from '../HttpClient/MotRigoloClient';
 
 export interface ISocketContextComponentProps extends PropsWithChildren {}
 
@@ -15,6 +16,10 @@ const SocketContextComponent: React.FunctionComponent<ISocketContextComponentPro
 
     const [SocketState, SocketDispatch] = useReducer(SocketReducer, defaultSocketContextState);
     const [loading, setLoading] = useState(true);
+
+    const getClient = () => {
+        return new MotRigoloSocketContextHttpClient(socket.id as string);
+    };
 
     useEffect(() => {
         socket.connect();
@@ -66,7 +71,7 @@ const SocketContextComponent: React.FunctionComponent<ISocketContextComponentPro
 
     if (loading) return <p>... loading Socket IO ....</p>;
 
-    return <SocketContextProvider value={{ SocketState, SocketDispatch }}>{children}</SocketContextProvider>;
+    return <SocketContextProvider value={{ SocketState, SocketDispatch, getClient }}>{children}</SocketContextProvider>;
 };
 
 export default SocketContextComponent;

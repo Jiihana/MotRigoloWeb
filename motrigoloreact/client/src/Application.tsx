@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { themeOptions } from './Theme/Theme';
 import Accueil from './Pages/Accueil/Accueil';
 import GameLobby from './Pages/Game/GameLobby/GameLobby';

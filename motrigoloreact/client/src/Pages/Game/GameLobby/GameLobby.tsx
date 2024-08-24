@@ -1,9 +1,9 @@
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { GameProvider } from '../../../contexts/GameContext';
 import GameLobbyComponents from './GameLobbyComponents';
 import { useEffect, useState } from 'react';
-import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import { Box, Typography } from '@mui/material';
+import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 
 const GameLobby = () => {
     const { gameid } = useParams();

@@ -1,15 +1,13 @@
 import { useContext, useEffect } from 'react';
-import { GameContext } from '../../../contexts/GameContext';
+import { defaultGameId, GameContext } from '../../../contexts/GameContext';
 import { Box, Stack } from '@mui/material';
 import CardsInventory from '../Cards/CardsInventory/CardsInventory';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import GameGrid from '../GameGrid/GameGrid';
 import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
-import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import { AlertContext } from '../../../contexts/AlertContext';
 import SocketContext from '../../../contexts/SocketContext';
-import { useParams } from 'react-router-dom';
 
 const gameSettings = new GameSettings();
 
@@ -18,44 +16,48 @@ type GameLobbyComponentsProps = {
 };
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
-    const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
-    const { socket } = useContext(SocketContext).SocketState;
+    const { getClient: socketClient } = useContext(SocketContext);
+    const { gameId, gridSize, getClient, setGridSize, setChosenWords, setGameId, setGridCardsStates, setPiocheEmpty } = useContext(GameContext);
 
     useEffect(() => {
-        if (props.gameId == undefined) {
-            alertContext?.setAlertMessage('Impossible de set les valeurs du game context');
-            return;
-        }
-
         const joinGame = async () => {
-            const result = await MotRigoloClient.JoinGame(socket?.id as string, props.gameId);
+            const result = await socketClient().JoinGame(props.gameId);
 
             if (!result.success) {
                 alertContext?.setAlertMessage('Impossible de join la partie');
                 return;
             }
 
-            gameContext.setGridSize(result.value.gridSize);
-            gameContext.setChosenWords(result.value.chosenWords);
+            setGridSize(result.value.gridSize);
+            setChosenWords(result.value.chosenWords);
         };
 
+        if (props.gameId === undefined) {
+            alertContext?.setAlertMessage('Impossible de set les valeurs du game context');
+            return;
+        }
+
+        setGameId(props.gameId);
+        joinGame();
+    }, []);
+
+    useEffect(() => {
         const synchronizeGameValues = async () => {
-            const result = await MotRigoloClient.SynchronizeGameValues(props.gameId);
+            const result = await getClient().SynchronizeGameValues();
             if (!result.success) {
                 alertContext?.setAlertMessage(result.errorMessage);
                 return;
             }
 
-            gameContext.setGridCardsStates(result.value.gridCards);
-            gameContext.setPiocheEmpty(result.value.piocheEmpty);
+            setGridCardsStates(result.value.gridCards);
+            setPiocheEmpty(result.value.piocheEmpty);
         };
 
-        gameContext.setGameId(props.gameId);
-        joinGame();
-
-        synchronizeGameValues();
-    }, []);
+        if (gameId !== defaultGameId) {
+            synchronizeGameValues();
+        }
+    }, [gameId]);
 
     return (
         <Box
@@ -111,7 +113,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                             justifyContent: 'center'
                         }}
                     >
-                        <GameGrid gridSize={gameContext?.gridSize as number} />
+                        <GameGrid gridSize={gridSize} />
                     </Box>
 
                     <Box

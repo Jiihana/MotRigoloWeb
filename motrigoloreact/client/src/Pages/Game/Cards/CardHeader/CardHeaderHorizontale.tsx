@@ -1,6 +1,5 @@
 import { colors, Stack } from '@mui/material';
 import CardWithText from '../CardWithText/CardWithText';
-import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
 import { useContext, useEffect, useState } from 'react';
 import SocketContext from '../../../../contexts/SocketContext';
 import { GameContext } from '../../../../contexts/GameContext';
@@ -20,8 +19,7 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
     const [cardWord, setCardWord] = useState(props.cardWord);
 
     const modifyWord = async () => {
-        console.log(cardWord);
-        var result = await MotRigoloClient.ModifyWord(gameContext?.gameId as string, cardWord);
+        var result = await gameContext.getClient().ModifyWord(cardWord);
 
         if (!result.success) {
             alertContext?.setAlertMessage(result.errorMessage);
@@ -35,7 +33,7 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
     const OnModifyWord = (args: ModifyWordResponse) => {
         console.log(`old word: ${args.oldWord}`);
         console.log(`mot sur la carte: ${cardWord}`);
-        if (cardWord == args.oldWord) {
+        if (cardWord === args.oldWord) {
             console.log(`le mod correspond. changement du mot sur la carte: ${cardWord} en ${args.newWord}`);
             setCardWord(args.newWord);
             console.log(`nouveau mot sur la carte ${cardWord}`);
@@ -43,7 +41,7 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
             let chosenWords = gameContext.chosenWords;
 
             chosenWords.forEach((chosenWord, index) => {
-                if (chosenWord == args.oldWord) {
+                if (chosenWord === args.oldWord) {
                     console.log(`mot cherché ${args.oldWord} trouvé dans le game context, remplacement par ${args.newWord}`);
                     chosenWords[index] = args.newWord;
                 }

@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { Socket } from 'socket.io-client';
+import { MotRigoloSocketContextHttpClient } from '../HttpClient/MotRigoloClient';
 
 export interface ISocketContextState {
     socket: Socket | undefined;
@@ -39,11 +40,15 @@ export const SocketReducer = (state: ISocketContextState, action: ISocketContext
 export interface ISocketContextProps {
     SocketState: ISocketContextState;
     SocketDispatch: React.Dispatch<ISocketContextActions>;
+    getClient(): MotRigoloSocketContextHttpClient;
 }
 
 const SocketContext = createContext<ISocketContextProps>({
     SocketState: defaultSocketContextState,
-    SocketDispatch: () => {}
+    SocketDispatch: () => {},
+    getClient() {
+        return new MotRigoloSocketContextHttpClient('');
+    }
 });
 
 export const SocketContextConsumer = SocketContext.Consumer;

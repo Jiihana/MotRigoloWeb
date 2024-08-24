@@ -1,17 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import MenuButton from '../../Shared/MenuButton';
-import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 import SocketContext from '../../../contexts/SocketContext';
 import { useContext } from 'react';
 
 const CreateGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
 
-    const { SocketState } = useContext(SocketContext);
+    const { getClient } = useContext(SocketContext);
+
     const navigate = useNavigate();
 
     const handleCreateGame = async () => {
-        var result = await MotRigoloClient.CreateGame(SocketState.socket?.id as string);
+        var result = await getClient().CreateGame();
 
         if (result.success) {
             navigate(`/game/${result.value?.gameId}`);

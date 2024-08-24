@@ -1,8 +1,6 @@
 import { useContext } from 'react';
-import { MotRigoloClient } from '../../../../HttpClient/MotRigoloClient';
 import CardWithTextIndex from '../CardWithText/CardWithTextIndex';
 import { Box } from '@mui/material';
-import SocketContext from '../../../../contexts/SocketContext';
 import { GameContext } from '../../../../contexts/GameContext';
 
 interface CardInventoryInterface {
@@ -13,12 +11,11 @@ interface CardInventoryInterface {
 const CardInventory = (props: CardInventoryInterface) => {
     const background = 'url(/images/cards/cardIndexFront.png)';
 
-    const { SocketState } = useContext(SocketContext);
     const gameContext = useContext(GameContext);
 
     const RemoveCard = async (card: string) => {
-        var result = await MotRigoloClient.RemoveCardInventory(SocketState.socket?.id!, gameContext?.gameId as string, card);
-        if (result.success == true) {
+        var result = await gameContext.getClient().RemoveCardInventory(card);
+        if (result.success) {
             const card = result.value?.card as string;
             gameContext?.setCardsInventory((prevCards) => prevCards.filter((prevCard) => prevCard !== card));
         }

@@ -1,9 +1,7 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Box, Stack, TextField } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
-import SocketContext from '../../../contexts/SocketContext';
 import { useNavigate } from 'react-router-dom';
-import { MotRigoloClient } from '../../../HttpClient/MotRigoloClient';
 
 const JoinGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
@@ -14,7 +12,6 @@ const JoinGameButton = () => {
         setInputValue(event.target.value);
     };
 
-    const { SocketState } = useContext(SocketContext);
     const navigate = useNavigate();
 
     const handleJoinGame = async () => {

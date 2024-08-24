@@ -6,64 +6,75 @@ import { RemoveCardFromInventoryRequest, RemoveCardFromInventoryResponse } from 
 import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsCheck';
 import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../common/socket_messages/SynchronizeGameValues';
-import { ModifyWordRequest, ModifyWordResponse } from '../common/socket_messages/ModifyWord';
+import { ModifyWordRequest } from '../common/socket_messages/ModifyWord';
+
+export class MotRigoloGameContextHttpClient {
+    private gameId: string;
+    private playerId: string;
+
+    constructor(gameId: string, playerId: string) {
+        this.gameId = gameId;
+        this.playerId = playerId;
+    }
+
+    LeaveGame = async (): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${LeaveGameRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}`);
+    };
+
+    SynchronizeGameValues = async (): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<SynchronizeGameValuesResponse>(
+            `${SynchronizeGameValuesRequest.Message}?gameId=${this.gameId}`
+        );
+    };
+
+    GetCardPioche = async (): Promise<HttpResultValue<GetCardPiocheResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<GetCardPiocheResponse>(
+            `${GetCardPiocheRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}`
+        );
+    };
+
+    RemoveCardInventory = async (card: string): Promise<HttpResultValue<RemoveCardFromInventoryResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<RemoveCardFromInventoryResponse>(
+            `${RemoveCardFromInventoryRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}&card=${card}`
+        );
+    };
+
+    FlipOverCard = async (cardIndex: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${FlipOverCardRequest.Message}?cardIndex=${cardIndex}&gameId=${this.gameId}`);
+    };
+
+    ModifyWord = async (word: string): Promise<HttpResult> => {
+        return await MotRigoloClient.Call(`${ModifyWordRequest.Message}?gameId=${this.gameId}&word=${word}`);
+    };
+}
+
+export class MotRigoloSocketContextHttpClient {
+    private playerId: string;
+
+    constructor(playerId: string) {
+        this.playerId = playerId;
+    }
+
+    CreateGame = async (): Promise<HttpResultValue<CreateGameResponse>> => {
+        console.log(this.playerId);
+        return await MotRigoloClient.CallWithResponseValue<CreateGameResponse>(`${CreateGameRequest.Message}?socketId=${this.playerId}`);
+    };
+
+    JoinGame = async (gameId: string): Promise<HttpResultValue<JoinGameResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(`${JoinGameRequest.Message}?socketId=${this.playerId}&gameId=${gameId}`);
+    };
+}
 
 export class MotRigoloClient {
     private static baseUrl = 'http://localhost:1337';
 
-    static CreateGame = async (socketId: string): Promise<HttpResultValue<CreateGameResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<CreateGameResponse>(
-            `${MotRigoloClient.baseUrl}/${CreateGameRequest.Message}?socketId=${socketId}`
-        );
-    };
-
-    static JoinGame = async (socketId: string, gameId: string): Promise<HttpResultValue<JoinGameResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(
-            `${MotRigoloClient.baseUrl}/${JoinGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`
-        );
-    };
-
-    static GetCardPioche = async (socketId: string, gameId: string): Promise<HttpResultValue<GetCardPiocheResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<GetCardPiocheResponse>(
-            `${MotRigoloClient.baseUrl}/${GetCardPiocheRequest.Message}?socketId=${socketId}&gameId=${gameId}`
-        );
-    };
-
-    static ModifyWord = async (gameId: string, word: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${ModifyWordRequest.Message}?gameId=${gameId}&word=${word}`);
-    };
-
-    static RemoveCardInventory = async (
-        socketId: string,
-        gameId: string,
-        card: string
-    ): Promise<HttpResultValue<RemoveCardFromInventoryResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<RemoveCardFromInventoryResponse>(
-            `${MotRigoloClient.baseUrl}/${RemoveCardFromInventoryRequest.Message}?socketId=${socketId}&gameId=${gameId}&card=${card}`
-        );
-    };
-
-    static LeaveGame = async (socketId: string, gameId: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${LeaveGameRequest.Message}?socketId=${socketId}&gameId=${gameId}`);
-    };
-
     static CheckGameExists = async (gameId: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${CheckGameExistsRequest.Message}?gameId=${gameId}`);
-    };
-
-    static FlipOverCard = async (cardIndex: string, gameId: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${MotRigoloClient.baseUrl}/${FlipOverCardRequest.Message}?cardIndex=${cardIndex}&gameId=${gameId}`);
-    };
-
-    static SynchronizeGameValues = async (gameId: string): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<SynchronizeGameValuesResponse>(
-            `${MotRigoloClient.baseUrl}/${SynchronizeGameValuesRequest.Message}?gameId=${gameId}`
-        );
+        return await MotRigoloClient.Call(`${CheckGameExistsRequest.Message}?gameId=${gameId}`);
     };
 
     static async Call(url: string): Promise<HttpResult> {
         try {
-            var response = await fetch(url);
+            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`);
             if (response.ok) {
                 return {
                     success: true
@@ -85,7 +96,7 @@ export class MotRigoloClient {
 
     static async CallWithResponseValue<T>(url: string): Promise<HttpResultValue<T>> {
         try {
-            var response = await fetch(url);
+            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`);
             if (!response.ok) {
                 const result: string = await response.json();
                 return {
