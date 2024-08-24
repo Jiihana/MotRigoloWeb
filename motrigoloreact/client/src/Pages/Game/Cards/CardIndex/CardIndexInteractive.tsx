@@ -14,6 +14,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     const IndexCard = `${props.indexLetter}${props.indexNumber}`;
     const frontBackground = 'url(/images/cards/cardIndexFront.png)';
     const backBackground = 'url(/images/cards/cardIndexBack.png)';
+    let hasSubscribe = false;
 
     const gameContext = useContext(GameContext);
 
@@ -45,13 +46,16 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         await gameContext.getClient().FlipOverCard(`${props.indexLetter}${props.indexNumber}`);
     };
 
-    useEffect(() => {
-        socket?.on(FlipOverCardResponse.Message, (args: FlipOverCardResponse) => {
-            if (args.cardIndex === `${props.indexLetter}${props.indexNumber}`) {
-                FlipOverCard(args.isCardRetournee);
-            }
-        });
-    }, []);
+    const subscribe = () => {
+        if (!hasSubscribe) {
+            socket?.on(FlipOverCardResponse.Message, (args: FlipOverCardResponse) => {
+                if (args.cardIndex === `${props.indexLetter}${props.indexNumber}`) {
+                    FlipOverCard(args.isCardRetournee);
+                }
+            });
+            hasSubscribe = true;
+        }
+    };
 
     useEffect(() => {
         const gridCardsMap = new Map(Object.entries(gameContext?.gridCardsStates as Object));
@@ -63,6 +67,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
         }
     }, [gameContext?.gridCardsStates]);
 
+    subscribe();
     return (
         <Box
             sx={{

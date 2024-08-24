@@ -14,17 +14,24 @@ export default function Alert() {
     const { SocketState } = useContext(SocketContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        SocketState.socket?.on(AlertResponse.Message, (args: AlertResponse) => {
-            setErrorMessage(args.message);
-            setOpen(true);
-        });
-    }, [SocketState.socket]);
+    let hasSubscribe = false;
+
+    const subscribe = () => {
+        if (!hasSubscribe) {
+            SocketState.socket?.on(AlertResponse.Message, (args: AlertResponse) => {
+                setErrorMessage(args.message);
+                setOpen(true);
+            });
+            hasSubscribe = true;
+        }
+    };
 
     const handleClose = () => {
         setOpen(false);
         navigate('/');
     };
+
+    subscribe();
 
     return (
         <Dialog open={open} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
