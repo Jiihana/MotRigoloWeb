@@ -8,7 +8,7 @@ export interface ISocketContextComponentProps extends PropsWithChildren {}
 const SocketContextComponent: React.FunctionComponent<ISocketContextComponentProps> = (props) => {
     const { children } = props;
 
-    const socket = useSocket('ws://localhost:1337', {
+    const socket = useSocket('ws://192.168.1.10:1337', {
         reconnectionAttempts: 5,
         reconnectionDelay: 1000,
         autoConnect: false
