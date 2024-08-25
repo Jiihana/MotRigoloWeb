@@ -89,6 +89,7 @@ export class MotRigoloClient {
             var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`, {
                 method: 'GET',
                 headers: {
+                    'Content-Type': 'application/json',
                     ...headers
                 }
             });
