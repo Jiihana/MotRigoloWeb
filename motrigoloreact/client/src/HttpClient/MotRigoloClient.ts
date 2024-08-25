@@ -7,7 +7,6 @@ import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsChec
 import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../common/socket_messages/SynchronizeGameValues';
 import { ModifyWordRequest } from '../common/socket_messages/ModifyWord';
-import { UpdateCursorPositionRequest, UpdateCursorPositionResponse as UpdateCursorPositionResponse } from '../common/socket_messages/UpdateCursor';
 
 export class MotRigoloGameContextHttpClient {
     private gameId: string;
@@ -18,34 +17,42 @@ export class MotRigoloGameContextHttpClient {
         this.playerId = playerId;
     }
 
-    LeaveGame = async (): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${LeaveGameRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}`);
+    LeaveGame = (): Promise<HttpResult> => {
+        return this.CallGameContext(LeaveGameRequest.Message);
     };
 
-    SynchronizeGameValues = async (): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<SynchronizeGameValuesResponse>(
-            `${SynchronizeGameValuesRequest.Message}?gameId=${this.gameId}`
-        );
+    SynchronizeGameValues = (): Promise<HttpResultValue<SynchronizeGameValuesResponse>> => {
+        return this.CallGameContextWithValue(SynchronizeGameValuesRequest.Message);
     };
 
-    GetCardPioche = async (): Promise<HttpResultValue<GetCardPiocheResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<GetCardPiocheResponse>(
-            `${GetCardPiocheRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}`
-        );
+    GetCardPioche = (): Promise<HttpResultValue<GetCardPiocheResponse>> => {
+        return this.CallGameContextWithValue(GetCardPiocheRequest.Message);
     };
 
-    RemoveCardInventory = async (card: string): Promise<HttpResultValue<RemoveCardFromInventoryResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<RemoveCardFromInventoryResponse>(
-            `${RemoveCardFromInventoryRequest.Message}?socketId=${this.playerId}&gameId=${this.gameId}&card=${card}`
-        );
+    RemoveCardInventory = (card: string): Promise<HttpResultValue<RemoveCardFromInventoryResponse>> => {
+        return this.CallGameContextWithValue(`${RemoveCardFromInventoryRequest.Message}?card=${card}`);
     };
 
-    FlipOverCard = async (cardIndex: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${FlipOverCardRequest.Message}?cardIndex=${cardIndex}&gameId=${this.gameId}`);
+    FlipOverCard = (cardIndex: string): Promise<HttpResult> => {
+        return this.CallGameContext(`${FlipOverCardRequest.Message}?cardIndex=${cardIndex}`);
     };
 
-    ModifyWord = async (word: string): Promise<HttpResult> => {
-        return await MotRigoloClient.Call(`${ModifyWordRequest.Message}?gameId=${this.gameId}&word=${word}`);
+    ModifyWord = (word: string): Promise<HttpResult> => {
+        return this.CallGameContext(`${ModifyWordRequest.Message}?word=${word}`);
+    };
+
+    private CallGameContextWithValue = <T>(url: string): Promise<HttpResultValue<T>> => {
+        return MotRigoloClient.CallWithResponseValue<T>(url, {
+            gameId: this.gameId,
+            playerId: this.playerId
+        });
+    };
+
+    private CallGameContext = (url: string): Promise<HttpResult> => {
+        return MotRigoloClient.Call(url, {
+            gameId: this.gameId,
+            playerId: this.playerId
+        });
     };
 }
 
@@ -57,12 +64,16 @@ export class MotRigoloSocketContextHttpClient {
     }
 
     CreateGame = async (): Promise<HttpResultValue<CreateGameResponse>> => {
-        console.log(this.playerId);
-        return await MotRigoloClient.CallWithResponseValue<CreateGameResponse>(`${CreateGameRequest.Message}?socketId=${this.playerId}`);
+        return MotRigoloClient.CallWithResponseValue(CreateGameRequest.Message, {
+            playerId: this.playerId
+        });
     };
 
     JoinGame = async (gameId: string): Promise<HttpResultValue<JoinGameResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(`${JoinGameRequest.Message}?socketId=${this.playerId}&gameId=${gameId}`);
+        return MotRigoloClient.CallWithResponseValue(JoinGameRequest.Message, {
+            gameId: gameId,
+            playerId: this.playerId
+        });
     };
 }
 
@@ -73,9 +84,15 @@ export class MotRigoloClient {
         return await MotRigoloClient.Call(`${CheckGameExistsRequest.Message}?gameId=${gameId}`);
     };
 
-    static async Call(url: string): Promise<HttpResult> {
+    static async Call(url: string, headers: Record<string, string> = {}): Promise<HttpResult> {
         try {
-            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`);
+            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`, {
+                method: 'GET',
+                headers: {
+                    ...headers
+                }
+            });
+
             if (response.ok) {
                 return {
                     success: true
@@ -95,9 +112,15 @@ export class MotRigoloClient {
         }
     }
 
-    static async CallWithResponseValue<T>(url: string): Promise<HttpResultValue<T>> {
+    static async CallWithResponseValue<T>(url: string, headers: Record<string, string> = {}): Promise<HttpResultValue<T>> {
         try {
-            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`);
+            var response = await fetch(`${MotRigoloClient.baseUrl}/${url}`, {
+                method: 'GET',
+                headers: {
+                    ...headers
+                }
+            });
+
             if (!response.ok) {
                 const result: string = await response.json();
                 return {
@@ -124,15 +147,15 @@ export type HttpResult = HttpError | HttpResultBasic;
 
 export type HttpResultValue<T> = HttpError | HttpResultWithValue<T>;
 
-export type HttpError = {
+type HttpError = {
     success: false;
     errorMessage: string;
 };
 
-export type HttpResultWithValue<T> = {
+type HttpResultWithValue<T> = {
     value: T;
 } & HttpResultBasic;
 
-export type HttpResultBasic = {
+type HttpResultBasic = {
     success: true;
 };
