@@ -112,7 +112,7 @@ export class ServerSocket {
 
         socket.on(UpdateCursorPositionRequest.Message, (x: number, y: number) => {
             console.log(`${x} ${y}`);
-            const rooms = Object.keys(socket.rooms);
+            const rooms = Array.from(socket.rooms.values());
 
             const game = GameManager.instance.getGame(rooms[1]);
             if (!game.success) {
