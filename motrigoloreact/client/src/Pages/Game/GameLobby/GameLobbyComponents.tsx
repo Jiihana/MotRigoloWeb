@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { defaultGameId, GameContext } from '../../../contexts/GameContext';
 import { Box, Stack } from '@mui/material';
 import CardsInventory from '../Cards/CardsInventory/CardsInventory';
@@ -8,7 +8,7 @@ import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
 import { AlertContext } from '../../../contexts/AlertContext';
 import SocketContext from '../../../contexts/SocketContext';
-import { UpdateCursorPositionResponse } from '../../../common/socket_messages/UpdateCursor';
+import { UpdateCursorPositionRequest, UpdateCursorPositionResponse } from '../../../common/socket_messages/UpdateCursor';
 
 const gameSettings = new GameSettings();
 
@@ -24,15 +24,28 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const [cursors, setCursors] = useState<{ [id: string]: { x: number; y: number; cursorIcon: string } }>({});
     const [cursorImage, setCursorImage] = useState<string>();
 
+    const dateTimeRef = useRef(new Date());
+
     useEffect(() => {
         const handleMouseMove = async (event: MouseEvent) => {
+            const currentTime = new Date();
+            const timeElapsed = currentTime.getTime() - dateTimeRef.current.getTime();
+
+            if (timeElapsed <= 20) {
+                // If less than or equal to 50ms have passed, do nothing
+                return;
+            }
+
+            // Update dateTime to the current time
+            dateTimeRef.current = currentTime;
+
             const cursorData = {
                 x: event.clientX,
                 y: event.clientY
             };
 
             // Envoyer la position du curseur au serveur
-            await socketContext.getClient().UpdateCursorPosition(props.gameId, cursorData.x, cursorData.y);
+            socket?.emit(UpdateCursorPositionRequest.Message, (cursorData.x, cursorData.y));
         };
 
         // Écouter les mouvements de la souris
@@ -40,10 +53,10 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
 
         socket?.on(UpdateCursorPositionResponse.Message, (args: UpdateCursorPositionResponse) => {
             setCursors((prevCursors) => {
-                // Vérifiez si le socketId courant est égal à this.socketId
-                if (args.socketId === socket.id) {
-                    return prevCursors; // Retournez l'état précédent sans le modifier
-                }
+                // // Vérifiez si le socketId courant est égal à this.socketId
+                // if (args.socketId === socket.id) {
+                //     return prevCursors; // Retournez l'état précédent sans le modifier
+                // }
 
                 // Sinon, mettez à jour l'état avec le nouveau socketId
                 return {
@@ -52,7 +65,12 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 };
             });
         });
-    }, []);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, [props.gameId]);
 
     useEffect(() => {
         console.log('useEffect cursor ');

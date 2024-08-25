@@ -6,7 +6,7 @@ import GameModel from './motrigolo/models/GameModel';
 import { FlipOverCardResponse } from '../../client/src/common/socket_messages/FlipOverCard';
 import { Resultat } from './motrigolo/GameModelError';
 import { ModifyWordResponse } from '../../client/src/common/socket_messages/ModifyWord';
-import { UpdateCursorPositionResponse } from '../../client/src/common/socket_messages/UpdateCursor';
+import { UpdateCursorPositionRequest, UpdateCursorPositionResponse } from '../../client/src/common/socket_messages/UpdateCursor';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -59,11 +59,7 @@ export class ServerSocket {
             if (player.playerId == socketId) {
                 player.updateCursorPosition(cursorX, cursorY);
 
-                //Bon truc
-                // cursorImage = player.cursorPath;
-
-                //mauvais truc pour le testing
-                cursorImage = player.getRandomCursor();
+                cursorImage = player.cursorPath;
             }
         });
 
@@ -125,6 +121,10 @@ export class ServerSocket {
 
                 this.SendMessage('user_disconnected', users, socket.id);
             }
+        });
+
+        socket.on(UpdateCursorPositionRequest.Message, (x: number, y: number) => {
+            console.log(`${x} ${y}`);
         });
     };
 

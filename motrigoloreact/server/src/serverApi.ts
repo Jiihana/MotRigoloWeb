@@ -202,21 +202,6 @@ application.get('/' + ModifyWordRequest.Message, async (req, res, next) => {
     return res.status(200).send();
 });
 
-application.get('/' + UpdateCursorPositionRequest.Message, async (req, res, next) => {
-    const socketId = req.query['socketId'] as string;
-    const gameId = req.query['gameId'] as string;
-    const cursorX = req.query['cursorX'] as string;
-    const cursorY = req.query['cursorY'] as string;
-
-    const game = GameManager.instance.getGame(gameId);
-    if (!game.success) {
-        return res.status(404).json(`${game.message}. Impossible de synchroniser le curseur`);
-    }
-
-    await ServerSocket.instance.UpdateCursorPosition(socketId, game.value, +cursorX, +cursorY);
-    return res.status(200).send();
-});
-
 /** Error handling */
 application.use((req, res, next) => {
     const error = new Error('Not found');

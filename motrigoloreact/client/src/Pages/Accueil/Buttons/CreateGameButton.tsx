@@ -12,7 +12,7 @@ const CreateGameButton = () => {
 
     const handleCreateGame = async () => {
         var result = await getClient().CreateGame();
-
+        console.log(result);
         if (result.success) {
             navigate(`/game/${result.value?.gameId}`);
         }

@@ -64,16 +64,10 @@ export class MotRigoloSocketContextHttpClient {
     JoinGame = async (gameId: string): Promise<HttpResultValue<JoinGameResponse>> => {
         return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(`${JoinGameRequest.Message}?socketId=${this.playerId}&gameId=${gameId}`);
     };
-
-    UpdateCursorPosition = async (gameId: string, cursorX: number, cursorY: number): Promise<HttpResultValue<UpdateCursorPositionResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<UpdateCursorPositionResponse>(
-            `${UpdateCursorPositionRequest.Message}?socketId=${this.playerId}&gameId=${gameId}&cursorX=${cursorX}&cursorY=${cursorY}`
-        );
-    };
 }
 
 export class MotRigoloClient {
-    private static baseUrl = '192.168.1.10:1337';
+    private static baseUrl = 'http://192.168.1.10:1337';
 
     static CheckGameExists = async (gameId: string): Promise<HttpResult> => {
         return await MotRigoloClient.Call(`${CheckGameExistsRequest.Message}?gameId=${gameId}`);
