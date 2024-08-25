@@ -53,12 +53,6 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
 
         socket?.on(UpdateCursorPositionResponse.Message, (args: UpdateCursorPositionResponse) => {
             setCursors((prevCursors) => {
-                // // Vérifiez si le socketId courant est égal à this.socketId
-                // if (args.socketId === socket.id) {
-                //     return prevCursors; // Retournez l'état précédent sans le modifier
-                // }
-
-                // Sinon, mettez à jour l'état avec le nouveau socketId
                 return {
                     ...prevCursors,
                     [args.socketId]: { x: args.cursorX, y: args.cursorY, cursorIcon: args.logo }
@@ -71,10 +65,6 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, [props.gameId]);
-
-    useEffect(() => {
-        console.log('useEffect cursor ');
-    }, [cursors]);
 
     useEffect(() => {
         const joinGame = async () => {
