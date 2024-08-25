@@ -73,7 +73,7 @@ export class MotRigoloSocketContextHttpClient {
 }
 
 export class MotRigoloClient {
-    private static baseUrl = '192.168.1.10';
+    private static baseUrl = '192.168.1.10:1337';
 
     static CheckGameExists = async (gameId: string): Promise<HttpResult> => {
         return await MotRigoloClient.Call(`${CheckGameExistsRequest.Message}?gameId=${gameId}`);
