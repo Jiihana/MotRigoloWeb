@@ -53,19 +53,6 @@ export class ServerSocket {
         return result;
     };
 
-    UpdateCursorPosition = (socketId: string, game: GameModel, cursorX: number, cursorY: number) => {
-        let cursorImage = '';
-        game.players.forEach((player) => {
-            if (player.playerId == socketId) {
-                player.updateCursorPosition(cursorX, cursorY);
-
-                cursorImage = player.cursorPath;
-            }
-        });
-
-        this.io.to(game.gameId).emit(UpdateCursorPositionResponse.Message, new UpdateCursorPositionResponse(cursorX, cursorY, socketId, cursorImage));
-    };
-
     FlipOverCard = (game: GameModel, cardIndex: string): Resultat => {
         const result = game.FlipOverCard(cardIndex);
         if (result.success) {
@@ -125,6 +112,24 @@ export class ServerSocket {
 
         socket.on(UpdateCursorPositionRequest.Message, (x: number, y: number) => {
             console.log(`${x} ${y}`);
+            const rooms = Object.keys(socket.rooms);
+
+            const game = GameManager.instance.getGame(rooms[1]);
+            if (!game.success) {
+                console.log('error');
+                return;
+            }
+
+            const player = game.value.players.find((player) => player.playerId === socket.id);
+            if (player === undefined) {
+                console.log('error');
+                return;
+            }
+
+            this.io
+                .to(rooms[1])
+                .except(socket.id)
+                .emit(UpdateCursorPositionResponse.Message, new UpdateCursorPositionResponse(x, y, socket.id, player.cursorPath));
         });
     };
 

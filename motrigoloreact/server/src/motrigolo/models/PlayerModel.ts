@@ -1,16 +1,12 @@
 class PlayerModel {
     public playerId: string;
     public cardsInventory: string[];
-    public cursorPositionX: number;
-    public cursorPositionY: number;
     public cursorPath: string;
 
-    constructor(playerId: string, cursorPositionX: number, cursorPositionY: number) {
+    constructor(playerId: string) {
         this.playerId = playerId;
         this.cardsInventory = [];
-        this.cursorPositionX = cursorPositionX;
-        this.cursorPositionY = cursorPositionY;
-        this.cursorPath = '';
+        this.cursorPath = this.getRandomCursor();
     }
 
     cursorsAvailable: string[] = [
@@ -29,11 +25,6 @@ class PlayerModel {
 
     private getCursorPath(path: string) {
         return `url(/images/cursors/${path}.png)`;
-    }
-
-    public updateCursorPosition(x: number, y: number) {
-        this.cursorPositionX = x;
-        this.cursorPositionY = y;
     }
 
     public addCardToInventory(card: string): string {

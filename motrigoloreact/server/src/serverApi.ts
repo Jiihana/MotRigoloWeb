@@ -73,10 +73,8 @@ application.get('/' + CheckGameExistsRequest.Message, (req, res, next) => {
 
 application.get('/' + CreateGameRequest.Message, async (req, res, next) => {
     const socketId = req.query['socketId'] as string;
-    const cursorX = req.query['cursorX'] as string;
-    const cursorY = req.query['cursorY'] as string;
 
-    const game = await GameManager.instance.createGame(socketId, +cursorX, +cursorY);
+    const game = await GameManager.instance.createGame(socketId);
 
     if (!game.success) {
         return res.status(500).json(game.message);
@@ -90,8 +88,6 @@ application.get('/' + CreateGameRequest.Message, async (req, res, next) => {
 application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     const socketId = req.query['socketId'] as string;
     const gameId = req.query['gameId'] as string;
-    const cursorX = req.query['cursorX'] as string;
-    const cursorY = req.query['cursorY'] as string;
     ServerSocket.instance.AddSocketToRoom(socketId, gameId);
     const game = GameManager.instance.getGame(gameId);
 
@@ -99,15 +95,8 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
         return res.status(404).json(game.message);
     }
 
-    game.value.addPlayer(socketId, +cursorX, +cursorY);
-
-    let cursorImage = '';
-    game.value.players.forEach((player) => {
-        if (player.playerId == socketId) {
-            cursorImage = player.getRandomCursor();
-        }
-    });
-    return res.status(200).json(new JoinGameResponse(gameId, game.value.gridSize, game.value.ChosenWords, cursorImage));
+    var newPlayer = game.value.addPlayer(socketId);
+    return res.status(200).json(new JoinGameResponse(gameId, game.value.gridSize, game.value.ChosenWords, newPlayer.cursorPath));
 });
 
 application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {

@@ -45,7 +45,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
             };
 
             // Envoyer la position du curseur au serveur
-            socket?.emit(UpdateCursorPositionRequest.Message, (cursorData.x, cursorData.y));
+            socket?.emit(UpdateCursorPositionRequest.Message, cursorData.x, cursorData.y);
         };
 
         // Écouter les mouvements de la souris
