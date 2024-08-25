@@ -7,7 +7,7 @@ import { CheckGameExistsRequest } from '../common/socket_messages/GameExistsChec
 import { FlipOverCardRequest } from '../common/socket_messages/FlipOverCard';
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../common/socket_messages/SynchronizeGameValues';
 import { ModifyWordRequest } from '../common/socket_messages/ModifyWord';
-import { UpdateCursorRequest, UpdateCursorResponse } from '../common/socket_messages/UpdateCursor';
+import { UpdateCursorPositionRequest, UpdateCursorPositionResponse as UpdateCursorPositionResponse } from '../common/socket_messages/UpdateCursor';
 
 export class MotRigoloGameContextHttpClient {
     private gameId: string;
@@ -65,9 +65,9 @@ export class MotRigoloSocketContextHttpClient {
         return await MotRigoloClient.CallWithResponseValue<JoinGameResponse>(`${JoinGameRequest.Message}?socketId=${this.playerId}&gameId=${gameId}`);
     };
 
-    UpdateCursor = async (gameId: string, cursorX: number, cursorY: number): Promise<HttpResultValue<UpdateCursorResponse>> => {
-        return await MotRigoloClient.CallWithResponseValue<UpdateCursorResponse>(
-            `${UpdateCursorRequest.Message}?socketId=${this.playerId}&gameId=${gameId}&cursorX=${cursorX}&cursorY=${cursorY}`
+    UpdateCursorPosition = async (gameId: string, cursorX: number, cursorY: number): Promise<HttpResultValue<UpdateCursorPositionResponse>> => {
+        return await MotRigoloClient.CallWithResponseValue<UpdateCursorPositionResponse>(
+            `${UpdateCursorPositionRequest.Message}?socketId=${this.playerId}&gameId=${gameId}&cursorX=${cursorX}&cursorY=${cursorY}`
         );
     };
 }

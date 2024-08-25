@@ -12,7 +12,7 @@ import { FlipOverCardRequest } from '../../client/src/common/socket_messages/Fli
 import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../../client/src/common/socket_messages/SynchronizeGameValues';
 import { cannotFlipOverCard, cannotSynchronizeGameValues } from './motrigolo/GameModelError';
 import { ModifyWordRequest, ModifyWordResponse } from '../../client/src/common/socket_messages/ModifyWord';
-import { UpdateCursorRequest } from '../../client/src/common/socket_messages/UpdateCursor';
+import { UpdateCursorPositionRequest } from '../../client/src/common/socket_messages/UpdateCursor';
 
 const application = express();
 
@@ -100,7 +100,14 @@ application.get('/' + JoinGameRequest.Message, (req, res, next) => {
     }
 
     game.value.addPlayer(socketId, +cursorX, +cursorY);
-    return res.status(200).json(new JoinGameResponse(gameId, game.value.gridSize, game.value.ChosenWords));
+
+    let cursorImage = '';
+    game.value.players.forEach((player) => {
+        if (player.playerId == socketId) {
+            cursorImage = player.getRandomCursor();
+        }
+    });
+    return res.status(200).json(new JoinGameResponse(gameId, game.value.gridSize, game.value.ChosenWords, cursorImage));
 });
 
 application.get('/' + GetCardPiocheRequest.Message, (req, res, next) => {
@@ -195,7 +202,7 @@ application.get('/' + ModifyWordRequest.Message, async (req, res, next) => {
     return res.status(200).send();
 });
 
-application.get('/' + UpdateCursorRequest.Message, async (req, res, next) => {
+application.get('/' + UpdateCursorPositionRequest.Message, async (req, res, next) => {
     const socketId = req.query['socketId'] as string;
     const gameId = req.query['gameId'] as string;
     const cursorX = req.query['cursorX'] as string;

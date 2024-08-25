@@ -8,7 +8,7 @@ import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
 import { AlertContext } from '../../../contexts/AlertContext';
 import SocketContext from '../../../contexts/SocketContext';
-import { UpdateCursorResponse } from '../../../common/socket_messages/UpdateCursor';
+import { UpdateCursorPositionResponse } from '../../../common/socket_messages/UpdateCursor';
 
 const gameSettings = new GameSettings();
 
@@ -22,6 +22,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const { socket } = useContext(SocketContext).SocketState;
     const gameContext = useContext(GameContext);
     const [cursors, setCursors] = useState<{ [id: string]: { x: number; y: number; cursorIcon: string } }>({});
+    const [cursorImage, setCursorImage] = useState<string>();
 
     useEffect(() => {
         const handleMouseMove = async (event: MouseEvent) => {
@@ -31,17 +32,25 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
             };
 
             // Envoyer la position du curseur au serveur
-            await socketContext.getClient().UpdateCursor(props.gameId, cursorData.x, cursorData.y);
+            await socketContext.getClient().UpdateCursorPosition(props.gameId, cursorData.x, cursorData.y);
         };
 
         // Écouter les mouvements de la souris
         window.addEventListener('mousemove', handleMouseMove);
 
-        socket?.on(UpdateCursorResponse.Message, (args: UpdateCursorResponse) => {
-            setCursors((prevCursors) => ({
-                ...prevCursors,
-                [args.socketId]: { x: args.cursorX, y: args.cursorY, cursorIcon: args.logo }
-            }));
+        socket?.on(UpdateCursorPositionResponse.Message, (args: UpdateCursorPositionResponse) => {
+            setCursors((prevCursors) => {
+                // // Vérifiez si le socketId courant est égal à this.socketId
+                // if (args.socketId === socket.id) {
+                //     return prevCursors; // Retournez l'état précédent sans le modifier
+                // }
+
+                // Sinon, mettez à jour l'état avec le nouveau socketId
+                return {
+                    ...prevCursors,
+                    [args.socketId]: { x: args.cursorX, y: args.cursorY, cursorIcon: args.logo }
+                };
+            });
         });
     }, []);
 
@@ -60,6 +69,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
 
             gameContext.setGridSize(result.value.gridSize);
             gameContext.setChosenWords(result.value.chosenWords);
+            setCursorImage(result.value.cursorImage);
         };
 
         if (props.gameId === undefined) {
@@ -100,7 +110,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         pointerEvents: 'none'
                     }}
                 >
-                    <img src={cursors[id].cursorIcon} alt="cursor" />
+                    <img src={''} alt="cursor" />
                 </div>
             ))}
             <Box
@@ -115,7 +125,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    cursor: `${gameSettings.getRandomCursor()}, auto`
+                    cursor: `${cursorImage}, auto`
                 }}
             >
                 <Stack

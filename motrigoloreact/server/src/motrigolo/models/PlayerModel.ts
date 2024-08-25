@@ -20,9 +20,11 @@ class PlayerModel {
         this.getCursorPath('bleu_0')
     ];
 
-    public getRandomCursor() {
+    public getRandomCursor(): string {
         const randomIndex = Math.floor(Math.random() * this.cursorsAvailable.length);
         this.cursorIndex = randomIndex;
+
+        return this.cursorsAvailable[this.cursorIndex];
     }
 
     private getCursorPath(path: string) {

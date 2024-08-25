@@ -1,5 +1,5 @@
-export class UpdateCursorRequest {
-    static Message = 'UpdateCursorRequest';
+export class UpdateCursorPositionRequest {
+    static Message = 'UpdateCursorPositionRequest';
 
     public cursorX: number;
     public cursorY: number;
@@ -14,8 +14,8 @@ export class UpdateCursorRequest {
     }
 }
 
-export class UpdateCursorResponse {
-    static Message = 'UpdateCursorResponse';
+export class UpdateCursorPositionResponse {
+    static Message = 'UpdateCursorPositionResponse';
 
     public cursorX: number;
     public cursorY: number;
