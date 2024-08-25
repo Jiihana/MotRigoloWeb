@@ -48,8 +48,8 @@ class GameModel {
         return this.GridCardsState;
     }
 
-    public addPlayer(playerId: string) {
-        this.players.push(new PlayerModel(playerId));
+    public addPlayer(playerId: string, cursorX: number, cursorY: number) {
+        this.players.push(new PlayerModel(playerId, cursorX, cursorY));
     }
 
     public removePlayer(playerId: string) {

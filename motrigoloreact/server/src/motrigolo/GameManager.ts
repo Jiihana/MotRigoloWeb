@@ -27,9 +27,9 @@ export class GameManager {
         };
     }
 
-    async createGame(creator: string): Promise<ResultatValue<GameModel>> {
+    async createGame(creator: string, cursorX: number, cursorY: number): Promise<ResultatValue<GameModel>> {
         const gameModel = new GameModel(v4().slice(0, 4), this.gridSize);
-        gameModel.addPlayer(creator);
+        gameModel.addPlayer(creator, cursorX, cursorY);
         this.games.push(gameModel);
 
         const result = await gameModel.chooseRandomWords();

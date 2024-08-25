@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { defaultGameId, GameContext } from '../../../contexts/GameContext';
 import { Box, Stack } from '@mui/material';
 import CardsInventory from '../Cards/CardsInventory/CardsInventory';
@@ -8,6 +8,7 @@ import GameLobbyHeader from './GameLobbyHeader';
 import GameSettings from '../../../Settings/GameSettings';
 import { AlertContext } from '../../../contexts/AlertContext';
 import SocketContext from '../../../contexts/SocketContext';
+import { UpdateCursorResponse } from '../../../common/socket_messages/UpdateCursor';
 
 const gameSettings = new GameSettings();
 
@@ -17,12 +18,40 @@ type GameLobbyComponentsProps = {
 
 const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     const alertContext = useContext(AlertContext);
-    const { getClient: socketClient } = useContext(SocketContext);
+    const socketContext = useContext(SocketContext);
+    const { socket } = useContext(SocketContext).SocketState;
     const gameContext = useContext(GameContext);
+    const [cursors, setCursors] = useState<{ [id: string]: { x: number; y: number; cursorIcon: string } }>({});
+
+    useEffect(() => {
+        const handleMouseMove = async (event: MouseEvent) => {
+            const cursorData = {
+                x: event.clientX,
+                y: event.clientY
+            };
+
+            // Envoyer la position du curseur au serveur
+            await socketContext.getClient().UpdateCursor(props.gameId, cursorData.x, cursorData.y);
+        };
+
+        // Écouter les mouvements de la souris
+        window.addEventListener('mousemove', handleMouseMove);
+
+        socket?.on(UpdateCursorResponse.Message, (args: UpdateCursorResponse) => {
+            setCursors((prevCursors) => ({
+                ...prevCursors,
+                [args.socketId]: { x: args.cursorX, y: args.cursorY, cursorIcon: args.logo }
+            }));
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log('useEffect cursor ');
+    }, [cursors]);
 
     useEffect(() => {
         const joinGame = async () => {
-            const result = await socketClient().JoinGame(props.gameId);
+            const result = await socketContext.getClient().JoinGame(props.gameId);
 
             if (!result.success) {
                 alertContext?.setAlertMessage('Impossible de join la partie');
@@ -60,33 +89,37 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
     }, [gameContext.gameId]);
 
     return (
-        <Box
-            display="flex"
-            sx={{
-                backgroundImage: 'url(/images/pages/gameLobbyBackgound.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                height: '100vh',
-                width: '100vw',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: `${gameSettings.getRandomCursor()}, auto`
-            }}
-        >
-            <Stack
-                direction="column"
+        <>
+            {Object.keys(cursors).map((id) => (
+                <div
+                    key={id}
+                    style={{
+                        position: 'absolute',
+                        left: `${cursors[id].x}px`,
+                        top: `${cursors[id].y}px`,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    <img src={cursors[id].cursorIcon} alt="cursor" />
+                </div>
+            ))}
+            <Box
+                display="flex"
                 sx={{
-                    justifyItems: 'center',
+                    backgroundImage: 'url(/images/pages/gameLobbyBackgound.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    height: '100vh',
+                    width: '100vw',
+                    display: 'flex',
+                    justifyContent: 'center',
                     alignItems: 'center',
-                    height: '100%',
-                    width: '100%'
+                    cursor: `${gameSettings.getRandomCursor()}, auto`
                 }}
             >
-                <GameLobbyHeader />
                 <Stack
-                    direction="row"
+                    direction="column"
                     sx={{
                         justifyItems: 'center',
                         alignItems: 'center',
@@ -94,42 +127,53 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         width: '100%'
                     }}
                 >
+                    <GameLobbyHeader />
                     <Stack
-                        direction="column"
+                        direction="row"
                         sx={{
-                            height: '100%',
-                            width: '20%',
+                            justifyItems: 'center',
                             alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                    >
-                        <CardsInventory></CardsInventory>
-                    </Stack>
-                    <Box
-                        sx={{
-                            display: 'flex',
                             height: '100%',
-                            width: '60%',
-                            justifyContent: 'center'
+                            width: '100%'
                         }}
                     >
-                        <GameGrid gridSize={gameContext.gridSize} />
-                    </Box>
+                        <Stack
+                            direction="column"
+                            sx={{
+                                height: '100%',
+                                width: '20%',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <CardsInventory></CardsInventory>
+                        </Stack>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                height: '100%',
+                                width: '60%',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <GameGrid gridSize={gameContext.gridSize} />
+                        </Box>
 
-                    <Box
-                        sx={{
-                            height: '100%',
-                            width: '20%',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex'
-                        }}
-                    >
-                        <CardPioche></CardPioche>
-                    </Box>
+                        <Box
+                            sx={{
+                                height: '100%',
+                                width: '20%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                display: 'flex'
+                            }}
+                        >
+                            <CardPioche></CardPioche>
+                        </Box>
+                    </Stack>
                 </Stack>
-            </Stack>
-        </Box>
+            </Box>
+        </>
     );
 };
 

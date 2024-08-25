@@ -6,6 +6,7 @@ import GameModel from './motrigolo/models/GameModel';
 import { FlipOverCardResponse } from '../../client/src/common/socket_messages/FlipOverCard';
 import { Resultat } from './motrigolo/GameModelError';
 import { ModifyWordResponse } from '../../client/src/common/socket_messages/ModifyWord';
+import { UpdateCursorResponse } from '../../client/src/common/socket_messages/UpdateCursor';
 
 export class ServerSocket {
     public static instance: ServerSocket;
@@ -31,10 +32,15 @@ export class ServerSocket {
         console.info('Socket IO started');
     }
 
-    AddSocketToRoom = async (socketId: string, gameId: string) => {
+    AddSocketToRoom = async (socketId: string, gameId: string, game: GameModel) => {
         const sockets = await this.io.fetchSockets();
         var player = sockets.find((x) => x.id == socketId);
         player?.join(gameId);
+        game.players.forEach((player) => {
+            if (socketId == player.playerId) {
+                player.getRandomCursor();
+            }
+        });
     };
 
     RemoveSocketFromRoom = async (socketId: string, gameId: string) => {
@@ -50,6 +56,17 @@ export class ServerSocket {
         }
 
         return result;
+    };
+
+    UpdateCursorPosition = (socketId: string, game: GameModel, cursorX: number, cursorY: number) => {
+        let cursor = '';
+        game.players.forEach((player) => {
+            if (player.playerId == socketId) {
+                player.updateCursorPosition(cursorX, cursorY);
+            }
+        });
+
+        this.io.to(game.gameId).emit(UpdateCursorResponse.Message, new UpdateCursorResponse(cursorX, cursorY, socketId, cursor));
     };
 
     FlipOverCard = (game: GameModel, cardIndex: string): Resultat => {
