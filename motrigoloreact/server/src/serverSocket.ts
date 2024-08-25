@@ -54,14 +54,20 @@ export class ServerSocket {
     };
 
     UpdateCursorPosition = (socketId: string, game: GameModel, cursorX: number, cursorY: number) => {
-        let cursor = '';
+        let cursorImage = '';
         game.players.forEach((player) => {
             if (player.playerId == socketId) {
                 player.updateCursorPosition(cursorX, cursorY);
+
+                //Bon truc
+                // cursorImage = player.cursorPath;
+
+                //mauvais truc pour le testing
+                cursorImage = player.getRandomCursor();
             }
         });
 
-        this.io.to(game.gameId).emit(UpdateCursorPositionResponse.Message, new UpdateCursorPositionResponse(cursorX, cursorY, socketId, cursor));
+        this.io.to(game.gameId).emit(UpdateCursorPositionResponse.Message, new UpdateCursorPositionResponse(cursorX, cursorY, socketId, cursorImage));
     };
 
     FlipOverCard = (game: GameModel, cardIndex: string): Resultat => {

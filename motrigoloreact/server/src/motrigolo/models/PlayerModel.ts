@@ -3,14 +3,14 @@ class PlayerModel {
     public cardsInventory: string[];
     public cursorPositionX: number;
     public cursorPositionY: number;
-    public cursorIndex: number;
+    public cursorPath: string;
 
     constructor(playerId: string, cursorPositionX: number, cursorPositionY: number) {
         this.playerId = playerId;
         this.cardsInventory = [];
         this.cursorPositionX = cursorPositionX;
         this.cursorPositionY = cursorPositionY;
-        this.cursorIndex = -1;
+        this.cursorPath = '';
     }
 
     cursorsAvailable: string[] = [
@@ -22,9 +22,9 @@ class PlayerModel {
 
     public getRandomCursor(): string {
         const randomIndex = Math.floor(Math.random() * this.cursorsAvailable.length);
-        this.cursorIndex = randomIndex;
+        this.cursorPath = this.cursorsAvailable[randomIndex];
 
-        return this.cursorsAvailable[this.cursorIndex];
+        return this.cursorsAvailable[randomIndex];
     }
 
     private getCursorPath(path: string) {

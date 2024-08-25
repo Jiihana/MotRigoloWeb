@@ -40,10 +40,10 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
 
         socket?.on(UpdateCursorPositionResponse.Message, (args: UpdateCursorPositionResponse) => {
             setCursors((prevCursors) => {
-                // // Vérifiez si le socketId courant est égal à this.socketId
-                // if (args.socketId === socket.id) {
-                //     return prevCursors; // Retournez l'état précédent sans le modifier
-                // }
+                // Vérifiez si le socketId courant est égal à this.socketId
+                if (args.socketId === socket.id) {
+                    return prevCursors; // Retournez l'état précédent sans le modifier
+                }
 
                 // Sinon, mettez à jour l'état avec le nouveau socketId
                 return {
@@ -110,7 +110,16 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         pointerEvents: 'none'
                     }}
                 >
-                    <img src={''} alt="cursor" />
+                    <Box
+                        sx={{
+                            backgroundImage: cursors[id].cursorIcon,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            height: '32px',
+                            width: '32px'
+                        }}
+                    />
                 </div>
             ))}
             <Box
