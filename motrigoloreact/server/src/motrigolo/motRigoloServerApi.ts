@@ -10,7 +10,7 @@ import { SynchronizeGameValuesRequest, SynchronizeGameValuesResponse } from '../
 import { ServerSocket } from '../serverSocket';
 import { GameManager } from './GameManager';
 import * as core from 'express-serve-static-core';
-import { cannotFlipOverCard, cannotSynchronizeGameValues, ResultatValue } from './GameModelError';
+import { cannotFlipOverCard, ResultatValue } from './GameModelError';
 import GameModel from './models/GameModel';
 
 export class serverApiMotRigolo {
