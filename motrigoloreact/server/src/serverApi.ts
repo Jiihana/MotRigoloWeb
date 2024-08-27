@@ -24,9 +24,6 @@ application.use(
 application.use(express.json());
 application.use(express.urlencoded({ extended: true }));
 
-require('./routes/user.routes')(application);
-require('./routes/spot.routes')(application);
-
 serverApiMotRigolo.registerEndpoint(application);
 
 /** Parse the body of the request */
