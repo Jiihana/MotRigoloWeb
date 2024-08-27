@@ -14,6 +14,19 @@ new ServerSocket(httpServer);
 
 new GameManager();
 
+application.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true //access-control-allow-credentials:true
+    })
+);
+
+application.use(express.json());
+application.use(express.urlencoded({ extended: true }));
+
+require('./routes/user.routes')(application);
+require('./routes/spot.routes')(application);
+
 serverApiMotRigolo.registerEndpoint(application);
 
 /** Parse the body of the request */
@@ -50,13 +63,6 @@ application.use((req, res, next) => {
     res.status(404).json({
         message: error.message
     });
-});
-
-application.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    next();
 });
 
 /** Listen */
