@@ -3,9 +3,9 @@ import express from 'express';
 import { ServerSocket } from './serverSocket';
 import { GameManager } from './motrigolo/GameManager';
 import { serverApiMotRigolo } from './motrigolo/motRigoloServerApi';
+import cors from 'cors';
 
 const application = express();
-const cors = require('cors');
 /** Server Handling */
 const httpServer = http.createServer(application);
 
@@ -15,6 +15,14 @@ new ServerSocket(httpServer);
 new GameManager();
 
 serverApiMotRigolo.registerEndpoint(application);
+
+application.use(
+    cors({
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type']
+    })
+);
 
 /** Log the request */
 application.use((req, res, next) => {
@@ -62,14 +70,6 @@ application.use((req, res, next) => {
         message: error.message
     });
 });
-
-application.use(
-    cors({
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
-        allowedHeaders: ['Content-Type']
-    })
-);
 
 /** Listen */
 httpServer.listen(32768, () => console.info(`Server is running`));
