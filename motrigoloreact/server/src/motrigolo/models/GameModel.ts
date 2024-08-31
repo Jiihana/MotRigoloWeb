@@ -1,5 +1,6 @@
 import PlayerModel from './PlayerModel';
 import { Resultat, ResultatValue } from '../GameModelError';
+import fetch from 'node-fetch';
 
 type wordApiDto = {
     name: string;
@@ -92,7 +93,6 @@ class GameModel {
 
     public async modifyWord(word: string): Promise<ResultatValue<string>> {
         try {
-            const fetch = require('node-fetch');
             const response = await fetch(`https://trouve-mot.fr/api/sizemax/9/`);
 
             if (!response.ok) {

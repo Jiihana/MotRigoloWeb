@@ -16,7 +16,7 @@ import GameModel from './models/GameModel';
 export class serverApiMotRigolo {
     static registerEndpoint = (application: core.Express) => {
         application.get('/' + CheckGameExistsRequest.Message, (req, res) => {
-            const gameResult = getGame(req);
+            var gameResult = GameManager.instance.getGame(req.query['gameId'] as string);
             if (!gameResult.success) {
                 return res.status(404).send(gameResult.message);
             }
