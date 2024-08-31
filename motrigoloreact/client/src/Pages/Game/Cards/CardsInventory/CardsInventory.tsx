@@ -20,7 +20,7 @@ const CardsInventory = () => {
                 {gameContext?.cardsInventory.map((card) => {
                     const number = card.charAt(1);
                     const letter = card.charAt(0);
-                    return <CardInventory key={letter} textNumber={+number} textLetter={letter} />;
+                    return <CardInventory key={card} textNumber={+number} textLetter={letter} />;
                 })}
             </Stack>
         </Box>

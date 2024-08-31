@@ -14,5 +14,17 @@ export const themeOptions: ThemeOptions = {
             dark: '#ef6581'
         }
     },
-    typography: { fontFamily: ['TypeWrong', 'cursive'].join(',') }
+    typography: { fontFamily: ['TypeWrong', 'cursive'].join(',') },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    userSelect: 'none', // Désactive la sélection de texte globalement
+                    '-webkit-user-select': 'none', // Safari
+                    '-moz-user-select': 'none', // Firefox
+                    '-ms-user-select': 'none' // Internet Explorer/Edge
+                }
+            }
+        }
+    }
 };

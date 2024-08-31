@@ -33,7 +33,7 @@ const CardInventory = (props: CardInventoryInterface) => {
                 cardIndexNumber={props.textNumber.toString()}
                 cardIndexLetter={props.textLetter}
                 cardTextSize="h5"
-                onClickHandler={RemoveCard.bind(null, `${props.textLetter}${props.textNumber}`)}
+                onClickHandler={RemoveCard.bind(this, `${props.textLetter}${props.textNumber}`)}
             ></CardWithTextIndex>
         </Box>
     );
