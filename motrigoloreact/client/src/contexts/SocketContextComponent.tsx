@@ -15,6 +15,8 @@ const SocketContextComponent: React.FunctionComponent<ISocketContextComponentPro
         transports: ['websocket']
     });
 
+    console.log(`Connecting ono socket ${process.env.REACT_APP_CLIENT_URL} port ${process.env.GAMESERVER_PORT}`);
+
     const [SocketState, SocketDispatch] = useReducer(SocketReducer, defaultSocketContextState);
     const [loading, setLoading] = useState(true);
 
