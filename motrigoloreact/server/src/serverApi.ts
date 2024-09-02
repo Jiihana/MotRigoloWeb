@@ -64,4 +64,5 @@ application.use((req, res, next) => {
 });
 
 /** Listen */
-httpServer.listen(32769, () => console.info(`Server is running`));
+httpServer.listen(process.env.REACT_APP_GAMESERVER_PORT, () => console.info(`Server is running`));
+console.log(process.env.REACT_APP_GAMESERVER_PORT);
