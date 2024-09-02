@@ -11,7 +11,8 @@ const SocketContextComponent: React.FunctionComponent<ISocketContextComponentPro
     const socket = useSocket(`ws://${process.env.REACT_APP_CLIENT_URL}:${process.env.GAMESERVER_PORT}`, {
         reconnectionAttempts: 5,
         reconnectionDelay: 1000,
-        autoConnect: false
+        autoConnect: false,
+        transports: ['websocket']
     });
 
     const [SocketState, SocketDispatch] = useReducer(SocketReducer, defaultSocketContextState);
