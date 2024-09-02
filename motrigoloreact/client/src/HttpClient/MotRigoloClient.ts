@@ -78,7 +78,7 @@ export class MotRigoloSocketContextHttpClient {
 }
 
 export class MotRigoloClient {
-    private static baseUrl = `http://${process.env.REACT_APP_CLIENT_URL}:${process.env.REACT_APP_PORT}`;
+    private static baseUrl = `http://${process.env.REACT_APP_CLIENT_URL}:${process.env.GAMESERVER_PORT}`;
 
     static CheckGameExists = async (gameId: string): Promise<HttpResult> => {
         return await MotRigoloClient.Call(`${CheckGameExistsRequest.Message}?gameId=${gameId}`);
