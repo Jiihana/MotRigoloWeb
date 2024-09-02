@@ -8,14 +8,12 @@ export interface ISocketContextComponentProps extends PropsWithChildren {}
 const SocketContextComponent: React.FunctionComponent<ISocketContextComponentProps> = (props) => {
     const { children } = props;
 
-    const socket = useSocket(`ws://${process.env.REACT_APP_CLIENT_URL}:${process.env.GAMESERVER_PORT}`, {
+    const socket = useSocket(`ws://${process.env.REACT_APP_CLIENT_URL}:${process.env.REACT_APP_GAMESERVER_PORT}`, {
         reconnectionAttempts: 5,
         reconnectionDelay: 1000,
         autoConnect: false,
         transports: ['websocket']
     });
-
-    console.log(`Connecting ono socket ${process.env.REACT_APP_CLIENT_URL} port ${process.env.GAMESERVER_PORT}`);
 
     const [SocketState, SocketDispatch] = useReducer(SocketReducer, defaultSocketContextState);
     const [loading, setLoading] = useState(true);

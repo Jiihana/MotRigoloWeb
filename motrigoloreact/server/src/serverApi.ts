@@ -4,6 +4,7 @@ import { ServerSocket } from './serverSocket';
 import { GameManager } from './motrigolo/GameManager';
 import { serverApiMotRigolo } from './motrigolo/motRigoloServerApi';
 import cors from 'cors';
+require('dotenv').config({ path: ['.env.local', '.env'] });
 
 const application = express();
 /** Server Handling */
@@ -16,7 +17,7 @@ new GameManager();
 
 application.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: '*', // unless...
         credentials: true //access-control-allow-credentials:true
     })
 );
