@@ -1,19 +1,40 @@
 import { useContext } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box, colors, Stack } from '@mui/material';
 import CardInventory from '../CardIndex/CardInventory';
 import { GameContext } from '../../../../contexts/GameContext';
 
 const CardsInventory = () => {
     const gameContext = useContext(GameContext);
 
+    const getHeight = (): string => {
+        const length = gameContext?.cardsInventory.length || 0;
+
+        if (length === 0) {
+            return '0%';
+        }
+        if (length === 1) {
+            return '18%';
+        }
+        if (length === 2) {
+            return '40%';
+        }
+        if (length > 2) {
+            return '65%';
+        }
+
+        return '0%'; // Fallback case
+    };
+
+    const height = getHeight();
     return (
         <Box
             sx={{
-                height: '65%',
+                height: height,
                 width: '40%',
                 alignItems: 'center',
                 justifyContent: 'center',
-                display: 'flex'
+                display: 'flex',
+                backgroundColor: colors.pink[200]
             }}
         >
             <Stack spacing={5} sx={{ height: '100%', width: '100%' }}>
