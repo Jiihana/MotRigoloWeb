@@ -115,7 +115,8 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         position: 'absolute',
                         left: `${cursors[id].x}px`,
                         top: `${cursors[id].y}px`,
-                        pointerEvents: 'none'
+                        pointerEvents: 'none',
+                        zIndex: 100
                     }}
                 >
                     <Box

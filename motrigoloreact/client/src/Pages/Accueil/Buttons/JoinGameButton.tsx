@@ -48,7 +48,10 @@ const JoinGameButton = () => {
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     height: 'auto',
-                    width: '25%'
+                    width: '25%',
+                    '&:hover': {
+                        backgroundImage: 'url(/images/cards/cardWord_hover.png), url(/images/cards/cardWord.png)'
+                    }
                 }}
             >
                 <TextField
