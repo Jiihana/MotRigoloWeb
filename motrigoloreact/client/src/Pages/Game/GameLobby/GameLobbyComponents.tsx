@@ -36,12 +36,15 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 return;
             }
 
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
             // Update dateTime to the current time
             dateTimeRef.current = currentTime;
 
             const cursorData = {
-                x: event.clientX,
-                y: event.clientY
+                x: (event.clientX / width) * 100,
+                y: (event.clientY / height) * 100
             };
 
             // Envoyer la position du curseur au serveur
@@ -52,12 +55,34 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
         window.addEventListener('mousemove', handleMouseMove);
 
         socket?.on(UpdateCursorPositionResponse.Message, (args: UpdateCursorPositionResponse) => {
-            setCursors((prevCursors) => {
-                return {
-                    ...prevCursors,
-                    [args.socketId]: { x: args.cursorX, y: args.cursorY, cursorIcon: args.logo }
-                };
-            });
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            const margin = (5 / 100) * height;
+
+            const getY = (cursorY: number): number => {
+                const maxHeight = (cursorY / 100) * window.innerHeight;
+
+                return Math.min(Math.max(maxHeight, 0), window.innerHeight - margin);
+            };
+
+            const getX = (cursorX: number): number => {
+                const maxWidth = (cursorX / 100) * window.innerWidth;
+
+                return Math.min(Math.max(maxWidth, 0), window.innerWidth - margin);
+            };
+
+            const cursorX = getX(args.cursorX);
+            const cursorY = getY(args.cursorY);
+
+            setCursors((prevCursors) => ({
+                ...prevCursors,
+                [args.socketId]: {
+                    x: cursorX,
+                    y: cursorY,
+                    cursorIcon: args.logo
+                }
+            }));
         });
 
         // Cleanup the event listener on component unmount
