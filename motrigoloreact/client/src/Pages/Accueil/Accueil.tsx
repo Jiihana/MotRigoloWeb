@@ -2,14 +2,14 @@ import { Box, Stack } from '@mui/material';
 import JoinGameButton from './Buttons/JoinGameButton';
 import CreateGameButton from './Buttons/CreateGameButton';
 import GameSettings from '../../Settings/GameSettings';
-import Footer from '../Footer/Footer';
+import Footer from '../Footer_header/Footer';
 
 const gameSettings = new GameSettings();
 
 const Accueil = () => {
     return (
         <>
-            <Footer />
+            <Footer navigatePath={`/credits`} buttonText={'Credits :)'} />
 
             <Box
                 display="flex"

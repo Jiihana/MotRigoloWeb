@@ -1,9 +1,21 @@
-import React from 'react';
 import { Box, Button } from '@mui/material';
 import GameSettings from '../../Settings/GameSettings';
+import { useNavigate } from 'react-router-dom';
 
-const Footer = () => {
+interface FooterProps {
+    navigatePath: string;
+    buttonText: string;
+}
+
+const Footer = (props: FooterProps) => {
+    const navigate = useNavigate();
+
     const gameSettings = new GameSettings();
+    const handleNav = () => {
+        navigate(`/credits`);
+        navigate(props.navigatePath);
+    };
+
     return (
         <Box
             component="footer"
@@ -28,10 +40,12 @@ const Footer = () => {
                         '&:hover': {
                             bgcolor: '#4e9b98'
                         },
-                        cursor: `${gameSettings.getRandomCursor()}, auto`
+                        cursor: `${gameSettings.getRandomCursor()}, auto`,
+                        textTransform: 'none'
                     }}
+                    onClick={handleNav}
                 >
-                    Credits :)
+                    {props.buttonText}
                 </Button>
             </Box>
         </Box>
