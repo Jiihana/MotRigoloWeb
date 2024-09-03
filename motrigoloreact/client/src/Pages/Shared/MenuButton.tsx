@@ -7,6 +7,7 @@ interface MenuButtonProps {
     buttonWidth: string;
     textSize: TypographyVariant;
     background: string;
+    hoverBackground: string;
 }
 
 const MenuButton = (props: MenuButtonProps) => {
@@ -19,7 +20,10 @@ const MenuButton = (props: MenuButtonProps) => {
                 backgroundImage: props.background,
                 backgroundSize: 'contain',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                '&:hover': {
+                    backgroundImage: props.hoverBackground || props.background
+                }
             }}
         >
             <Typography variant={props.textSize} color="black" textTransform="none">

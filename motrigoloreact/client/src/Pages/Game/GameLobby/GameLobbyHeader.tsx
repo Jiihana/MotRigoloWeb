@@ -31,7 +31,14 @@ const GameLobbyHeader = () => {
                 paddingTop: '0.5%'
             }}
         >
-            <MenuButton text="Home" buttonWidth="15%" textSize="h5" onClick={backToMenuHandler} background={backgroundButton} />
+            <MenuButton
+                text="Home"
+                buttonWidth="15%"
+                textSize="h5"
+                onClick={backToMenuHandler}
+                background={backgroundButton}
+                hoverBackground={backgroundButton}
+            />
             <Typography variant="h6" sx={{ color: 'white' }}>
                 {gameContext.gameId}
             </Typography>

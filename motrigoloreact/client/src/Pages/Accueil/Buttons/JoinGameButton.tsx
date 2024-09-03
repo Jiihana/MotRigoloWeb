@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const JoinGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
+    const backgroundHover = 'url(/images/buttons/menuButton1_hover.png)';
 
     const [inputValue, setInputValue] = useState('');
 
@@ -29,7 +30,14 @@ const JoinGameButton = () => {
             }}
             spacing={4}
         >
-            <MenuButton text="Join game ->" buttonWidth="60%" textSize="h4" onClick={handleJoinGame} background={background}></MenuButton>
+            <MenuButton
+                text="Rejoindre ->"
+                buttonWidth="60%"
+                textSize="h4"
+                onClick={handleJoinGame}
+                background={background}
+                hoverBackground={backgroundHover}
+            ></MenuButton>
             <Box
                 display="flex"
                 sx={{

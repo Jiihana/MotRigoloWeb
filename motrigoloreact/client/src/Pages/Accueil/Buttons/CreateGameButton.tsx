@@ -5,6 +5,7 @@ import { useContext } from 'react';
 
 const CreateGameButton = () => {
     const background = 'url(/images/buttons/menuButton1.png)';
+    const backgroundHover = 'url(/images/buttons/menuButton1_hover.png)';
 
     const { getClient } = useContext(SocketContext);
 
@@ -17,7 +18,16 @@ const CreateGameButton = () => {
         }
     };
 
-    return <MenuButton onClick={handleCreateGame} text="Create game" buttonWidth="100%" textSize="h4" background={background}></MenuButton>;
+    return (
+        <MenuButton
+            onClick={handleCreateGame}
+            text="Creer une game"
+            buttonWidth="100%"
+            textSize="h4"
+            background={background}
+            hoverBackground={backgroundHover}
+        ></MenuButton>
+    );
 };
 
 export default CreateGameButton;
