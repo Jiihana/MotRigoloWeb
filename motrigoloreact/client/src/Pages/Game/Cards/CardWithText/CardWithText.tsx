@@ -3,6 +3,7 @@ import { Box, Typography, TypographyVariant } from '@mui/material';
 export interface CardGridInterface {
     cardText: string;
     backgroundImage: string;
+    backgroundImageHover: string;
     height: string;
     width: string;
     textVariant: TypographyVariant;
@@ -19,7 +20,10 @@ const CardWithText = (props: CardGridInterface) => {
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                '&:hover': {
+                    backgroundImage: props.backgroundImageHover || props.backgroundImage
+                }
             }}
         >
             <Typography

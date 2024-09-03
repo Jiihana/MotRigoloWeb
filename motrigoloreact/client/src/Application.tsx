@@ -22,7 +22,6 @@ const Application: React.FunctionComponent<IApplicationProps> = (props) => {
 
                 <Router>
                     <Alert />
-                    <Footer />
                     <Routes>
                         <Route path="/" element={<Accueil />}></Route>
 

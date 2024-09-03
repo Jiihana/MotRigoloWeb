@@ -4,10 +4,15 @@ import MenuButton from '../../Shared/MenuButton';
 import { useNavigate } from 'react-router-dom';
 import { GameContext } from '../../../contexts/GameContext';
 
-const GameLobbyHeader = () => {
+interface GameLobbyHeaderProps {
+    staticCursorImage: string;
+}
+
+const GameLobbyHeader = (props: GameLobbyHeaderProps) => {
     const gameContext = useContext(GameContext);
 
     const backgroundButton = 'url(/images/buttons/menuButton2.png)';
+    const backgroundButtonHover = 'url(/images/buttons/menuButton2_hover.png)';
 
     const navigate = useNavigate();
 
@@ -37,7 +42,9 @@ const GameLobbyHeader = () => {
                 textSize="h5"
                 onClick={backToMenuHandler}
                 background={backgroundButton}
-                hoverBackground={backgroundButton}
+                hoverBackground={backgroundButtonHover}
+                dynamicCursor={false}
+                staticCursorImage={props.staticCursorImage}
             />
             <Typography variant="h6" sx={{ color: 'white' }}>
                 {gameContext.gameId}

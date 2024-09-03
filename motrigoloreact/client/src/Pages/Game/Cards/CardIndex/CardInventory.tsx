@@ -10,6 +10,7 @@ interface CardInventoryInterface {
 
 const CardInventory = (props: CardInventoryInterface) => {
     const background = 'url(/images/cards/cardIndexFront.png)';
+    const backgroundHover = 'url(/images/cards/cardIndexFront_hover.png)';
 
     const gameContext = useContext(GameContext);
 
@@ -34,6 +35,7 @@ const CardInventory = (props: CardInventoryInterface) => {
                 cardIndexLetter={props.textLetter}
                 cardTextSize="h5"
                 onClickHandler={RemoveCard.bind(this, `${props.textLetter}${props.textNumber}`)}
+                backgroundImageHover={backgroundHover}
             ></CardWithTextIndex>
         </Box>
     );

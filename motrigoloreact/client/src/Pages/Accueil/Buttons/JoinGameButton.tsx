@@ -37,6 +37,8 @@ const JoinGameButton = () => {
                 onClick={handleJoinGame}
                 background={background}
                 hoverBackground={backgroundHover}
+                dynamicCursor={true}
+                staticCursorImage={''}
             ></MenuButton>
             <Box
                 display="flex"

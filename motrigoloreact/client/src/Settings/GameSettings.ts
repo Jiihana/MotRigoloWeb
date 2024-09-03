@@ -9,9 +9,12 @@ class GameSettings {
         const cursorsAvailable: string[] = [
             this.getCursorPath('blanc_0'),
             this.getCursorPath('blanc_1'),
-            this.getCursorPath('bleu_1'),
             this.getCursorPath('bleu_0'),
-            this.getCursorPath('test')
+            this.getCursorPath('bleu_1'),
+            this.getCursorPath('rose_0'),
+            this.getCursorPath('rose_1'),
+            this.getCursorPath('vert_0'),
+            this.getCursorPath('vert_1')
         ];
         const randomIndex = Math.floor(Math.random() * cursorsAvailable.length);
         return cursorsAvailable[randomIndex];

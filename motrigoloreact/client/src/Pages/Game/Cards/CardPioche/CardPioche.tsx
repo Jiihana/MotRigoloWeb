@@ -6,6 +6,7 @@ import { AlertContext } from '../../../../contexts/AlertContext';
 
 const CardPioche = () => {
     const background = 'url(/images/cards/cardIndexBack.png)';
+    const backgroundHover = 'url(/images/cards/cardIndexBack_hover.png)';
 
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
@@ -55,6 +56,7 @@ const CardPioche = () => {
                         width={'100%'}
                         textVariant={'h4'}
                         textShouldRotate={false}
+                        backgroundImageHover={backgroundHover}
                     />
                 </Box>
             )}

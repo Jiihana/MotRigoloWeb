@@ -154,7 +154,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         width: '100%'
                     }}
                 >
-                    <GameLobbyHeader />
+                    <GameLobbyHeader staticCursorImage={cursorImage!} />
                     <Stack
                         direction="row"
                         sx={{

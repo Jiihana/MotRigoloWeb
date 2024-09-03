@@ -12,8 +12,12 @@ class PlayerModel {
     cursorsAvailable: string[] = [
         this.getCursorPath('blanc_0'),
         this.getCursorPath('blanc_1'),
+        this.getCursorPath('bleu_0'),
         this.getCursorPath('bleu_1'),
-        this.getCursorPath('bleu_0')
+        this.getCursorPath('rose_0'),
+        this.getCursorPath('rose_1'),
+        this.getCursorPath('vert_0'),
+        this.getCursorPath('vert_1')
     ];
 
     public getRandomCursor(): string {

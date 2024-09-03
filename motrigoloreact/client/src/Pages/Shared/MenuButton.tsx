@@ -1,5 +1,6 @@
 import { Button, Typography, TypographyVariant } from '@mui/material';
 import React from 'react';
+import GameSettings from '../../Settings/GameSettings';
 
 interface MenuButtonProps {
     onClick: React.MouseEventHandler | undefined;
@@ -8,9 +9,13 @@ interface MenuButtonProps {
     textSize: TypographyVariant;
     background: string;
     hoverBackground: string;
+    dynamicCursor: boolean;
+    staticCursorImage: string;
 }
 
 const MenuButton = (props: MenuButtonProps) => {
+    const gameSettings = new GameSettings();
+
     return (
         <Button
             onClick={props.onClick}
@@ -23,7 +28,9 @@ const MenuButton = (props: MenuButtonProps) => {
                 backgroundRepeat: 'no-repeat',
                 '&:hover': {
                     backgroundImage: props.hoverBackground || props.background
-                }
+                },
+
+                cursor: props.dynamicCursor ? `${gameSettings.getRandomCursor()}, auto` : `${props.staticCursorImage}, auto`
             }}
         >
             <Typography variant={props.textSize} color="black" textTransform="none">

@@ -13,7 +13,9 @@ interface CardIndexInterface {
 const CardIndexInteractive = (props: CardIndexInterface) => {
     const IndexCard = `${props.indexLetter}${props.indexNumber}`;
     const frontBackground = 'url(/images/cards/cardIndexFront.png)';
+    const frontBackground_hover = 'url(/images/cards/cardIndexFront_hover.png)';
     const backBackground = 'url(/images/cards/cardIndexBack.png)';
+    const backBackground_hover = 'url(/images/cards/cardIndexBack_hover.png)';
     let hasSubscribe = false;
 
     const gameContext = useContext(GameContext);
@@ -21,6 +23,14 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     const [textLetter, setTextLetter] = useState('');
     const [textNumber, setTextNumber] = useState('');
     const [background, setBackground] = useState(backBackground);
+
+    const getHoverBackground = (background: string): string => {
+        if (background.includes('Front')) {
+            return frontBackground_hover;
+        } else {
+            return backBackground_hover;
+        }
+    };
 
     function setTextLetterHandler(isCardRetournee: boolean) {
         isCardRetournee ? setTextLetter(props.indexLetter) : setTextLetter('');
@@ -81,6 +91,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
                 cardIndexLetter={textLetter}
                 cardTextSize="h5"
                 onClickHandler={FlipOverCardHandler}
+                backgroundImageHover={getHoverBackground(background)}
             ></CardWithTextIndex>
         </Box>
     );

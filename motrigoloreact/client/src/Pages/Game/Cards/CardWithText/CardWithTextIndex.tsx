@@ -6,6 +6,7 @@ export interface CardGridInterface {
     cardIndexNumber: string;
     cardIndexLetter: string;
     backgroundImage: string;
+    backgroundImageHover: string;
     cardTextSize: TypographyVariant;
     onClickHandler: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
@@ -21,7 +22,10 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                '&:hover': {
+                    backgroundImage: props.backgroundImageHover || props.backgroundImage
+                }
             }}
         >
             <Stack direction="row">

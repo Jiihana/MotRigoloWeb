@@ -26,6 +26,8 @@ const CreateGameButton = () => {
             textSize="h4"
             background={background}
             hoverBackground={backgroundHover}
+            dynamicCursor={true}
+            staticCursorImage={''}
         ></MenuButton>
     );
 };
