@@ -13,6 +13,12 @@ const JoinGameButton = () => {
         setInputValue(event.target.value);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && inputValue.trim()) {
+            handleJoinGame();
+        }
+    };
+
     const navigate = useNavigate();
 
     const handleJoinGame = async () => {
@@ -39,7 +45,7 @@ const JoinGameButton = () => {
                 hoverBackground={backgroundHover}
                 dynamicCursor={true}
                 staticCursorImage={''}
-            ></MenuButton>
+            />
             <Box
                 display="flex"
                 sx={{
@@ -57,6 +63,7 @@ const JoinGameButton = () => {
                 <TextField
                     value={inputValue}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     required
                     placeholder="Game code"
                     variant="standard"
