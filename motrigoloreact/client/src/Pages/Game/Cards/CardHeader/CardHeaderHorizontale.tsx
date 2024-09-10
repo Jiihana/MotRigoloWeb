@@ -58,7 +58,6 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
             sx={{
                 height: '115%',
                 width: '100%',
-                backgroundColor: colors.amber[500]
             }}
             onClick={modifyWord}
         >

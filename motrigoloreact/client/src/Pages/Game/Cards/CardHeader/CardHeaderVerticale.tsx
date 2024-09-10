@@ -56,8 +56,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
         <Stack
             sx={{
                 height: '145%',
-                width: '80%',
-                backgroundColor: colors.amber[500]
+                width: '80%'
             }}
             onClick={modifyWord}
         >

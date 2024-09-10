@@ -33,8 +33,7 @@ const CardsInventory = () => {
                 width: '40%',
                 alignItems: 'center',
                 justifyContent: 'center',
-                display: 'flex',
-                backgroundColor: colors.pink[200]
+                display: 'flex'
             }}
         >
             <Stack spacing={5} sx={{ height: '100%', width: '100%' }}>
