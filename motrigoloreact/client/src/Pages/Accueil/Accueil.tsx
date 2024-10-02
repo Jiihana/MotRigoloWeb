@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, colors, Stack } from '@mui/material';
 import JoinGameButton from './Buttons/JoinGameButton';
 import CreateGameButton from './Buttons/CreateGameButton';
 import GameSettings from '../../Settings/GameSettings';
@@ -14,9 +14,9 @@ const Accueil = () => {
             <Box
                 display="flex"
                 sx={{
-                    backgroundImage: 'url(/images/pages/home.png)',
+                    backgroundImage: { xs: 'url(/images/pages/homeSM.png)', md: 'url(/images/pages/home.png)' },
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundPosition: 'top',
                     backgroundRepeat: 'no-repeat',
                     height: '100vh',
                     width: '100vw',
@@ -26,22 +26,34 @@ const Accueil = () => {
                 }}
             >
                 <Stack
-                    spacing={10}
-                    sx={{
-                        marginTop: '20%',
-                        width: '35%',
-                        height: '40%',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start'
+                    spacing={{
+                        xs: 6,
+                        sm: 5,
+                        md: 4,
+                        lg: 5,
+                        xl: 6
                     }}
-                    display="flex"
+                    sx={{
+                        marginTop: {
+                            sm: '0%',
+                            md: '15%',
+                            lg: '15%'
+                        },
+                        width: {
+                            xs: '50%',
+                            sm: '50%',
+                            md: '35%',
+                            lg: '30%',
+                            xl: '30%'
+                        },
+                        height: 'auto',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        display: 'flex'
+                    }}
                 >
-                    <Box display="flex" sx={{ width: '60%', height: '20%', alignItems: 'center', justifyContent: 'center' }}>
-                        <CreateGameButton />
-                    </Box>
-                    <Box display="flex" sx={{ width: '100%', height: '20%', alignItems: 'center', justifyContent: 'center' }}>
-                        <JoinGameButton />
-                    </Box>
+                    <CreateGameButton />
+                    <JoinGameButton />
                 </Stack>
             </Box>
         </>

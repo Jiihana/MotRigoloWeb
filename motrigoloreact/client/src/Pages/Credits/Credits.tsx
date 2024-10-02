@@ -48,10 +48,34 @@ const Credits = () => {
                             textAlign: 'center'
                         }}
                     >
-                        <Typography variant="h5" color="black">
+                        <Typography
+                            variant="h5"
+                            color="black"
+                            sx={{
+                                fontSize: {
+                                    xs: '1rem',
+                                    sm: '1.25rem',
+                                    md: '1.25rem',
+                                    lg: '1.5rem',
+                                    xl: '1.5rem'
+                                }
+                            }}
+                        >
                             Un grand merci a Nicolas et a Louve Hurlante qui m'ont permis·es de mettre en ligne ce jeu :3
                         </Typography>
-                        <Typography variant="h6" color="black">
+                        <Typography
+                            variant="h6"
+                            color="black"
+                            sx={{
+                                fontSize: {
+                                    xs: '1rem',
+                                    sm: '1.25rem',
+                                    md: '1.25rem',
+                                    lg: '1.5rem',
+                                    xl: '1.5rem'
+                                }
+                            }}
+                        >
                             Allez voir le travail de Louve :3
                         </Typography>
 

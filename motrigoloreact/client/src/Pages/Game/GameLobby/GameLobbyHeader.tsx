@@ -38,7 +38,6 @@ const GameLobbyHeader = (props: GameLobbyHeaderProps) => {
         >
             <MenuButton
                 text="Home"
-                buttonWidth="15%"
                 textSize="h5"
                 onClick={backToMenuHandler}
                 background={backgroundButton}
