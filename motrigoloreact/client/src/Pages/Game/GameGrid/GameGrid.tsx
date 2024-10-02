@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { Grid } from '@mui/material';
+import { colors, Grid } from '@mui/material';
 import CardIndexInteractive from '../Cards/CardIndex/CardIndexInteractive';
 import CardHeaderVerticale from '../Cards/CardHeader/CardHeaderVerticale';
 import CardHeaderHorizontale from '../Cards/CardHeader/CardHeaderHorizontale';
@@ -79,6 +79,8 @@ const GameGrid = (props: DynamicGridProps) => {
     const generator = new CardsGenerator(gridSize);
 
     const items = Array.from({ length: gridSize * gridSize }).map((_, index) => {
+        const hue = (index * 30) % 360;
+        const backgroundColor = `hsl(${hue}, 100%, 50%)`;
         return (
             <Grid
                 item
@@ -86,7 +88,8 @@ const GameGrid = (props: DynamicGridProps) => {
                 key={index}
                 sx={{
                     alignItems: 'flex-end',
-                    display: 'flex'
+                    display: 'flex',
+                    backgroundColor: backgroundColor
                 }}
             >
                 {generator.cardMainGenerator(index)}
