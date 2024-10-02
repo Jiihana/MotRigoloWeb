@@ -57,6 +57,7 @@ const CardPioche = () => {
                         textVariant={'h4'}
                         textShouldRotate={false}
                         backgroundImageHover={backgroundHover}
+                        isCardGrid={false}
                     />
                 </Box>
             )}

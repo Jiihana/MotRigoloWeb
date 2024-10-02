@@ -10,6 +10,7 @@ interface MenuButtonProps {
     hoverBackground: string;
     dynamicCursor: boolean;
     staticCursorImage: string;
+    disabled: boolean;
 }
 
 const MenuButton = (props: MenuButtonProps) => {
@@ -33,6 +34,7 @@ const MenuButton = (props: MenuButtonProps) => {
                 '&:hover': {
                     backgroundImage: props.hoverBackground || props.background
                 },
+                pointerEvents: props.disabled ? 'none' : 'auto',
                 cursor: props.dynamicCursor ? `${gameSettings.getRandomCursor()}, auto` : `${props.staticCursorImage}, auto`
             }}
         >

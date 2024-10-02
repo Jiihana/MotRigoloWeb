@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
 import { useNavigate } from 'react-router-dom';
 import { GameContext } from '../../../contexts/GameContext';
@@ -36,15 +36,28 @@ const GameLobbyHeader = (props: GameLobbyHeaderProps) => {
                 paddingTop: '0.5%'
             }}
         >
-            <MenuButton
-                text="Home"
-                textSize="h5"
-                onClick={backToMenuHandler}
-                background={backgroundButton}
-                hoverBackground={backgroundButtonHover}
-                dynamicCursor={false}
-                staticCursorImage={props.staticCursorImage}
-            />
+            <Box
+                sx={{
+                    width: {
+                        xs: '30%',
+                        sm: '25%',
+                        md: '20%',
+                        lg: '20%',
+                        xl: '15%'
+                    }
+                }}
+            >
+                <MenuButton
+                    text="Home"
+                    textSize="h5"
+                    onClick={backToMenuHandler}
+                    background={backgroundButton}
+                    hoverBackground={backgroundButtonHover}
+                    dynamicCursor={false}
+                    staticCursorImage={props.staticCursorImage}
+                    disabled={false}
+                />
+            </Box>
             <Typography variant="h6" sx={{ color: 'white' }}>
                 {gameContext.gameId}
             </Typography>

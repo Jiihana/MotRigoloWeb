@@ -1,6 +1,6 @@
 import { Box, Typography, TypographyVariant } from '@mui/material';
 
-export interface CardGridInterface {
+export interface CardWithTextInterface {
     cardText: string;
     backgroundImage: string;
     backgroundImageHover: string;
@@ -8,9 +8,10 @@ export interface CardGridInterface {
     width: string;
     textVariant: TypographyVariant;
     textShouldRotate: boolean;
+    isCardGrid: boolean;
 }
 
-const CardWithText = (props: CardGridInterface) => {
+const CardWithText = (props: CardWithTextInterface) => {
     return (
         <Box
             sx={{
@@ -33,7 +34,14 @@ const CardWithText = (props: CardGridInterface) => {
                     top: '50%',
                     left: '50%',
                     transform: `translate(-50%, -50%) ${props.textShouldRotate ? 'rotate(270deg)' : ''}`,
-                    color: 'black'
+                    color: 'black',
+                    fontSize: {
+                        xs: props.isCardGrid ? '2rem' : '1.1rem',
+                        sm: props.isCardGrid ? '3rem' : '0.4rem',
+                        md: props.isCardGrid ? '4rem' : '0.6rem',
+                        lg: props.isCardGrid ? '5rem' : '0.8rem',
+                        xl: props.isCardGrid ? '6rem' : '1.1rem'
+                    }
                 }}
             >
                 {props.cardText}

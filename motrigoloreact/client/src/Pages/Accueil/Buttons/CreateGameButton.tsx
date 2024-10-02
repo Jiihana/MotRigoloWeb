@@ -27,6 +27,7 @@ const CreateGameButton = () => {
             hoverBackground={backgroundHover}
             dynamicCursor={true}
             staticCursorImage={''}
+            disabled={false}
         />
     );
 };

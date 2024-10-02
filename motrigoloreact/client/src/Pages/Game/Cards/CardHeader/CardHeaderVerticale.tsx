@@ -68,6 +68,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
                 textVariant="h1"
                 textShouldRotate={false}
                 backgroundImageHover="url(/images/cards/cardGrid_hover.png)"
+                isCardGrid={true}
             />
             <CardWithText
                 cardText={cardWord}
@@ -77,6 +78,7 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
                 textVariant="h6"
                 textShouldRotate={false}
                 backgroundImageHover="url(/images/cards/cardWord_hover.png)"
+                isCardGrid={false}
             />
         </Stack>
     );

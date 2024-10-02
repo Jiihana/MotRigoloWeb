@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Box, colors, Stack, TextField } from '@mui/material';
+import { Box, Stack, TextField } from '@mui/material';
 import MenuButton from '../../Shared/MenuButton';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,9 @@ const JoinGameButton = () => {
     const navigate = useNavigate();
 
     const handleJoinGame = async () => {
-        navigate(`/game/${inputValue}`);
+        if (inputValue.trim()) {
+            navigate(`/game/${inputValue}`);
+        }
     };
 
     return (
@@ -43,6 +45,7 @@ const JoinGameButton = () => {
                 hoverBackground={backgroundHover}
                 dynamicCursor={true}
                 staticCursorImage={''}
+                disabled={!inputValue.trim()} // Désactiver si le champ est vide
             />
             <Box
                 display="flex"
