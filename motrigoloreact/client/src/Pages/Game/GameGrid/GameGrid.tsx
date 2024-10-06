@@ -88,8 +88,7 @@ const GameGrid = (props: DynamicGridProps) => {
                 key={index}
                 sx={{
                     alignItems: 'flex-end',
-                    display: 'flex',
-                    backgroundColor: backgroundColor
+                    display: 'flex'
                 }}
             >
                 {generator.cardMainGenerator(index)}
