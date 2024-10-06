@@ -194,7 +194,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                             direction="column"
                             sx={{
                                 height: '100%',
-                                width: '20%',
+                                width: '15%',
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}
@@ -205,8 +205,9 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                             sx={{
                                 display: 'flex',
                                 height: '100%',
-                                width: '60%',
-                                justifyContent: 'center'
+                                width: '70%',
+                                justifyContent: 'center',
+                                marginTop: '-5%'
                             }}
                         >
                             <GameGrid gridSize={gameContext.gridSize} />
@@ -215,7 +216,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         <Box
                             sx={{
                                 height: '100%',
-                                width: '20%',
+                                width: '15%',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 display: 'flex'

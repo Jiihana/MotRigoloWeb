@@ -39,11 +39,12 @@ const CardPioche = () => {
             {!piocheEmpty && (
                 <Box
                     sx={{
-                        height: '20%',
-                        width: '45%',
+                        width: { xs: '100px', sm: '100px', md: '90px', lg: '110px', xl: '130px' },
+                        height: { xs: '100px', sm: '100px', md: '90px', lg: '110px', xl: '130px' },
+                        maxWidth: '100%',
+                        maxHeight: '100%',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        display: 'flex'
+                        justifyContent: 'center'
                     }}
                     onClick={getCardPioche}
                 >

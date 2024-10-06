@@ -87,8 +87,11 @@ const GameGrid = (props: DynamicGridProps) => {
                 xs={12 / gridSize}
                 key={index}
                 sx={{
-                    alignItems: 'flex-end',
-                    display: 'flex'
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: backgroundColor,
+                    minWidth: '100px'
                 }}
             >
                 {generator.cardMainGenerator(index)}
@@ -99,11 +102,11 @@ const GameGrid = (props: DynamicGridProps) => {
     return (
         <Grid
             container
-            spacing={3}
+            spacing={1}
             sx={{
                 height: '100%',
                 width: '100%',
-                marginTop: '-0.5%'
+                justifyContent: 'center'
             }}
         >
             {items}

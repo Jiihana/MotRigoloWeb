@@ -81,8 +81,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     return (
         <Box
             sx={{
-                height: '115%',
-                width: '80%'
+                height: { md: '90px', lg: '110px', xl: '130px' },
+                width: { md: '90px', lg: '110px', xl: '130px' }
             }}
         >
             <CardWithTextIndex
@@ -92,7 +92,7 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
                 cardTextSize="h5"
                 onClickHandler={FlipOverCardHandler}
                 backgroundImageHover={getHoverBackground(background)}
-            ></CardWithTextIndex>
+            />
         </Box>
     );
 };

@@ -20,7 +20,7 @@ const CardWithText = (props: CardWithTextInterface) => {
                 width: props.width,
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'top-left',
                 backgroundRepeat: 'no-repeat',
                 '&:hover': {
                     backgroundImage: props.backgroundImageHover || props.backgroundImage
