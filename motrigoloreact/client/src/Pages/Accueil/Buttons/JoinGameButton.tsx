@@ -68,7 +68,7 @@ const JoinGameButton = () => {
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
                     required
-                    placeholder="Game code"
+                    placeholder="Code"
                     variant="standard"
                     margin="normal"
                     inputProps={{

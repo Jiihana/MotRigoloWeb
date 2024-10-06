@@ -12,6 +12,9 @@ export interface CardGridInterface {
 }
 
 const CardHeaderHorizontale = (props: CardGridInterface) => {
+    const backgroundGrid = '/images/cards/cardGrid.png';
+    const backgroundWord = '/images/cards/cardWord.png';
+
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
     const { socket } = useContext(SocketContext).SocketState;
@@ -59,22 +62,22 @@ const CardHeaderHorizontale = (props: CardGridInterface) => {
         >
             <CardWithText
                 cardText={props.cardText}
-                backgroundImage="url(/images/cards/cardGrid.png)"
+                backgroundImage={`url(${backgroundGrid})`}
                 height="100%"
                 width="80%"
                 textVariant="h1"
                 textShouldRotate={true}
-                backgroundImageHover="url(/images/cards/cardGrid_hover.png)"
+                backgroundImageHover={`url(${backgroundGrid})`}
                 isCardGrid={true}
             />
             <CardWithText
                 cardText={cardWord}
-                backgroundImage="url(/images/cards/cardWord.png)"
+                backgroundImage={`url(${backgroundWord})`}
                 height="100%"
                 width="25%"
                 textVariant="h6"
                 textShouldRotate={true}
-                backgroundImageHover="url(/images/cards/cardWord_hover.png)"
+                backgroundImageHover={`url(${backgroundWord})`}
                 isCardGrid={false}
             />
         </Stack>
