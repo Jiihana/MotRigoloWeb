@@ -115,7 +115,6 @@ class GameModel {
                 success: true
             };
         } catch (e) {
-            console.log(e);
             return {
                 success: false,
                 message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/ pour modifier 1 mot`
@@ -156,7 +155,6 @@ class GameModel {
                 success: true
             };
         } catch (e) {
-            console.log(e);
             return {
                 success: false,
                 message: `Un problème est survenu lors de l'appel à https://trouve-mot.fr/api/`
@@ -187,14 +185,11 @@ class GameModel {
         }
 
         if (pioche.length == 0) {
-            console.log('la pioche est vide');
             return '';
         }
 
         const randomIndex = Math.floor(Math.random() * pioche.length);
         const randomCardPiochee = pioche[randomIndex];
-
-        console.log(`carte piochée ${randomCardPiochee}`);
 
         return randomCardPiochee;
     }

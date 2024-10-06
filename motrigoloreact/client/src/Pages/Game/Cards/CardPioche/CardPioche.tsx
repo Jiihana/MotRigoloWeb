@@ -22,14 +22,12 @@ const CardPioche = () => {
         }
 
         if (result.value.cardPioche === '') {
-            console.log('Carte reçue de la pioche stringEmpty');
             return;
         }
 
         const card = result.value?.cardPioche as string;
         gameContext?.setCardsInventory((prevCards) => [...prevCards, card]);
         setPiocheEmpty(result.value?.piocheEmpty as boolean);
-        console.log(piocheEmpty);
     };
 
     useEffect(() => {

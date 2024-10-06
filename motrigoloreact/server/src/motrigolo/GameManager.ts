@@ -63,7 +63,6 @@ export class GameManager {
     }
 
     private deleteGame(currentGame: GameModel) {
-        console.log('game deleted');
         this.games = this.games.filter((game) => game !== currentGame);
     }
 }

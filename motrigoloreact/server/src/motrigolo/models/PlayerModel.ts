@@ -47,13 +47,11 @@ class PlayerModel {
 
     public removeCardFromInventory(cardToRemove: string): string {
         if (this.cardsInventory.length == 0) {
-            console.log('inventaire de carte vide, rien à remove');
             return '';
         }
 
         this.cardsInventory = this.cardsInventory.filter((card) => card !== cardToRemove);
 
-        console.log(`carte ${cardToRemove} removed de l'inventaire`);
         return cardToRemove;
     }
 }

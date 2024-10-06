@@ -38,7 +38,6 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
 
     const OnModifyWord = (args: ModifyWordResponse) => {
         if (cardWord === args.oldWord) {
-            console.log(`new word:${args.newWord} old word ${args.oldWord} => cardword ${cardWord}`);
             setCardWord(args.newWord);
         }
     };
@@ -47,8 +46,6 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
         const chosenWords = gameContext.chosenWords;
         chosenWords[wordIndex] = cardWord;
         gameContext.setChosenWords(chosenWords);
-
-        console.log(`game context words: ${gameContext.chosenWords}`);
     }, [cardWord]);
 
     subscribeEvent();
@@ -58,7 +55,6 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
                 height: '145%',
                 width: '80%'
             }}
-            onClick={modifyWord}
         >
             <CardWithText
                 cardText={props.cardText}
