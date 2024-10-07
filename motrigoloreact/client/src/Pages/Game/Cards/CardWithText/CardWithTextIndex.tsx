@@ -35,7 +35,12 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                         position: 'absolute',
                         top: '20%',
                         left: '10%',
-                        color: 'black'
+                        color: 'black',
+                        fontSize: {
+                            md: '3rem',
+                            lg: '4rem',
+                            xl: '5rem'
+                        }
                     }}
                 >
                     {props.cardIndexLetter}
@@ -47,7 +52,12 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                         position: 'absolute',
                         top: '40%',
                         left: '65%',
-                        color: 'black'
+                        color: 'black',
+                        fontSize: {
+                            md: '1.5rem',
+                            lg: '1.75rem',
+                            xl: '2rem'
+                        }
                     }}
                 >
                     {props.cardIndexNumber}

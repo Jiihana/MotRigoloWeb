@@ -25,8 +25,8 @@ const CardInventory = (props: CardInventoryInterface) => {
     return (
         <Box
             sx={{
-                height: '100%',
-                width: '100%'
+                width: { md: '90px', lg: '110px', xl: '130px' },
+                height: { md: '90px', lg: '110px', xl: '130px' }
             }}
         >
             <CardWithTextIndex

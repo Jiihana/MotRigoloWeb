@@ -6,37 +6,33 @@ import { GameContext } from '../../../../contexts/GameContext';
 const CardsInventory = () => {
     const gameContext = useContext(GameContext);
 
-    const getHeight = (): string => {
+    const getHeight = (): { xs: string; sm: string; md: string; lg: string; xl: string } => {
         const length = gameContext?.cardsInventory.length || 0;
 
-        if (length === 0) {
-            return '0%';
-        }
         if (length === 1) {
-            return '18%';
+            return { xs: '100px', sm: '100px', md: '90px', lg: '110px', xl: '130px' };
         }
         if (length === 2) {
-            return '40%';
+            return { xs: '30%', sm: '35%', md: '40%', lg: '110px', xl: '50%' };
         }
         if (length > 2) {
-            return '65%';
+            return { xs: '50%', sm: '55%', md: '65%', lg: '70%', xl: '75%' };
         }
 
-        return '0%'; // Fallback case
+        return { xs: '0%', sm: '0%', md: '0%', lg: '0%', xl: '0%' };
     };
 
-    const height = getHeight();
     return (
         <Box
             sx={{
-                height: height,
-                width: '40%',
+                height: '100%',
+                width: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 display: 'flex'
             }}
         >
-            <Stack spacing={5} sx={{ height: '100%', width: '100%' }}>
+            <Stack spacing={5} sx={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                 {gameContext?.cardsInventory.map((card) => {
                     const number = card.charAt(1);
                     const letter = card.charAt(0);

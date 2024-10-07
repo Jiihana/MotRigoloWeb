@@ -41,7 +41,8 @@ const CardWithText = (props: CardWithTextInterface) => {
                         md: props.isCardGrid ? '4rem' : '0.6rem',
                         lg: props.isCardGrid ? '5rem' : '0.8rem',
                         xl: props.isCardGrid ? '6rem' : '1.1rem'
-                    }
+                    },
+                    fontFamily: props.isCardGrid ? 'TypeWrong, cursive' : 'Shine Typewriter, sans-serif'
                 }}
             >
                 {props.cardText}

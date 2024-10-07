@@ -14,7 +14,7 @@ export const themeOptions: ThemeOptions = {
             dark: '#ef6581'
         }
     },
-    typography: { fontFamily: ['TypeWrong', 'cursive'].join(',') },
+    typography: { fontFamily: ['TypeWrong', 'Shine Typewriter'].join(',') },
     components: {
         MuiCssBaseline: {
             styleOverrides: {

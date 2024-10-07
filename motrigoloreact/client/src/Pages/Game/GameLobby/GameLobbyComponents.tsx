@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { defaultGameId, GameContext } from '../../../contexts/GameContext';
-import { Box, Stack } from '@mui/material';
+import { Box, colors, Stack } from '@mui/material';
 import CardsInventory from '../Cards/CardsInventory/CardsInventory';
 import CardPioche from '../Cards/CardPioche/CardPioche';
 import GameGrid from '../GameGrid/GameGrid';
@@ -161,7 +161,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 sx={{
                     backgroundImage: 'url(/images/pages/gameLobbyBackgound.png)',
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundPosition: 'top',
                     backgroundRepeat: 'no-repeat',
                     height: '100vh',
                     width: '100vw',

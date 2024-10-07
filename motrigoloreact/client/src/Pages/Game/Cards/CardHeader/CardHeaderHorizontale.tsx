@@ -13,7 +13,7 @@ export interface CardGridInterface {
 
 const CardHeaderHorizontale = (props: CardGridInterface) => {
     const backgroundGrid = '/images/cards/cardGrid.png';
-    const backgroundWord = '/images/cards/cardWord.png';
+    const backgroundWord = '/images/cards/cardWord_verticale.png';
 
     const gameContext = useContext(GameContext);
     const alertContext = useContext(AlertContext);
