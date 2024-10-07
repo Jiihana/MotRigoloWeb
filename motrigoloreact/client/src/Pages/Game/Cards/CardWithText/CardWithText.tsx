@@ -36,11 +36,11 @@ const CardWithText = (props: CardWithTextInterface) => {
                     transform: `translate(-50%, -50%) ${props.textShouldRotate ? 'rotate(270deg)' : ''}`,
                     color: 'black',
                     fontSize: {
-                        xs: props.isCardGrid ? '2rem' : '1.1rem',
-                        sm: props.isCardGrid ? '3rem' : '0.4rem',
-                        md: props.isCardGrid ? '4rem' : '0.6rem',
-                        lg: props.isCardGrid ? '5rem' : '0.8rem',
-                        xl: props.isCardGrid ? '6rem' : '1.1rem'
+                        xs: props.isCardGrid ? '2rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.5rem',
+                        sm: props.isCardGrid ? '3rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.7rem',
+                        md: props.isCardGrid ? '4rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.9rem',
+                        lg: props.isCardGrid ? '5rem' : props.cardText === 'Pioche' ? '1.75rem' : '1rem',
+                        xl: props.isCardGrid ? '6rem' : props.cardText === 'Pioche' ? '2rem' : '1.2rem'
                     },
                     fontFamily: props.isCardGrid ? 'TypeWrong, cursive' : 'Shine Typewriter, sans-serif'
                 }}

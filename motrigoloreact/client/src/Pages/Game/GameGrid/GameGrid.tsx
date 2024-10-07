@@ -79,8 +79,6 @@ const GameGrid = (props: DynamicGridProps) => {
     const generator = new CardsGenerator(gridSize);
 
     const items = Array.from({ length: gridSize * gridSize }).map((_, index) => {
-        const hue = (index * 30) % 360;
-        const backgroundColor = `hsl(${hue}, 100%, 50%)`;
         return (
             <Grid
                 item
@@ -89,9 +87,7 @@ const GameGrid = (props: DynamicGridProps) => {
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: backgroundColor,
-                    minWidth: '100px'
+                    alignItems: 'center'
                 }}
             >
                 {generator.cardMainGenerator(index)}

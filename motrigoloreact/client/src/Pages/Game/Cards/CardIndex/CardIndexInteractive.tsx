@@ -81,8 +81,8 @@ const CardIndexInteractive = (props: CardIndexInterface) => {
     return (
         <Box
             sx={{
-                height: { md: '90px', lg: '110px', xl: '130px' },
-                width: { md: '90px', lg: '110px', xl: '130px' }
+                height: { xs: '90px', lg: '110px', xl: '130px' },
+                width: { xs: '90px', lg: '110px', xl: '130px' }
             }}
         >
             <CardWithTextIndex

@@ -39,8 +39,8 @@ const CardPioche = () => {
             {!piocheEmpty && (
                 <Box
                     sx={{
-                        width: { md: '90px', lg: '110px', xl: '130px' },
-                        height: { md: '90px', lg: '110px', xl: '130px' },
+                        width: { xs: '90px', lg: '110px', xl: '130px' },
+                        height: { xs: '90px', lg: '110px', xl: '130px' },
                         maxWidth: '100%',
                         maxHeight: '100%',
                         alignItems: 'center',

@@ -37,7 +37,7 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                         left: '10%',
                         color: 'black',
                         fontSize: {
-                            md: '3rem',
+                            xs: '3rem',
                             lg: '4rem',
                             xl: '5rem'
                         }
@@ -54,7 +54,7 @@ const CardWithTextIndex = (props: CardGridInterface) => {
                         left: '65%',
                         color: 'black',
                         fontSize: {
-                            md: '1.5rem',
+                            xs: '1.5rem',
                             lg: '1.75rem',
                             xl: '2rem'
                         }
