@@ -177,8 +177,7 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                         justifyItems: 'center',
                         alignItems: 'center',
                         height: '100%',
-                        width: '100%',
-                        overflow: 'auto'
+                        width: '100%'
                     }}
                 >
                     <GameLobbyHeader staticCursorImage={cursorImage!} />
