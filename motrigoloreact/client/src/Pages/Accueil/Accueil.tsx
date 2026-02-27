@@ -20,6 +20,7 @@ const Accueil = () => {
                     backgroundRepeat: 'no-repeat',
                     height: '100vh',
                     width: '100vw',
+                    overflow: 'hidden',
                     justifyContent: 'center',
                     alignItems: 'center',
                     cursor: `${gameSettings.getRandomCursor()}, auto`
@@ -27,7 +28,7 @@ const Accueil = () => {
             >
                 <Stack
                     spacing={{
-                        xs: 6,
+                        xs: 4,
                         sm: 5,
                         md: 4,
                         lg: 5,
@@ -35,13 +36,14 @@ const Accueil = () => {
                     }}
                     sx={{
                         marginTop: {
-                            sm: '0%',
+                            xs: '10%',
+                            sm: '5%',
                             md: '15%',
                             lg: '15%'
                         },
                         width: {
-                            xs: '50%',
-                            sm: '50%',
+                            xs: '70%',
+                            sm: '55%',
                             md: '35%',
                             lg: '30%',
                             xl: '30%'

@@ -20,7 +20,7 @@ const CardWithText = (props: CardWithTextInterface) => {
                 width: props.width,
                 backgroundImage: props.backgroundImage,
                 backgroundSize: 'cover',
-                backgroundPosition: 'top-left',
+                backgroundPosition: 'top left',
                 backgroundRepeat: 'no-repeat',
                 '&:hover': {
                     backgroundImage: props.backgroundImageHover || props.backgroundImage
@@ -36,9 +36,9 @@ const CardWithText = (props: CardWithTextInterface) => {
                     transform: `translate(-50%, -50%) ${props.textShouldRotate ? 'rotate(270deg)' : ''}`,
                     color: 'black',
                     fontSize: {
-                        xs: props.isCardGrid ? '2rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.5rem',
-                        sm: props.isCardGrid ? '3rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.7rem',
-                        md: props.isCardGrid ? '4rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.9rem',
+                        xs: props.isCardGrid ? '1.5rem' : props.cardText === 'Pioche' ? '0.9rem' : '0.4rem',
+                        sm: props.isCardGrid ? '2rem' : props.cardText === 'Pioche' ? '1rem' : '0.55rem',
+                        md: props.isCardGrid ? '3rem' : props.cardText === 'Pioche' ? '1.25rem' : '0.7rem',
                         lg: props.isCardGrid ? '5rem' : props.cardText === 'Pioche' ? '1.75rem' : '1rem',
                         xl: props.isCardGrid ? '6rem' : props.cardText === 'Pioche' ? '2rem' : '1.2rem'
                     },

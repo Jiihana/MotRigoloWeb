@@ -58,7 +58,13 @@ const GameLobbyHeader = (props: GameLobbyHeaderProps) => {
                     disabled={false}
                 />
             </Box>
-            <Typography variant="h6" sx={{ color: 'white' }}>
+            <Typography
+                variant="h6"
+                sx={{
+                    color: 'white',
+                    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' }
+                }}
+            >
                 {gameContext.gameId}
             </Typography>
         </Stack>

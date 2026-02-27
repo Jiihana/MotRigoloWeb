@@ -15,12 +15,13 @@ const Credits = () => {
             <Box
                 display="flex"
                 sx={{
-                    backgroundImage: 'url(/images/pages/home.png)',
+                    backgroundImage: { xs: 'url(/images/pages/homeSM.png)', md: 'url(/images/pages/home.png)' },
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundPosition: 'top',
                     backgroundRepeat: 'no-repeat',
                     height: '100vh',
                     width: '100vw',
+                    overflow: 'hidden',
                     justifyContent: 'center',
                     alignItems: 'center',
                     cursor: `${gameSettings.getRandomCursor()}, auto`
@@ -28,9 +29,8 @@ const Credits = () => {
             >
                 <Box
                     sx={{
-                        marginTop: '18%',
+                        marginTop: { xs: '25%', sm: '20%', md: '15%' },
                         width: '90%',
-                        height: '40%',
                         alignItems: 'center',
                         justifyContent: 'center',
                         display: 'flex',
@@ -38,10 +38,9 @@ const Credits = () => {
                     }}
                 >
                     <Stack
-                        spacing={5}
+                        spacing={{ xs: 3, md: 5 }}
                         sx={{
-                            width: '50%',
-                            height: '100%',
+                            width: { xs: '90%', sm: '70%', md: '50%' },
                             alignItems: 'center',
                             justifyContent: 'center',
                             display: 'flex',
@@ -79,38 +78,22 @@ const Credits = () => {
                             Allez voir le travail de Louve :3
                         </Typography>
 
-                        <Stack
-                            direction="row"
-                            spacing={10}
+                        <Box
                             sx={{
-                                width: '100%',
-                                height: '100%',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                display: 'flex',
-                                position: 'relative' // Ensure the hover effect doesn't affect layout
+                                width: { xs: '60px', sm: '80px', md: '100px' },
+                                height: { xs: '60px', sm: '80px', md: '100px' },
+                                backgroundImage: 'url(/images/cursors/vert_gros.png)',
+                                backgroundSize: 'contain',
+                                backgroundPosition: 'center',
+                                backgroundRepeat: 'no-repeat',
+                                cursor: 'pointer',
+                                transition: 'transform 0.3s ease',
+                                '&:hover': {
+                                    transform: 'scale(1.5)'
+                                }
                             }}
-                        >
-                            <Box
-                                display="flex"
-                                sx={{
-                                    backgroundImage: 'url(/images/cursors/vert_gros.png)',
-                                    backgroundSize: 'contain',
-                                    backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeat',
-                                    height: '100%',
-                                    width: '100%',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    position: 'relative', // Prevent layout shift
-                                    transition: 'transform 0.3s ease', // Smooth transition
-                                    '&:hover': {
-                                        transform: 'scale(1.5)' // Use scale for hover effect
-                                    }
-                                }}
-                                onClick={handleNavigate}
-                            />
-                        </Stack>
+                            onClick={handleNavigate}
+                        />
                     </Stack>
                 </Box>
             </Box>

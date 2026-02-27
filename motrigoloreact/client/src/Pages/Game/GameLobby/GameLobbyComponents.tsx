@@ -174,40 +174,41 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
                 <Stack
                     direction="column"
                     sx={{
-                        justifyItems: 'center',
                         alignItems: 'center',
                         height: '100%',
-                        width: '100%'
+                        width: '100%',
+                        overflow: 'auto'
                     }}
                 >
                     <GameLobbyHeader staticCursorImage={cursorImage!} />
                     <Stack
-                        direction="row"
+                        direction={{ xs: 'column', md: 'row' }}
                         sx={{
-                            justifyItems: 'center',
                             alignItems: 'center',
+                            justifyContent: 'center',
                             height: '100%',
-                            width: '100%'
+                            width: '100%',
+                            flex: 1
                         }}
                     >
-                        <Stack
-                            direction="column"
+                        <Box
                             sx={{
+                                display: { xs: 'none', md: 'flex' },
                                 height: '100%',
                                 width: '15%',
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}
                         >
-                            <CardsInventory></CardsInventory>
-                        </Stack>
+                            <CardsInventory />
+                        </Box>
                         <Box
                             sx={{
                                 display: 'flex',
-                                height: '100%',
-                                width: '70%',
+                                height: { xs: 'auto', md: '100%' },
+                                width: { xs: '95%', sm: '85%', md: '70%' },
                                 justifyContent: 'center',
-                                marginTop: '-5%'
+                                alignItems: 'center'
                             }}
                         >
                             <GameGrid gridSize={gameContext.gridSize} />
@@ -215,16 +216,29 @@ const GameLobbyComponents = (props: GameLobbyComponentsProps) => {
 
                         <Box
                             sx={{
-                                height: '100%',
-                                width: '15%',
+                                display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                display: 'flex'
+                                width: { xs: 'auto', md: '15%' },
+                                height: { xs: 'auto', md: '100%' },
+                                py: { xs: 1, md: 0 }
                             }}
                         >
-                            <CardPioche></CardPioche>
+                            <CardPioche />
                         </Box>
                     </Stack>
+                    <Box
+                        sx={{
+                            display: { xs: 'flex', md: 'none' },
+                            width: '100%',
+                            justifyContent: 'center',
+                            pb: 1
+                        }}
+                    >
+                        <Stack direction="row" spacing={2} sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <CardsInventory />
+                        </Stack>
+                    </Box>
                 </Stack>
             </Box>
         </>

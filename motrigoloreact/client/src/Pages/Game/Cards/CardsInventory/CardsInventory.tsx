@@ -32,7 +32,11 @@ const CardsInventory = () => {
                 display: 'flex'
             }}
         >
-            <Stack spacing={5} sx={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <Stack
+                direction={{ xs: 'row', md: 'column' }}
+                spacing={{ xs: 1, md: 3, lg: 5 }}
+                sx={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center' }}
+            >
                 {gameContext?.cardsInventory.map((card) => {
                     const number = card.charAt(1);
                     const letter = card.charAt(0);

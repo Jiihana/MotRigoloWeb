@@ -55,8 +55,8 @@ const CardHeaderVerticale = (props: CardGridInterface) => {
     return (
         <Stack
             sx={{
-                height: { xs: '115px', lg: '140px', xl: '170px' },
-                width: { xs: '90px', lg: '110px', xl: '130px' }
+                height: { xs: '78px', sm: '96px', md: '115px', lg: '140px', xl: '170px' },
+                width: { xs: '60px', sm: '75px', md: '90px', lg: '110px', xl: '130px' }
             }}
         >
             <CardWithText

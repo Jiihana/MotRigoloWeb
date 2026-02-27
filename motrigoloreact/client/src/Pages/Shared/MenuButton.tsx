@@ -30,7 +30,9 @@ const MenuButton = (props: MenuButtonProps) => {
                 backgroundRepeat: 'no-repeat',
                 padding: 0,
                 border: 'none',
-                display: 'block',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 '&:hover': {
                     backgroundImage: props.hoverBackground || props.background
                 },

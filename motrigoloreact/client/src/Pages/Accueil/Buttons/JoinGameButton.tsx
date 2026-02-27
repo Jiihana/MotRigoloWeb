@@ -56,8 +56,10 @@ const JoinGameButton = () => {
                     backgroundRepeat: 'no-repeat',
                     width: '100%',
                     height: 'auto',
-                    maxWidth: { xs: '80px', sm: '100px', md: '120px', xl: '140px' },
-                    minHeight: { xs: '30px', sm: '40px', md: '55px', lg: '60px', xl: '70px' },
+                    maxWidth: { xs: '120px', sm: '130px', md: '140px', lg: '150px', xl: '160px' },
+                    minHeight: { xs: '40px', sm: '45px', md: '55px', lg: '60px', xl: '70px' },
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     '&:hover': {
                         backgroundImage: 'url(/images/buttons/inputMenu_hovered.png), url(/images/buttons/inputMenu.png)'
                     }
@@ -70,34 +72,23 @@ const JoinGameButton = () => {
                     required
                     placeholder="Code"
                     variant="standard"
-                    margin="normal"
+                    margin="none"
                     inputProps={{
                         maxLength: 4,
                         style: { textAlign: 'center' },
                         sx: {
                             fontSize: {
-                                xs: 10,
-                                sm: 12,
-                                md: 15,
-                                lg: 15,
-                                xl: 18
-                            }
-                        }
-                    }}
-                    InputLabelProps={{
-                        sx: {
-                            fontSize: {
-                                xs: 10,
-                                sm: 12,
-                                md: 15,
-                                lg: 15,
+                                xs: 12,
+                                sm: 14,
+                                md: 16,
+                                lg: 16,
                                 xl: 18
                             }
                         }
                     }}
                     sx={{
                         input: { color: 'black' },
-                        paddingTop: '2%'
+                        width: '70%'
                     }}
                     InputProps={{
                         disableUnderline: true

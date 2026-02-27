@@ -12,7 +12,6 @@ const Footer = (props: FooterProps) => {
 
     const gameSettings = new GameSettings();
     const handleNav = () => {
-        navigate(`/credits`);
         navigate(props.navigatePath);
     };
 
