@@ -1,4 +1,4 @@
-import { Box, colors, Stack } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import JoinGameButton from './Buttons/JoinGameButton';
 import CreateGameButton from './Buttons/CreateGameButton';
 import GameSettings from '../../Settings/GameSettings';
@@ -10,6 +10,47 @@ const Accueil = () => {
     return (
         <>
             <Footer navigatePath={`/credits`} buttonText={'Credits :)'} />
+
+            <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="center"
+                onClick={() => window.open('https://louve.systems/portal.php', '_blank', 'noopener,noreferrer')}
+                sx={{
+                    position: 'fixed',
+                    top: 16,
+                    right: 16,
+                    zIndex: 10,
+                    cursor: 'pointer',
+                    px: 2.5,
+                    py: 1,
+                    borderRadius: '20px',
+                    border: 'none',
+                    backgroundColor: '#B1EA90',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                        backgroundColor: '#BDEAAC',
+                        transform: 'scale(1.05)',
+                    },
+                }}
+            >
+                <Box
+                    component="img"
+                    src="/images/cursors/rose_1.png"
+                    sx={{ width: '20px', height: '20px' }}
+                />
+                <Typography
+                    sx={{
+                        color: 'black',
+                        fontSize: '0.9rem',
+                        letterSpacing: '0.05em',
+                    }}
+                >
+                    Autres jeux
+                </Typography>
+            </Stack>
 
             <Box
                 display="flex"
@@ -57,6 +98,21 @@ const Accueil = () => {
                     <CreateGameButton />
                     <JoinGameButton />
                 </Stack>
+
+                <Typography
+                    sx={{
+                        position: 'fixed',
+                        bottom: 6,
+                        left: 10,
+                        color: 'rgba(0, 0, 0, 0.75)',
+                        fontSize: '0.75rem',
+                        lineHeight: 1.3,
+                    }}
+                >
+                    Ce jeu est un projet personnel non affilie a Mot Malin.
+                    <br />
+                    Mot Malin est la propriete intellectuelle de © Blue Orange | Auteur: Gregory Grard | Illustrateur: Simon DOUCHY
+                </Typography>
             </Box>
         </>
     );

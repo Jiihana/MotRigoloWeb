@@ -35,9 +35,12 @@ const Footer = (props: FooterProps) => {
                 <Button
                     variant="contained"
                     sx={{
-                        bgcolor: '#5dadb0',
+                        bgcolor: '#B1EA90',
+                        color: 'black',
+                        borderRadius: '20px',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
                         '&:hover': {
-                            bgcolor: '#4e9b98'
+                            bgcolor: '#BDEAAC',
                         },
                         cursor: `${gameSettings.getRandomCursor()}, auto`,
                         textTransform: 'none'
