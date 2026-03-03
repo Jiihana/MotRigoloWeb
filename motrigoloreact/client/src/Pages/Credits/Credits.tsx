@@ -8,6 +8,9 @@ const Credits = () => {
     const handleNavigate = () => {
         window.open('https://louve.systems/portal.php', '_blank', 'noopener,noreferrer');
     };
+    const handleAutresJeux = () => {
+        window.open('http://jihana.ddns.net:49154/', '_blank', 'noopener,noreferrer');
+    };
 
     return (
         <>
@@ -68,7 +71,7 @@ const Credits = () => {
                             spacing={1}
                             alignItems="center"
                             justifyContent="center"
-                            onClick={handleNavigate}
+                            onClick={handleAutresJeux}
                             sx={{
                                 cursor: 'pointer',
                                 px: 2.5,
