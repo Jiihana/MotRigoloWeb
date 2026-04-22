@@ -17,8 +17,9 @@ new GameManager();
 
 application.use(
     cors({
-        origin: '*', // unless...
-        credentials: true //access-control-allow-credentials:true
+        origin: ['https://motrigolo.jihana.fr', 'http://localhost:3200', 'http://localhost:3000'],
+        allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'gameId', 'playerId'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
     })
 );
 
@@ -26,23 +27,6 @@ application.use(express.json());
 application.use(express.urlencoded({ extended: true }));
 
 serverApiMotRigolo.registerEndpoint(application);
-
-/** Parse the body of the request */
-application.use(express.urlencoded({ extended: true }));
-application.use(express.json());
-
-/** Rules of our API */
-application.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, gameId, playerId');
-
-    if (req.method == 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({});
-    }
-
-    next();
-});
 
 /** Healthcheck */
 application.get('/ping', (req, res, next) => {
