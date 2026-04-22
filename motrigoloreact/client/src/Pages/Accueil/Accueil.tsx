@@ -16,7 +16,7 @@ const Accueil = () => {
                 spacing={1}
                 alignItems="center"
                 justifyContent="center"
-                onClick={() => window.open('http://jihana.ddns.net:49154/', '_blank', 'noopener,noreferrer')}
+                onClick={() => window.open('https://jihana.fr/', '_blank', 'noopener,noreferrer')}
                 sx={{
                     position: 'fixed',
                     top: 16,

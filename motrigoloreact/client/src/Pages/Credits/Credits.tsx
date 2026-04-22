@@ -9,7 +9,7 @@ const Credits = () => {
         window.open('https://louve.systems/portal.php', '_blank', 'noopener,noreferrer');
     };
     const handleAutresJeux = () => {
-        window.open('http://jihana.ddns.net:49154/', '_blank', 'noopener,noreferrer');
+        window.open('https://jihana.fr/', '_blank', 'noopener,noreferrer');
     };
 
     return (
